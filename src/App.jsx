@@ -1,9 +1,18 @@
-import { useState, useEffect } from "react";
+
+import React, { useState, useEffect } from "react";
+import SignUp from "./pages/auth/SignUp";
+import SignIn from "./pages/auth/SignIn";
+import { ToastContainer } from "react-toastify";
+import UserProfile from "./pages/profile/UserProfile";
+import Home from "./pages/Home/Home";
+import ProfileData from "./pages/profile/ProfileData";
+import WishList from "./pages/profile/WishList";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Cart from "./pages/Cart/Cart";
 import Checkout from "./pages/Checkout/Checkout";
 import Payment from "./pages/Payment/Payment";
 import OrderConfirmation from "./pages/OrderConfirmation/OrderConfirmation";
+
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -17,6 +26,11 @@ function App() {
   }, [darkMode]);
 
   return (
+
+    
+    <>
+    <ToastContainer />
+   
     <div>
       <BrowserRouter>
         <Routes>
@@ -27,6 +41,9 @@ function App() {
         </Routes>
       </BrowserRouter>
     </div>
+
+ </>
+
     // <div
     //   className={`bg-sidebar text-textcolor1 dark:bg-gray-900 dark:text-gray-100 min-h-screen`}
     // >
@@ -40,6 +57,7 @@ function App() {
     //     </button>
     //   </header>
     // </div>
+
   );
 }
 
