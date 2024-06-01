@@ -36,27 +36,7 @@ function App() {
 
     <>
     <ToastContainer />
-    <BrowserRouter>
-       {/* <UserProfile/> */}
-
-       <div className="bg-red-950 text-white">
-        <Link to="/signIn">Sign In</Link>
-       </div>
-
-       <Routes>
-        <Route path="/signIn" element={<SignIn/>}/>
-        <Route path="/signUp" element={<SignUp/>}/>
-        <Route path="/" element={<Home/>}/>
-       
-
-        <Route path="/profile" element={<UserProfile/>}>
-          <Route index  element={<ProfileData/>} />
-          <Route path="wishList" element={<WishList/>} />
-          
-          
-        </Route>
-       </Routes>
-    </BrowserRouter>
+    
     </>
   );
 }
