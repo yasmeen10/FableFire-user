@@ -16,6 +16,7 @@ export default {
         landing: "#D6CCC2", // landing and footer
         gray1: "#B9B8B8", // gray one
         red1: "#D7513D", // 40 in background
+        gray2: "D9D9D9",
         // Defining light theme colors
         light: {
           button: "#A68877",
@@ -39,5 +40,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 };
