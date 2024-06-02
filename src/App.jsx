@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Shop from "./pages/Shop/Shop";
 import ItemDetails from "./pages/ItemDetails/ItemDetails";
-import { Outlet } from "react-router-dom";
+// import { Outlet } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   // const [darkMode, setDarkMode] = useState(false);
@@ -29,8 +30,15 @@ function App() {
     //   </header>
     // </div>
     <div>
-    <Outlet />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/shop" element={<Shop/>} />
+        <Route path="/item/:id" element={<ItemDetails/>}/>
+        
+      </Routes>
+    </BrowserRouter>
   </div>
+
   );
 }
 

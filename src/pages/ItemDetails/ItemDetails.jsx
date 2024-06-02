@@ -53,7 +53,7 @@ export default function ItemDetails() {
     <div className="flex flex-col items-center min-h-screen p-6">
       <div className="w-full max-w-4xl bg-white">
         <button 
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/shop')}
           className="textColor2 underline mb-4 font-semibold"
           style={{ fontFamily: "Roboto Flex, sans-serif" }}
         >
