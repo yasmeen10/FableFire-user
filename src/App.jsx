@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import Shop from "./pages/Shop/Shop";
 import ItemDetails from "./pages/ItemDetails/ItemDetails";
@@ -28,11 +27,13 @@ function App() {
 
   return (
     <>
+
     <ToastContainer />
    
     <div>
       <BrowserRouter>
         <Routes>
+              <Route path="/signin" element={<SignIn />} />
          <Route path="/shop" element={<Shop/>} />
         <Route path="/item/:id" element={<ItemDetails/>}/>
           <Route path="/cart" element={<Cart />} />
@@ -44,6 +45,7 @@ function App() {
     </div>
 
  </>
+
 
     // <div
     //   className={`bg-sidebar text-textcolor1 dark:bg-gray-900 dark:text-gray-100 min-h-screen`}
@@ -58,7 +60,6 @@ function App() {
     //     </button>
     //   </header>
     // </div>
-
 
   );
 }
