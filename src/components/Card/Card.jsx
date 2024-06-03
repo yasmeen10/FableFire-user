@@ -36,7 +36,7 @@ export default function Card({ _id, images, title, price }) {
     <div className="flex items-center justify-center p-2 relative">
       <div className="bg-white rounded-lg  flex-col w-40 overflow-hidden">
         <div className="relative">
-          <img className="w-full h-full rounded-t-lg object-cover transition-transform duration-300 transform hover:scale-105" src={images[0]} alt={title} />
+          <img className="w-60 h-60 rounded-t-lg object-cover transition-transform duration-300 transform hover:scale-105" src={images[0]} alt={title} />
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50">
             <div className="flex items-center justify-center">
               <div className={`rounded-full bg-black p-2 mr-2 cursor-pointer`} onClick={toggleCartIcon}>

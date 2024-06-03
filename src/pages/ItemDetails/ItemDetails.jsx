@@ -54,7 +54,7 @@ export default function ItemDetails() {
       <div className="w-full max-w-4xl bg-white">
         <button 
           onClick={() => navigate('/shop')}
-          className="textColor2 underline mb-4 font-semibold"
+          className="textColor2 underline mb-4 font-semibold mb-8"
           style={{ fontFamily: "Roboto Flex, sans-serif" }}
         >
           To Category
@@ -66,7 +66,7 @@ export default function ItemDetails() {
             <img
               src={item.images[0]}
               alt={item.title}
-              className="rounded-lg shadow-md relative z-10"
+              className="rounded-lg shadow-md relative z-10 w-96 h-96"
             />
           </div>
           <div className="md:w-2/3 md:pl-6 mt-6 md:mt-0">

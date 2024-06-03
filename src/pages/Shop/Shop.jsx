@@ -15,7 +15,6 @@ export default function Shop() {
   const fetchItems = async () => {
     try {
       const response = await axios.get('http://localhost:3005/api/v1/item');
-      console.log(response.data.data)
       if (response.data && Array.isArray(response.data.data)) {
         setItems(response.data.data);
       } else {
@@ -26,11 +25,11 @@ export default function Shop() {
     }
   };
 
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
+  const handleCategoryChange = (categoryId) => {
+    setSelectedCategory(categoryId);
   };
 
-  const filteredItems = selectedCategory === 'all' ? items : items.filter(item => item.category === selectedCategory);
+  const filteredItems = selectedCategory === 'all' ? items : items.filter(item => item.category._id === selectedCategory);
 
   return (
     <div>
