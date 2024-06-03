@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import SignUp from "./pages/auth/SignUp";
 import SignIn from "./pages/auth/SignIn";
@@ -13,7 +12,6 @@ import Checkout from "./pages/Checkout/Checkout";
 import Payment from "./pages/Payment/Payment";
 import OrderConfirmation from "./pages/OrderConfirmation/OrderConfirmation";
 
-
 function App() {
   const [darkMode, setDarkMode] = useState(false);
 
@@ -26,23 +24,21 @@ function App() {
   }, [darkMode]);
 
   return (
-
-    
     <>
-    <ToastContainer />
-   
-    <div>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/payment" element={<Payment />} />
-          <Route path="/orderconfirmation" element={<OrderConfirmation />} />
-        </Routes>
-      </BrowserRouter>
-    </div>
+      <ToastContainer />
 
- </>
+      <div>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/payment" element={<Payment />} />
+            <Route path="/orderconfirmation" element={<OrderConfirmation />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </>
 
     // <div
     //   className={`bg-sidebar text-textcolor1 dark:bg-gray-900 dark:text-gray-100 min-h-screen`}
@@ -57,7 +53,6 @@ function App() {
     //     </button>
     //   </header>
     // </div>
-
   );
 }
 

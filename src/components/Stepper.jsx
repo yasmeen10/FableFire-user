@@ -3,7 +3,6 @@ import ArrowSVG from "./SVG/ArrowSVG";
 
 export default function Stepper() {
   let location = useLocation();
-  console.log(location);
   const steps = [
     { stepName: "Shopping Cart", pathName: "/cart" },
     { stepName: "Checkout", pathName: "/checkout" },
