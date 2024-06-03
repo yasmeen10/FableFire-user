@@ -1,3 +1,8 @@
+import Navbar from './components/Navbar'
+import About from './pages/AboutUs/About'
+import ContactUs from './pages/ContactUs/ContactUs'
+import Footer from './components/Footer'
+import Home from './pages/Home/Home'
 import React, { useState, useEffect } from "react";
 import Shop from "./pages/Shop/Shop";
 import ItemDetails from "./pages/ItemDetails/ItemDetails";
@@ -24,11 +29,9 @@ function App() {
   //     document.documentElement.classList.remove("dark");
   //   }
   // }, [darkMode]);
-
-  return (
-    <>
-
-    <ToastContainer />
+  
+  return(
+  <><ToastContainer />
    
     <div>
       <BrowserRouter>
@@ -42,10 +45,8 @@ function App() {
           <Route path="/orderconfirmation" element={<OrderConfirmation />} />
         </Routes>
       </BrowserRouter>
-    </div>
-
- </>
-
+    </div></>
+  )
 
     // <div
     //   className={`bg-sidebar text-textcolor1 dark:bg-gray-900 dark:text-gray-100 min-h-screen`}
@@ -64,4 +65,5 @@ function App() {
   );
 }
 
-export default App;
+
+ export default App;
