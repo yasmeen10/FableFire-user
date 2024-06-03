@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import styles from "./Home.module.css";
 import { useEffect } from "react";
 import lan1 from "../../assets/lan1.jpg";
@@ -16,6 +15,7 @@ import Shek from "../../assets/Shakes.jpg";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Slider from "react-slick";
+
 
 export default function Home() {
   const responsive = {
