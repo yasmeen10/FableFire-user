@@ -1,18 +1,46 @@
 import { Field, Form, Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import { phoneNumberRegex } from "../utils/PhoneNumberRegex";
+import { useEffect, useImperativeHandle, useState } from "react";
+import axiosInstance from "../../interceptor";
 
-export default function OrderForm() {
+export default function OrderForm(props) {
+  const { formikRef } = props;
+  const [initialValues, setInitialValues] = useState({
+    firstName: "",
+    lastName: "",
+    city: "",
+    country: "",
+    address: "",
+    email: "",
+    phoneNumber: "",
+  });
+
+  useEffect(() => {
+    async function fetchUserData() {
+      try {
+        const { data } = await axiosInstance.get(
+          "http://localhost:3005/api/v1/user/"
+        );
+        setInitialValues({
+          firstName: data.data.firstName || "",
+          lastName: data.data.lastName || "",
+          city: data.data.city || "",
+          country: data.data.country || "",
+          address: data.data.address || "",
+          email: data.data.email || "",
+          phoneNumber: data.data.phoneNumber || "",
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchUserData();
+  }, []);
+
   const formik = useFormik({
-    initialValues: {
-      firstName: "",
-      lastName: "",
-      city: "",
-      country: "",
-      address: "",
-      email: "",
-      phoneNumber: "",
-    },
+    initialValues: initialValues,
+    enableReinitialize: true,
     validationSchema: Yup.object({
       firstName: Yup.string()
         .min(3, "Last Name must be at least 3")
@@ -21,7 +49,7 @@ export default function OrderForm() {
         .min(3, "Last Name must be at least 3")
         .required("Last Name is required"),
       city: Yup.string().required("City is required"),
-      country: Yup.string().required("City is required"),
+      country: Yup.string().required("Country is required"),
       address: Yup.string()
         .min(3, "Address must be at least 3")
         .required("Address is required"),
@@ -31,12 +59,29 @@ export default function OrderForm() {
         "Phone number must be 11 digits "
       ),
     }),
+    onSubmit: async (values) => {
+      try {
+        const response = await axiosInstance.post(
+          "http://localhost:3005/api/v1/order/",
+          values
+        );
+        console.log(response);
+      } catch (error) {
+        console.log(values);
+      }
+    },
   });
+
+  useImperativeHandle(formikRef, () => ({
+    submitForm: formik.submitForm,
+  }));
+
   return (
     <div>
       <Formik
         initialValues={formik.initialValues}
         validationSchema={formik.validationSchema}
+        enableReinitialize={true}
       >
         <Form className="mb-11">
           <div className=" flex justify-between items-center">
@@ -94,10 +139,11 @@ export default function OrderForm() {
               <Field
                 name="city"
                 type="text"
-                className="border border-landing rounded-lg w-full mt-2 p-2 focus:outline-none focus:ring-2 focus:ring-landing focus:ring-inset"
+                className="border border-landing rounded-lg w-full mt-2 p-2 focus:outline-none focus:ring-2 focus:ring-landing focus:ring-inset text-gray-400"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
+                disabled
               />
               {formik.touched.email && formik.errors.email ? (
                 <div className="text-sm text-red-500 mt-2">
@@ -145,7 +191,7 @@ export default function OrderForm() {
               />
               {formik.touched.city && formik.errors.city ? (
                 <div className="text-sm text-red-500 mt-2">
-                  {formik.errors.firstName}
+                  {formik.errors.city}
                 </div>
               ) : null}
             </div>

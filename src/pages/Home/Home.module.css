@@ -1,7 +1,118 @@
-.hamada {
-  color: red;
-  background-color: black;
+.image{
+    position: relative;
 }
-.green {
-  color: green;
+
+.imggg{
+display: block;
+}
+
+.content{
+    margin-left: 17%;
+    width: 84%;
+    height: 76%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0;
+    transition: 0.6s;
+
+}
+
+.content:hover{
+    opacity: 1;
+}
+
+
+.image2{
+    position: relative;
+}
+
+.imggg2{
+display: block;
+}
+
+.content2{
+    margin-left: 17%;
+    width: 81%;
+    height: 76%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0;
+    transition: 0.6s;
+
+}
+
+.content2:hover{
+    opacity: 1;
+}
+
+
+.image3{
+    position: relative;
+}
+
+.imggg3{
+display: block;
+}
+
+.content3{
+    margin-left: 17%;
+    width: 81%;
+    height: 76%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0;
+    transition: 0.6s;
+
+}
+
+.content3:hover{
+    opacity: 1;
+}
+
+
+.image4{
+    position: relative;
+}
+
+.imggg4{
+display: block;
+}
+
+.content4{
+    margin-left: 17%;
+    width: 81%;
+    height: 76%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0;
+    transition: 0.6s;
+
+}
+
+.content4:hover{
+    opacity: 1;
 }

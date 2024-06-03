@@ -1,0 +1,41 @@
+
+
+.landing{
+position: relative;
+}
+
+.landingText{
+    position: absolute;
+    top: 63%;
+    right: 78%;
+}
+
+.landingPa{
+    font-size: 58px;
+    width: 140px;
+    color: #A68877;
+    }
+
+.landingPara{
+font-size: 58px;
+width: 200px;
+color: #A68877;
+}
+
+.text{
+text-align: center;
+color: #735F39;
+width: 600px;
+font-size: 16px;
+margin-top: 20px;
+margin-left: 28%;
+}
+
+.textPar{
+ text-align: center;
+ color: #735F39;
+width: 600px;
+font-size: 16px;
+margin-top: 20px;
+margin-left: 28%;
+}
