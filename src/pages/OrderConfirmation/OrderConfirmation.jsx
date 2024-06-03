@@ -1,5 +1,4 @@
 import Stepper from "../../components/Stepper";
-import rectangle34 from "../../assets/Rectangle 34.svg";
 
 export default function OrderConfirmation() {
   return (
@@ -71,7 +70,7 @@ export default function OrderConfirmation() {
       </div>
       <div className="flex items-center p-2 border-b border-b-landing">
         <div>
-          <img src={rectangle34} />
+          <img src="" />
         </div>
         <div className="flex items-center justify-between w-10/12  px-14 ">
           <div className="">

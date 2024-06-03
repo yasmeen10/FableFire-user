@@ -2,7 +2,6 @@ import Navbar from './components/Navbar'
 import About from './pages/AboutUs/About'
 import ContactUs from './pages/ContactUs/ContactUs'
 import Footer from './components/Footer'
-import Home from './pages/Home/Home'
 import React, { useState, useEffect } from "react";
 import Shop from "./pages/Shop/Shop";
 import ItemDetails from "./pages/ItemDetails/ItemDetails";
@@ -35,7 +34,11 @@ function App() {
    
     <div>
       <BrowserRouter>
+      <Navbar />
         <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/contact" element={<ContactUs />} />
+              <Route path="/about" element={<About />} />
               <Route path="/signin" element={<SignIn />} />
          <Route path="/shop" element={<Shop/>} />
         <Route path="/item/:id" element={<ItemDetails/>}/>
@@ -44,9 +47,10 @@ function App() {
           <Route path="/payment" element={<Payment />} />
           <Route path="/orderconfirmation" element={<OrderConfirmation />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div></>
-  )
+  
 
     // <div
     //   className={`bg-sidebar text-textcolor1 dark:bg-gray-900 dark:text-gray-100 min-h-screen`}
