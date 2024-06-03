@@ -12,6 +12,7 @@ export default {
         sidebar: "#FAF2F2", // sidebar
         landing: "#D6CCC2", // landing and footer
         gray1: "#B9B8B8", // gray one
+        black50:"rgba(0,0,0,0.5)",
         // Defining light theme colors
         light: {
           button: "#A68877",
