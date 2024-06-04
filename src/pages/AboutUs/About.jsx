@@ -6,10 +6,13 @@ import yasmeen from "../../assets/yasmeen.jpeg";
 import Mariam from "../../assets/mariam.jpeg";
 import Me from "../../assets/me.jpeg";
 import areej from "../../assets/areej.jpeg";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 export default function About() {
   return (
-    <div>
+    <>
+    <Navbar/>
       <div className={styles.landing}>
         <img className="w-full h-72" src={AboutUs} />
 
@@ -39,65 +42,65 @@ export default function About() {
 
       <ul className="flex ml-[230px]">
         <li className="">
-        <div class=" max-w-sm rounded overflow-hidden shadow-lg w-[250px] mt-[153px] ">
-          <img src={sohila} />
-          <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2 text-[#210F04]">
-              Sohila elkaraly
+          <div class=" max-w-sm rounded overflow-hidden shadow-lg w-[250px] mt-[153px] ">
+            <img src={sohila} />
+            <div class="px-6 py-4">
+              <div class="font-bold text-xl mb-2 text-[#210F04]">
+                Sohila elkaraly
+              </div>
+              <p class=" text-base text-[#735F39]"> team leader</p>
             </div>
-            <p class=" text-base text-[#735F39]"> team leader</p>
           </div>
-        </div>
         </li>
         <li className="ml-[80px]">
-        <div class="max-w-sm rounded overflow-hidden shadow-lg w-[250px] mt-[153px] ">
-          <img src={yasmeen} />
-          <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2 text-[#210F04]">
-              Yassmen walid
+          <div class="max-w-sm rounded overflow-hidden shadow-lg w-[250px] mt-[153px] ">
+            <img src={yasmeen} />
+            <div class="px-6 py-4">
+              <div class="font-bold text-xl mb-2 text-[#210F04]">
+                Yassmen walid
+              </div>
+              <p class=" text-base text-[#735F39]"> team member</p>
             </div>
-            <p class=" text-base text-[#735F39]"> team member</p>
           </div>
-        </div>
         </li>
         <li className="ml-[80px]">
-        <div class="max-w-sm rounded overflow-hidden shadow-lg w-[250px] mt-[153px]">
-          <img src={Mariam} />
-          <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2 text-[#210F04]">
-              Mariam elmesary
+          <div class="max-w-sm rounded overflow-hidden shadow-lg w-[250px] mt-[153px]">
+            <img src={Mariam} />
+            <div class="px-6 py-4">
+              <div class="font-bold text-xl mb-2 text-[#210F04]">
+                Mariam elmesary
+              </div>
+              <p class=" text-base text-[#735F39]"> team member</p>
             </div>
-            <p class=" text-base text-[#735F39]"> team member</p>
           </div>
-        </div>
         </li>
       </ul>
 
-      
-
-      
-<ul className="flex ml-[400px]">
-  <li>
-        <div class="max-w-sm rounded overflow-hidden shadow-lg w-[250px] mt-[56px]">
-          <img src={Me} />
-          <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2 text-[#210F04]">Nadine hany</div>
-            <p class=" text-base text-[#735F39]"> team member</p>
-          </div>
-        </div>
-  </li>
-  <li className="ml-[80px]">
-        <div class="max-w-sm rounded overflow-hidden shadow-lg w-[250px] mt-[56px]">
-          <img src={areej} />
-          <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2 text-[#210F04]">
-              Areej mahmoud
+      <ul className="flex ml-[400px]">
+        <li>
+          <div class="max-w-sm rounded overflow-hidden shadow-lg w-[250px] mt-[56px]">
+            <img src={Me} />
+            <div class="px-6 py-4">
+              <div class="font-bold text-xl mb-2 text-[#210F04]">
+                Nadine hany
+              </div>
+              <p class=" text-base text-[#735F39]"> team member</p>
             </div>
-            <p class=" text-base text-[#735F39]"> team member</p>
-        </div>
-      </div>
-  </li>
-</ul>
-</div>
+          </div>
+        </li>
+        <li className="ml-[80px]">
+          <div class="max-w-sm rounded overflow-hidden shadow-lg w-[250px] mt-[56px]">
+            <img src={areej} />
+            <div class="px-6 py-4">
+              <div class="font-bold text-xl mb-2 text-[#210F04]">
+                Areej mahmoud
+              </div>
+              <p class=" text-base text-[#735F39]"> team member</p>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <Footer/>
+    </>
   );
 }

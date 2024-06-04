@@ -3,6 +3,8 @@ import axiosInstance from '../../../interceptor';
 import Categories from '../../components/Categories/Categories';
 import Card from '../../components/Card/Card';
 import Background from '../../components/Backgroud/Backgroud';
+import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 
 export default function Shop() {
   const [items, setItems] = useState([]);
@@ -32,6 +34,9 @@ export default function Shop() {
   const filteredItems = selectedCategory === 'all' ? items : items.filter(item => item.category._id === selectedCategory);
 
   return (
+    <>
+    <Navbar/>
+    
     <div>
       <Categories setSelectedCategory={handleCategoryChange} />
       <Background />
@@ -48,5 +53,7 @@ export default function Shop() {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }

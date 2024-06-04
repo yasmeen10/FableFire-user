@@ -15,6 +15,8 @@ import Shek from "../../assets/Shakes.jpg";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Slider from "react-slick";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 
 export default function Home() {
@@ -38,6 +40,9 @@ export default function Home() {
     },
   };
   return (
+    <>
+    <Navbar/>
+  
     <div>
       <div className="w-full h-[400px] bg-[#D6CCC2]">
         <div className="flex ml-[790px] relative  ">
@@ -669,5 +674,7 @@ export default function Home() {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }

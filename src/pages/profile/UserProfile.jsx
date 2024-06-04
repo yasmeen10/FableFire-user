@@ -4,20 +4,31 @@ import HomeSVG from "../../components/SVG/Home.SVG";
 import WishListSVG from "../../components/SVG/WishListSVG";
 import OrderSVG from "../../components/SVG/OrderSVG";
 import LogOutSVG from "../../components/SVG/LogOutSVG";
+import { useAuth } from "../../context/AuthContext";
 
 export default function UserProfile() {
+  let { setAuthUser, setIsLoggedIn } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const navigate=useNavigate();
+  const [clickedItem, setClickedItem] = useState(false);
+  const navigate = useNavigate();
 
   // Function to toggle the sidebar
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  const handleLogOut=async ()=>{
-    await localStorage.removeItem('token');
+  const handleClick = (index) => {
+    setClickedItem(index);
+  };
+  const handleLogOut = async () => {
+   
+    setIsLoggedIn(false);
+    setAuthUser(null);
+    await localStorage.removeItem("token");
     navigate("/");
-  }
+  };
+  
+
 
   return (
     <>
@@ -67,41 +78,47 @@ export default function UserProfile() {
                 FableFire
               </span>
             </a>
-            <ul class="space-y-2 font-medium px-6 py-9">
-              <li className="hover:bg-[#E3D5CA] hover:rounded-lg">
-                <Link to="/" class="flex items-center p-2 text-placeholder" >
-                  <HomeSVG />
-                  <span class="ms-3">Home</span>
-                </Link>
-              </li>
+            <ul className="space-y-2 font-medium px-6 py-9">
+      <li className="hover:bg-[#E3D5CA] hover:rounded-lg">
+        <Link to="/" className="flex items-center p-2 text-placeholder">
+          <HomeSVG />
+          <span className="ms-3">Home</span>
+        </Link>
+      </li>
 
-              <li className="hover:bg-[#E3D5CA] hover:rounded-lg ">
-                <Link
-                  to="wishList"
-                  class="flex items-center p-2 text-placeholder"
-                >
-                  <WishListSVG />
-                  <span class="flex-1 ms-3 whitespace-nowrap">WishList</span>
-                </Link>
-              </li>
+      <li
+        className={`hover:bg-[#E3D5CA] hover:rounded-lg ${
+          clickedItem === 0 ? 'bg-[#E3D5CA] rounded-lg' : 'bg-transparent'
+        }`}
+        onClick={() => handleClick(0)}
+      >
+        <Link to="wishList" className="flex items-center p-2 text-placeholder">
+          <WishListSVG />
+          <span className="flex-1 ms-3 whitespace-nowrap">WishList</span>
+        </Link>
+      </li>
 
-              <li className="hover:bg-[#E3D5CA] hover:rounded-lg">
-                <Link
-                  to="orderProfile"
-                  class="flex items-center p-2  text-placeholder"
-                >
-                  <OrderSVG />
-                  <span class="flex-1 ms-3 whitespace-nowrap">Orders</span>
-                </Link>
-              </li>
+      <li
+        className={`hover:bg-[#E3D5CA] hover:rounded-lg ${
+          clickedItem === 1 ? 'bg-[#E3D5CA] rounded-lg' : 'bg-transparent'
+        }`}
+        onClick={() => handleClick(1)}
+      >
+        <Link to="orderProfile" className="flex items-center p-2 text-placeholder">
+          <OrderSVG />
+          <span className="flex-1 ms-3 whitespace-nowrap">Orders</span>
+        </Link>
+      </li>
 
-              <li className="hover:bg-[#E3D5CA] hover:rounded-lg active:bg-[#E3D5CA] active:rounded-lg">
-                <Link class="flex items-center p-2 text-placeholder">
-                  <LogOutSVG />
-                  <span class="flex-1 ms-3 whitespace-nowrap" onClick={handleLogOut}>LogOut</span>
-                </Link>
-              </li>
-            </ul>
+      <li className="hover:bg-[#E3D5CA] hover:rounded-lg active:bg-[#E3D5CA] active:rounded-lg">
+        <Link className="flex items-center p-2 text-placeholder">
+          <LogOutSVG />
+          <span className="flex-1 ms-3 whitespace-nowrap" onClick={handleLogOut}>
+            LogOut
+          </span>
+        </Link>
+      </li>
+    </ul>
           </div>
         </aside>
         <div class="px-14 py-6 sm:ml-64 ">

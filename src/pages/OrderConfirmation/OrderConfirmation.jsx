@@ -1,7 +1,12 @@
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
 import Stepper from "../../components/Stepper";
 
 export default function OrderConfirmation() {
   return (
+    <>
+    <Navbar/>
+  
     <div className="px-4 mb-14 sm:px-8 lg:px-36 ">
       <Stepper />
       <h1 className=" my-10 text-textcolor2 font-medium text-center sm:text-left">
@@ -81,5 +86,7 @@ export default function OrderConfirmation() {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }

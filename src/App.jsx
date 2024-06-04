@@ -1,7 +1,7 @@
-import Navbar from './components/Navbar'
-import About from './pages/AboutUs/About'
-import ContactUs from './pages/ContactUs/ContactUs'
-import Footer from './components/Footer'
+import Navbar from "./components/Navbar";
+import About from "./pages/AboutUs/About";
+import ContactUs from "./pages/ContactUs/ContactUs";
+import Footer from "./components/Footer";
 import React, { useState, useEffect } from "react";
 import Shop from "./pages/Shop/Shop";
 import ItemDetails from "./pages/ItemDetails/ItemDetails";
@@ -17,7 +17,7 @@ import Cart from "./pages/Cart/Cart";
 import Checkout from "./pages/Checkout/Checkout";
 import Payment from "./pages/Payment/Payment";
 import OrderConfirmation from "./pages/OrderConfirmation/OrderConfirmation";
-import OrderProfile from "./pages/orderProfile/OrderProfile";
+import OrderProfile from "./pages/profile/OrderProfile";
 
 function App() {
   // const [darkMode, setDarkMode] = useState(false);
@@ -29,36 +29,36 @@ function App() {
   //     document.documentElement.classList.remove("dark");
   //   }
   // }, [darkMode]);
-  
-  return(
-  <><ToastContainer />
-   
-    <div>
-      <BrowserRouter>
-      <Navbar />
-        <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/contact" element={<ContactUs />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/signin" element={<SignIn />} />
-         <Route path="/shop" element={<Shop/>} />
-        <Route path="/item/:id" element={<ItemDetails/>}/>
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/payment" element={<Payment />} />
-          <Route path="/orderconfirmation" element={<OrderConfirmation />} />
-          <Route path="/signUp" element={<SignUp />} />
-          <Route path="/signIn" element={<SignIn />} />
-          <Route path="/profile" element={<UserProfile/>} >
-            <Route index element={<ProfileData/>}/>
-            <Route path="wishList" element={<WishList/>}/>
-            <Route path="orderProfile" element={<OrderProfile/>}/>
-          </Route>
-        </Routes>
-        <Footer />
-      </BrowserRouter>
-    </div></>
-  
+
+  return (
+    <>
+      <ToastContainer />
+
+      <div>
+        <BrowserRouter>
+          
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/contact" element={<ContactUs />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/item/:id" element={<ItemDetails />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/payment" element={<Payment />} />
+            <Route path="/orderconfirmation" element={<OrderConfirmation />} />
+            <Route path="/signUp" element={<SignUp />} />
+            <Route path="/signIn" element={<SignIn />} />
+            <Route path="/profile" element={<UserProfile />}>
+              <Route index element={<ProfileData />} />
+              <Route path="wishList" element={<WishList />} />
+              <Route path="orderProfile" element={<OrderProfile />} />
+            </Route>
+          </Routes>
+          
+        </BrowserRouter>
+      </div>
+    </>
 
     // <div
     //   className={`bg-sidebar text-textcolor1 dark:bg-gray-900 dark:text-gray-100 min-h-screen`}
@@ -73,9 +73,7 @@ function App() {
     //     </button>
     //   </header>
     // </div>
-
   );
 }
 
-
- export default App;
+export default App;

@@ -3,26 +3,28 @@ import { replace, useFormik } from "formik";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import * as Yup from "yup";
 
 export default function SignUp() {
-    const letters = /^[a-zA-Z\s'-]+$/;
+  const letters = /^[a-zA-Z\s'-]+$/;
   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   const phonePattern =
     /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
 
-    const navigate=useNavigate();
+  const navigate = useNavigate();
 
   const validationSchema = Yup.object({
     firstName: Yup.string()
       .min(3, "Name must be at least 3 letters")
       .max(20, "Too long!")
-      .required("First name is required").matches(letters,"Name Must be Letters"),
+      .required("First name is required")
+      .matches(letters, "Name Must be Letters"),
     lastName: Yup.string()
       .min(3, "Name must be at least 3 letters")
       .max(20, "Too long!")
-      .required("Last name is required").matches(letters,"Name Must be Letters"),
+      .required("Last name is required")
+      .matches(letters, "Name Must be Letters"),
     email: Yup.string()
       .email("Invalid email address")
       .required("Email is required")
@@ -49,33 +51,29 @@ export default function SignUp() {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        const data  = await axios.post(
+        const data = await axios.post(
           "http://localhost:3005/api/v1/user",
           values
         );
-        
-        if(data.status==201){
-            toast.success("Sign Up Successfully");
-            navigate('/signIn')
-           
+
+        if (data.status == 201) {
+          toast.success("Sign Up Successfully");
+          navigate("/signIn");
         }
-        
       } catch (error) {
-        toast.error(error.response.data.message)
+        toast.error(error.response.data.message);
       }
     },
   });
 
   return (
     <>
-    
       <div className="card lg:card-side bg-white  w-full h-screen  m-auto flex flex-col lg:flex-row ">
-        <figure className="hidden lg:block w-full lg:w-6/12 rounded-tr-2xl rounded-br-2xl ">
+        <figure className="lg:block w-full lg:w-6/12 rounded-tr-2xl rounded-br-2xl">
           <img
             src="/SignUpProj.jpg"
             alt="Album"
-            className="w-full h-screen lg:rounded-tr-2xl lg:rounded-br-2xl  "
-            
+            className="hidden lg:block w-full h-screen lg:rounded-tr-2xl lg:rounded-br-2xl"
           />
         </figure>
         <div className=" p-2  border-collapse border border-[#A68877]   rounded-lg m-auto">
@@ -84,13 +82,13 @@ export default function SignUp() {
           </h2>
           <p className="text-center text-xs pb-5 font-medium">
             Already Have Account?{" "}
-            <Link to='/signIn' className="text-button">Sign In</Link>
+            <Link to="/signIn" className="text-button">
+              Sign In
+            </Link>
           </p>
-          
+
           <form onSubmit={formik.handleSubmit} className="p-5 w-full">
-            <div>
-                
-            </div>
+            <div></div>
             <div className="pb-2 ">
               <label className="text-textcolor1" htmlFor="firstName">
                 First Name
