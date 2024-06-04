@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../../interceptor";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 export default function OrderProfile() {
     const [order,setOrder]=useState([]);
@@ -14,6 +16,7 @@ export default function OrderProfile() {
     },[])
   return (
     <>
+  
       <h2 className="font-semibold text-textcolor2 text-xl">Order Summary</h2>
 
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-8">
@@ -58,6 +61,7 @@ export default function OrderProfile() {
           </tbody>
         </table>
       </div>
+     
     </>
   );
 }

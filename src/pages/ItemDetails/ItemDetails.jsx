@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 export default function ItemDetails() {
   const { id } = useParams(); 
@@ -50,6 +52,9 @@ export default function ItemDetails() {
   if (!item) return <div>Loading...</div>;
 
   return (
+    <>
+    <Navbar/>
+   
     <div className="flex flex-col items-center min-h-screen p-6">
       <div className="w-full max-w-4xl bg-white">
         <button 
@@ -101,5 +106,7 @@ export default function ItemDetails() {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }

@@ -1,7 +1,12 @@
 import React from "react";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 export default function ContactUs() {
   return (
+    <>
+    <Navbar/>
+   
     <div>
       <div class="grid grid-cols-2 ml-[190px]">
         <form class="max-w-sm mt-[88px]">
@@ -146,5 +151,7 @@ export default function ContactUs() {
         </div>
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }

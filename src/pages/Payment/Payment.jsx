@@ -1,9 +1,14 @@
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
 import OrderSummary from "../../components/OrderSummary";
 import PaymentDetails from "../../components/PaymentDetails";
 import Stepper from "../../components/Stepper";
 
 export default function Payment() {
   return (
+    <>
+    <Navbar/>
+   
     <div className="px-4 sm:px-8 lg:px-36 ">
       <Stepper />
       <h1 className=" my-10 text-textcolor2 font-medium text-center sm:text-left">
@@ -16,5 +21,7 @@ export default function Payment() {
         <OrderSummary />
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }
