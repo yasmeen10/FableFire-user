@@ -20,6 +20,7 @@ export default function PaymentDetails(props) {
     onSubmit: async (values) => {
       try {
         if (values.paymentMethod == "cash") {
+          console.log(orderDetails.order[0]._id);
           const response = await axiosInstance.patch(
             `http://localhost:3005/api/v1/order/${orderDetails.order[0]._id}`,
             {

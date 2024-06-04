@@ -20,12 +20,9 @@ export default function WishList() {
     <>
       <h2 className="font-semibold text-textcolor2 text-xl">WishList</h2>
 
-
       <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4">
         {wishList.map((item) => {
-          return (
-           <Card key={item._id} {...item} />
-          );
+          return <Card key={item._id} item={item} />;
         })}
       </div>
     </>
