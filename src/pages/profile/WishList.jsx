@@ -10,7 +10,7 @@ export default function WishList() {
             const wishListData= data.data.wishList;
            
             setWishList(wishListData)
-            // console.log(wishList);
+            console.log(wishListData);
         }
         fetchData()
     },[])
