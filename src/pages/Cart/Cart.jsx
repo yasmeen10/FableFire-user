@@ -4,6 +4,8 @@ import ShoppingCart from "../../components/ShoppingCart";
 import Stepper from "../../components/Stepper";
 import axiosInstance from "../../../interceptor";
 import { CartContext } from "../../context/CartContext";
+import Footer from "../../components/Footer";
+import Navbar from "../../components/Navbar";
 
 export default function Cart() {
   const { shoppingItemData, setShoppingItemData } = useContext(CartContext);
@@ -21,6 +23,8 @@ export default function Cart() {
   const handleClick = () => {};
 
   return (
+    <>
+    <Navbar/>
     <div className="px-4 sm:px-8 lg:px-36 ">
       <Stepper />
       <h1 className=" my-10 text-textcolor2 font-medium text-center sm:text-left">
@@ -51,5 +55,7 @@ export default function Cart() {
         />
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../../interceptor";
+import Card from "../../components/Card/Card";
 
 export default function WishList() {
   const [wishList, setWishList] = useState([]);
@@ -19,25 +20,14 @@ export default function WishList() {
     <>
       <h2 className="font-semibold text-textcolor2 text-xl">WishList</h2>
 
-      {wishList.map((item) => {
-        return (
-          <div className="w-56 max-w-sm bg-white rounded-lg mt-8" key={item.id}>
-            <a href="#">
-              <img
-                className="h-56 px-5 rounded-t-lg"
-                src="https://th.bing.com/th/id/OIG4.LgUj9FIjzUbdTSMn0mRg"
-                alt="image item"
-              />
-            </a>
-            <div className="p-5">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
-                {item.title}
-              </h5>
-              <p className="mb-3 font-normal text-gray-700">{item.price}</p>
-            </div>
-          </div>
-        );
-      })}
+
+      <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4">
+        {wishList.map((item) => {
+          return (
+           <Card key={item._id} {...item} />
+          );
+        })}
+      </div>
     </>
   );
 }

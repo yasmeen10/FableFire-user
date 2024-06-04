@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { CartContext } from "../../context/CartContext";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import axiosInstance from '../../../interceptor';
+import SuggestionSwiper from "../../components/SuggestionSwiper/SuggestionSwiper";
+
 
 export default function ItemDetails() {
   const { handleRemoveItem, handleAddTocart, shoppingItemData } =
@@ -10,6 +14,7 @@ export default function ItemDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [item, setItem] = useState(null);
+  const [suggestionItems, setSuggestionItems] = useState([]);
   const [isHeartClicked, setIsHeartClicked] = useState(false);
   const [error, setError] = useState(null);
 
@@ -50,11 +55,10 @@ export default function ItemDetails() {
       }
 
       try {
-        const response = await axios.get(
-          `http://localhost:3005/api/v1/item/${id}`
-        );
-        if (response.data && response.data.item) {
+        const response = await axiosInstance.get(`http://localhost:3005/api/v1/item/${id}`);
+        if (response.data && response.data.item) { 
           setItem(response.data.item);
+          setSuggestionItems(response.data.suggestionItems);
         } else {
           console.error("Fetched data is not as expected:", response.data);
           setError("Unexpected response format");
@@ -85,11 +89,14 @@ export default function ItemDetails() {
   if (!item) return <div>Loading...</div>;
 
   return (
+    <>
+    <Navbar/>
+   
     <div className="flex flex-col items-center min-h-screen p-6">
       <div className="w-full max-w-4xl bg-white">
-        <button
-          onClick={() => navigate("/shop")}
-          className="textColor2 underline mb-4 font-semibold"
+        <button 
+          onClick={() => navigate('/shop')}
+          className="textColor2 underline mb-4 font-semibold mb-8"
           style={{ fontFamily: "Roboto Flex, sans-serif" }}
         >
           To Category
@@ -107,7 +114,7 @@ export default function ItemDetails() {
             <img
               src={item.images[0]}
               alt={item.title}
-              className="rounded-lg shadow-md relative z-10"
+              className="rounded-lg shadow-md relative z-10 w-96 h-96"
             />
           </div>
           <div className="md:w-2/3 md:pl-6 mt-6 md:mt-0">
@@ -125,10 +132,7 @@ export default function ItemDetails() {
                 <span style={{ color: "#A68877" }}>By</span>{" "}
                 {item.authorId.name}
               </h2>
-              <div
-                className="text-[20px] font-semibold"
-                style={{ color: "#A68877" }}
-              >
+              <div className="text-[20px] font-semibold" style={{ color: "#A68877" }}>
                 {item.price + "$"}
               </div>
             </div>
@@ -159,7 +163,10 @@ export default function ItemDetails() {
             </div>
           </div>
         </div>
+        <SuggestionSwiper suggestionItems={suggestionItems} />
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }
