@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../../interceptor';
 import Categories from '../../components/Categories/Categories';
 import Card from '../../components/Card/Card';
 import Background from '../../components/Backgroud/Backgroud';
@@ -16,7 +16,7 @@ export default function Shop() {
 
   const fetchItems = async () => {
     try {
-      const response = await axios.get('http://localhost:3005/api/v1/item');
+      const response = await axiosInstance.get('http://localhost:3005/api/v1/item');
       if (response.data && Array.isArray(response.data.data)) {
         setItems(response.data.data);
       } else {
