@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../../interceptor";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import EditSVG from "../../components/SVG/EditSVG";
 
 export default function ProfileData() {
   const [profile, setProfile] = useState({});
+  const [profileImageUrl, setProfileImageUrl] = useState('');
 
   useEffect(() => {
     async function fetchData() {
@@ -13,8 +15,9 @@ export default function ProfileData() {
           "http://localhost:3005/api/v1/user"
         );
 
-        const profileData = data.data;
+        const profileData =await data.data;
         setProfile(profileData);
+        setProfileImageUrl(profileData.images[0]);
       } catch (error) {
         console.error("Error fetching profile data:", error);
       }
@@ -30,27 +33,50 @@ export default function ProfileData() {
       password: profile.password || "",
       address: profile.address || "",
       phoneNumber: profile.phoneNumber || "",
+      images: profile.images|| [],
     },
     onSubmit: async (values) => {
       try {
+        
         const response = await axiosInstance.patch(
           "http://localhost:3005/api/v1/user",
-          values
+         values,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
         );
+
         toast.success("Profile Edited Successfully");
 
-        // to make data show after update
         const { data } = await axiosInstance.get(
           "http://localhost:3005/api/v1/user"
         );
 
         const profileData = data.data;
         setProfile(profileData);
+        setProfileImageUrl(profileData.images[0]);
+
       } catch (error) {
+        console.log(error);
         toast.error(error.response.data.message);
       }
     },
   });
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    formik.setFieldValue("images", file);
+    setProfileImageUrl(URL.createObjectURL(file));
+  };
+
+  const handleImageReset = () => {
+   
+    formik.setFieldValue("images",["https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="] );
+    setProfileImageUrl("https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o=");
+    
+  };
 
   return (
     <>
@@ -62,27 +88,14 @@ export default function ProfileData() {
           >
             Edit
           </button>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6 ml-1"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
-            />
-          </svg>
+         <EditSVG/>
         </div>
       </div>
 
       <div className="flex justify-start my-20 border rounded-xl px-8 py-4 items-center">
         <img
           className="w-16 h-16 rounded-full"
-          src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"
+          src={profileImageUrl}
           alt="user's Image"
         />
         <p className="px-4 font-medium"> {profile.firstName}</p>
@@ -120,31 +133,28 @@ export default function ProfileData() {
             <div className="flex-shrink-0">
               <img
                 className="w-24 h-24 rounded-full"
-                src="https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg"
+                src={profileImageUrl}
                 alt=""
               />
               <div className="flex justify-center gap-2 mt-4">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6 text-button"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                <label>
+                 <EditSVG/>
+                  <input
+                    type="file"
+                    name="images"
+                    onChange={handleImageChange}
+                    className="hidden"
                   />
-                </svg>
+                </label>
+                
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-6 h-6 text-button"
+                  className="w-6 h-6  cursor-pointer"
+                  onClick={handleImageReset}
                 >
                   <path
                     strokeLinecap="round"
@@ -218,6 +228,7 @@ export default function ProfileData() {
               <button
                 type="submit"
                 className="px-8 py-2 rounded-xl bg-button text-white mt-4"
+                onClick={() => document.getElementById("my_modal_3").close()}
               >
                 Save
               </button>

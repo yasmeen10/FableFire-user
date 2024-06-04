@@ -12,6 +12,7 @@ import Cart from "./pages/Cart/Cart";
 import Checkout from "./pages/Checkout/Checkout";
 import Payment from "./pages/Payment/Payment";
 import OrderConfirmation from "./pages/OrderConfirmation/OrderConfirmation";
+import OrderProfile from "./pages/orderProfile/OrderProfile";
 
 
 function App() {
@@ -38,6 +39,13 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/payment" element={<Payment />} />
           <Route path="/orderconfirmation" element={<OrderConfirmation />} />
+          <Route path="/signUp" element={<SignUp />} />
+          <Route path="/signIn" element={<SignIn />} />
+          <Route path="/profile" element={<UserProfile/>} >
+            <Route index element={<ProfileData/>}/>
+            <Route path="wishList" element={<WishList/>}/>
+            <Route path="orderProfile" element={<OrderProfile/>}/>
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>
