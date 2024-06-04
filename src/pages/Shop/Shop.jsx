@@ -8,7 +8,7 @@ import Footer from '../../components/Footer';
 
 export default function Shop() {
   const [items, setItems] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   useEffect(() => {
     fetchItems();
@@ -20,10 +20,10 @@ export default function Shop() {
       if (response.data && Array.isArray(response.data.data)) {
         setItems(response.data.data);
       } else {
-        console.error('Fetched data is not an array:', response.data);
+        console.error("Fetched data is not an array:", response.data);
       }
     } catch (error) {
-      console.error('Error fetching items:', error);
+      console.error("Error fetching items:", error);
     }
   };
 
@@ -41,12 +41,12 @@ export default function Shop() {
       <Categories setSelectedCategory={handleCategoryChange} />
       <Background />
       <div className="relative z-10 mt-8">
-        <h2 className="text-xl font-bold text-textColor2-900 mx-px mb-4 px-28">New Arrivals</h2>
+        <h2 className="text-xl font-bold text-textColor2-900 mx-px mb-4 px-28">
+          New Arrivals
+        </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 px-28">
           {Array.isArray(filteredItems) && filteredItems.length > 0 ? (
-            filteredItems.map((item) => (
-              <Card key={item._id} {...item} />
-            ))
+            filteredItems.map((item) => <Card key={item._id} item={item} />)
           ) : (
             <p>No items available.</p>
           )}

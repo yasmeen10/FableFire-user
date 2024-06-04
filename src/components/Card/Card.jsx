@@ -1,33 +1,58 @@
+import { CartContext } from "../../context/CartContext";
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axiosInstance from '../../../interceptor';
 
-export default function Card({ _id, images, title, price }) {
+export default function Card(props) {
+  const { item } = props;
+  const { handleRemoveItem, handleAddTocart, shoppingItemData } =
+    useContext(CartContext);
   const [isHeartFilled, setIsHeartFilled] = useState(false);
-  const [isCartFilled, setIsCartFilled] = useState(false);
   const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
-    const heartState = localStorage.getItem(`heartClicked-${_id}`);
+    const heartState = localStorage.getItem(`heartClicked-${item._id}`);
     if (heartState) {
       setIsHeartFilled(JSON.parse(heartState));
     }
-    const cartState = localStorage.getItem(`cartFilled-${_id}`);
-    if (cartState) {
-      setIsCartFilled(JSON.parse(cartState));
-    }
 
     fetchWishlist();
-  }, [_id]);
+  }, [item._id]);
 
+//   useEffect(() => {
+//     localStorage.setItem(`heartClicked-${_id}`, JSON.stringify(isHeartFilled));
+//   }, [isHeartFilled, _id]);
+
+//   const toggleHeartIcon = () => {
+//     setIsHeartFilled(!isHeartFilled);
+//   };
+  const [isCartFilled, setIsCartFilled] = useState(false);
   useEffect(() => {
-    localStorage.setItem(`heartClicked-${_id}`, JSON.stringify(isHeartFilled));
-  }, [isHeartFilled, _id]);
+    const index = shoppingItemData.findIndex(
+      (cartItem) => cartItem.item && cartItem.item._id === item._id
+    );
+    if (index !== -1) {
+      setIsCartFilled(true);
+    }
+  }, [shoppingItemData]);
 
-  useEffect(() => {
-    localStorage.setItem(`cartFilled-${_id}`, JSON.stringify(isCartFilled));
-  }, [isCartFilled, _id]);
-
+  const handletoggleCartIcon = async () => {
+    try {
+      if (isCartFilled) {
+        const index = shoppingItemData.findIndex(
+          (cartItem) => cartItem.item && cartItem.item._id === item._id
+        );
+        if (index !== -1) {
+          setIsCartFilled(false);
+          await handleRemoveItem(shoppingItemData[index]._id);
+        }
+      } else {
+        await handleAddTocart(item);
+        setIsCartFilled(true);
+      }
+    } catch (error) {
+      console.log("Error toggling cart icon:", error);
+    }
   useEffect(() => {
     const isInWishlist = wishlist.some(item => item._id === _id);
     setIsHeartFilled(isInWishlist);
@@ -36,8 +61,7 @@ export default function Card({ _id, images, title, price }) {
   const fetchWishlist = async () => {
     try {
       const response = await axiosInstance.get('http://localhost:3005/api/v1/wishList');
-      setWishlist(response.data.data.wishList);
-      // console.log('Wishlist items:', response.data.data.wishList); 
+      setWishlist(response.data.data.wishList); 
     } catch (error) {
       console.error('Error fetching wishlist items:', error);
     }
@@ -66,13 +90,7 @@ export default function Card({ _id, images, title, price }) {
     console.error('Error updating wishlist:', error);
   }
 };
-
   
-  
-  
-  const toggleCartIcon = () => {
-    setIsCartFilled(!isCartFilled);
-  };
 
   return (
     <div className="flex items-center justify-center p-2 relative">
@@ -81,21 +99,40 @@ export default function Card({ _id, images, title, price }) {
           <img className="w-60 h-60 rounded-t-lg object-cover transition-transform duration-300 transform hover:scale-105" src={images[0]} alt={title} />
           <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50">
             <div className="flex items-center justify-center">
-              <div className="rounded-full bg-black p-2 mr-2 cursor-pointer" onClick={toggleCartIcon}>
-                <i className={`fas fa-cart-shopping ${isCartFilled ? 'text-button' : 'text-white'}`}></i>
+              <div className={`rounded-full bg-black p-2 mr-2 cursor-pointer`}
+                onClick={handletoggleCartIcon}>
+                <i
+                  className={`fas fa-cart-shopping ${
+                    isCartFilled ? "text-button" : "text-white"
+                  }`}
+                ></i>
               </div>
               <div className="rounded-full bg-black p-2 cursor-pointer" onClick={toggleHeartIcon}>
                 <i className={`${isHeartFilled ? 'fas text-red-500' : 'fas text-white'} fa-heart`}></i>
+              </div>
+              <div
+                className={`rounded-full bg-black p-2 cursor-pointer`}
+                onClick={toggleHeartIcon}
+              >
+                <i
+                  className={`${
+                    isHeartFilled ? "fas text-red-500" : "fas text-white"
+                  } fa-heart`}
+                ></i>
               </div>
             </div>
           </div>
         </div>
         <div className="flex flex-col p-2">
-          <Link to={`/item/${_id}`}>
-            <h5 className="text-lg font-bold textColor2 text-center">{title}</h5>
+          <Link to={`/item/${item._id}`}>
+            <h5 className="text-lg font-bold textColor2 text-center">
+              {item.title}
+            </h5>
             <div className="flex items-center justify-center mt-2.5">
               <div className="ml-4">
-                <p className="text-sm font-medium" style={{ color: "#A68877" }}>{price + "$"}</p>
+                <p className="text-sm font-medium" style={{ color: "#A68877" }}>
+                  {item.price + "$"}
+                </p>
               </div>
             </div>
           </Link>

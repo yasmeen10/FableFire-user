@@ -1,10 +1,11 @@
 import { createContext, useEffect, useState } from "react";
 import axiosInstance from "../../interceptor";
 
-export const OrderSummaryContext = createContext();
+export const CartContext = createContext();
 
-export const OrderSummaryProvider = ({ children }) => {
+export const CartProvider = ({ children }) => {
   const [shoppingItemData, setShoppingItemData] = useState([]);
+  // const [isCartFilled, setIsCartFilled] = useState(false);
 
   useEffect(() => {
     async function fetchShoppingItemData() {
@@ -12,6 +13,7 @@ export const OrderSummaryProvider = ({ children }) => {
         "http://localhost:3005/api/v1/shoppingItem"
       );
       setShoppingItemData(data.data);
+      //setIsCartFilled(data.data.length > 0);
     }
     fetchShoppingItemData();
   }, []);
@@ -65,25 +67,43 @@ export const OrderSummaryProvider = ({ children }) => {
   };
 
   const handleRemoveItem = async (item) => {
-    const filteredItems = shoppingItemData.filter((i) => i._id !== item);
-    setShoppingItemData(filteredItems);
+    try {
+      const filteredItems = shoppingItemData.filter((i) => i._id !== item);
+      setShoppingItemData(filteredItems);
+      await axiosInstance.delete(
+        `http://localhost:3005/api/v1/shoppingItem/${item}`
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    await axiosInstance.delete(
-      `http://localhost:3005/api/v1/shoppingItem/${item}`
-    );
+  const handleAddTocart = async (item) => {
+    try {
+      const { data } = await axiosInstance.post(
+        "http://localhost:3005/api/v1/shoppingItem/",
+        { item: item._id }
+      );
+      const items = [...shoppingItemData];
+      items.push(item);
+      setShoppingItemData(items);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <OrderSummaryContext.Provider
+    <CartContext.Provider
       value={{
         shoppingItemData,
         setShoppingItemData,
         handleIncrementQuantity,
         handleDecrementQuantity,
         handleRemoveItem,
+        handleAddTocart,
       }}
     >
       {children}
-    </OrderSummaryContext.Provider>
+    </CartContext.Provider>
   );
 };
