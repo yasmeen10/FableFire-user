@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../../../interceptor'; 
 
 export default function Categories({ setSelectedCategory }) {
   const [categories, setCategories] = useState([]);
@@ -11,7 +11,7 @@ export default function Categories({ setSelectedCategory }) {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:3005/api/v1/category');
+      const response = await axiosInstance.get('http://localhost:3005/api/v1/category'); 
       if (response.data && Array.isArray(response.data.data)) {
         setCategories(response.data.data); 
       } else {

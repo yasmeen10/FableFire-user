@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from 'axios';
+import axiosInstance from '../../../interceptor';
+import SuggestionSwiper from "../../components/SuggestionSwiper/SuggestionSwiper";
 
 export default function ItemDetails() {
   const { id } = useParams(); 
   const navigate = useNavigate();
   const [item, setItem] = useState(null);
+  const [suggestionItems, setSuggestionItems] = useState([]);
   const [isHeartClicked, setIsHeartClicked] = useState(false);
   const [error, setError] = useState(null);
 
@@ -17,9 +19,10 @@ export default function ItemDetails() {
       }
 
       try {
-        const response = await axios.get(`http://localhost:3005/api/v1/item/${id}`);
+        const response = await axiosInstance.get(`http://localhost:3005/api/v1/item/${id}`);
         if (response.data && response.data.item) { 
           setItem(response.data.item);
+          setSuggestionItems(response.data.suggestionItems);
         } else {
           console.error('Fetched data is not as expected:', response.data);
           setError('Unexpected response format');
@@ -78,7 +81,7 @@ export default function ItemDetails() {
                 <span style={{ color: "#A68877" }}>By</span> {item.authorId.name}
               </h2>
               <div className="text-[20px] font-semibold" style={{ color: "#A68877" }}>
-                {item.price+"$"}
+                {item.price + "$"}
               </div>
             </div>
             <p className="textcolor2 mb-6 italic text-base" style={{ fontFamily: "Roboto Flex, sans-serif" }}>
@@ -99,6 +102,7 @@ export default function ItemDetails() {
             </div>
           </div>
         </div>
+        <SuggestionSwiper suggestionItems={suggestionItems} />
       </div>
     </div>
   );
