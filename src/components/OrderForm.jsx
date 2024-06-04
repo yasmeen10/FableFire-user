@@ -3,8 +3,10 @@ import * as Yup from "yup";
 import { phoneNumberRegex } from "../utils/PhoneNumberRegex";
 import { useEffect, useImperativeHandle, useState } from "react";
 import axiosInstance from "../../interceptor";
+import { useNavigate } from "react-router-dom";
 
 export default function OrderForm(props) {
+  const navigate = useNavigate();
   const { formikRef } = props;
   const [initialValues, setInitialValues] = useState({
     firstName: "",
@@ -65,9 +67,11 @@ export default function OrderForm(props) {
           "http://localhost:3005/api/v1/order/",
           values
         );
-        console.log(response);
+        if (response.status === 200) {
+          navigate("/payment");
+        }
       } catch (error) {
-        console.log(values);
+        console.log(error);
       }
     },
   });

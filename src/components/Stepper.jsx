@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import ArrowSVG from "./SVG/ArrowSVG";
 
 export default function Stepper() {
-  let location = useLocation();
+  const location = useLocation();
   const steps = [
     { stepName: "Shopping Cart", pathName: "/cart" },
     { stepName: "Checkout", pathName: "/checkout" },

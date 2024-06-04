@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import CancelArrow from "./SVG/CancelArrow";
-import { OrderSummaryContext } from "../context/OrderSummaryContext";
+import { CartContext } from "../context/CartContext";
 
 export default function ShoppingCart(props) {
   const { shoppingItem } = props;
   const { handleIncrementQuantity, handleDecrementQuantity, handleRemoveItem } =
-    useContext(OrderSummaryContext);
+    useContext(CartContext);
 
   return (
     <div className=" text-textcolor2 text-base border-y border-y-landing font-medium flex items-center justify-between p-2">
