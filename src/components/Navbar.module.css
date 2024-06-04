@@ -1,0 +1,19 @@
+.Navbar{
+    width: 100%;
+    height: 61px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background:white;
+    padding: 15px 7%;
+}
+
+
+
+
+.Buttons{
+    width: 112px;
+    height: 39px;
+    background: #A68877;
+    color: white;
+}
