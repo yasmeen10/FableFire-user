@@ -5,7 +5,6 @@ export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [shoppingItemData, setShoppingItemData] = useState([]);
-  // const [isCartFilled, setIsCartFilled] = useState(false);
 
   useEffect(() => {
     async function fetchShoppingItemData() {
@@ -13,7 +12,6 @@ export const CartProvider = ({ children }) => {
         "http://localhost:3005/api/v1/shoppingItem"
       );
       setShoppingItemData(data.data);
-      //setIsCartFilled(data.data.length > 0);
     }
     fetchShoppingItemData();
   }, []);
