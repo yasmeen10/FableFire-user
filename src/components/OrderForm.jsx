@@ -1,6 +1,6 @@
 import { Field, Form, Formik, useFormik } from "formik";
 import * as Yup from "yup";
-import { phoneNumberRegex } from "../utils/PhoneNumberRegex";
+import { phoneNumberRegex } from "../constants/PhoneNumberRegex";
 import { useEffect, useImperativeHandle, useState } from "react";
 import axiosInstance from "../../interceptor";
 import { useNavigate } from "react-router-dom";
@@ -68,6 +68,8 @@ export default function OrderForm(props) {
           values
         );
         if (response.status === 200) {
+          const order = response.data.data.order;
+          localStorage.setItem("orderId", order._id);
           navigate("/payment");
         }
       } catch (error) {
