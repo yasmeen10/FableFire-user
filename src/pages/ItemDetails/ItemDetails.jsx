@@ -3,8 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import axiosInstance from "../../../interceptor";
-import SuggestionSwiper from "../../components/SuggestionSwiper/SuggestionSwiper";
+import axiosInstance from '../../../interceptor';
+import SuggestionSwiper from "../../components/SuggestionSwiper";
+
 
 export default function ItemDetails() {
   const { handleRemoveItem, handleAddTocart, shoppingItemData } =

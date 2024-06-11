@@ -1,5 +1,5 @@
 import React from 'react'
-import img from '../../../public/Rectangle 303.png'
+import img from '../../public/Rectangle 303.png'
 
 export default function Background() {
   return (

@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
-import axiosInstance from "../../../interceptor";
-import Categories from "../../components/Categories/Categories";
-import Card from "../../components/Card/Card";
-import Background from "../../components/Backgroud/Backgroud";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
+import React, { useState, useEffect } from 'react';
+import axiosInstance from '../../../interceptor';
+import Card from '../../components/Card';
+import Background from '../../components/Backgroud';
+import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
+import CategoriesPage from '../CategoriesPage/CategoriesPage';
+
 
 export default function Shop() {
   const [items, setItems] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState('all');
 
   useEffect(() => {
     fetchItems();
@@ -21,6 +22,7 @@ export default function Shop() {
       );
       if (response.data && Array.isArray(response.data.data)) {
         setItems(response.data.data);
+        // console.log(response.data.data)
       } else {
         console.error("Fetched data is not an array:", response.data);
       }
@@ -33,17 +35,13 @@ export default function Shop() {
     setSelectedCategory(categoryId);
   };
 
-  const filteredItems =
-    selectedCategory === "all"
-      ? items
-      : items.filter((item) => item.category._id === selectedCategory);
+  const filteredItems = selectedCategory === 'all' ? items : items.filter(item => item.category && item.category._id === selectedCategory);
 
   return (
     <>
-      {/* <Navbar/> */}
-
+      <Navbar/>
       <div>
-        <Categories setSelectedCategory={handleCategoryChange} />
+        <CategoriesPage setSelectedCategory={handleCategoryChange} />
         <Background />
         <div className="relative z-10 mt-8">
           <h2 className="text-xl font-bold text-textColor2-900 mx-px mb-4 px-28">
