@@ -5,13 +5,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import * as Yup from "yup";
+import { letters } from "../../utils/LettersRegex";
+import { emailPattern } from "../../utils/EmailRegex";
 
 export default function SignUp() {
-  const letters = /^[a-zA-Z\s'-]+$/;
-  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  const phonePattern =
-    /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/;
-
+  
   const navigate = useNavigate();
 
   const validationSchema = Yup.object({
@@ -32,10 +30,10 @@ export default function SignUp() {
     password: Yup.string()
       .min(8, "Password must be at least 8 characters")
       .required("Password is required"),
-    address: Yup.string().required("Address is required"),
-    phoneNumber: Yup.string()
-      .required("Phone Number is required")
-      .matches(phonePattern, "Phone Number must be 11 number"),
+    confirmPassword: Yup.string().oneOf(
+      [Yup.ref("password"), null],
+      "Passwords must match"
+    ),
   });
 
   const formik = useFormik({
@@ -44,8 +42,7 @@ export default function SignUp() {
       lastName: "",
       email: "",
       password: "",
-      address: "",
-      phoneNumber: "",
+      confirmPassword:""
     },
 
     validationSchema: validationSchema,
@@ -157,41 +154,24 @@ export default function SignUp() {
                 <div className="text-red-500"> {formik.errors.password}</div>
               ) : null}
             </div>
-
             <div className="pb-2">
-              <label className="text-textcolor1" htmlFor="address">
-                Address
+              <label className="text-textcolor1" htmlFor="password">
+                Confirm Password
               </label>
               <input
-                type="text"
-                id="address"
-                name="address"
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.address}
+                value={formik.values.confirmPassword}
                 className=" bg-transparent border-b border-gray-400 w-full focus:outline-none "
               />
-              {formik.touched.address && formik.errors.address ? (
-                <div className="text-red-500"> {formik.errors.address}</div>
+              {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+                <div className="text-red-500"> {formik.errors.confirmPassword}</div>
               ) : null}
             </div>
-            <div className="pb-3">
-              <label className="text-textcolor1" htmlFor="phoneNumber">
-                Phone Number
-              </label>
-              <input
-                type="text"
-                id="phoneNumber"
-                name="phoneNumber"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.phoneNumber}
-                className=" bg-transparent border-b border-gray-400 w-full focus:outline-none "
-              />
-              {formik.touched.phoneNumber && formik.errors.phoneNumber ? (
-                <div className="text-red-500"> {formik.errors.phoneNumber}</div>
-              ) : null}
-            </div>
+
             <div className="mt-5  h-11 m-auto bg-button text-center pt-2 w-full lg:w-64 rounded-lg">
               <button className="text-white" type="submit">
                 Sign Up

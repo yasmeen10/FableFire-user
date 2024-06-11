@@ -3,20 +3,25 @@ import axiosInstance from "../../../interceptor";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import EditSVG from "../../components/SVG/EditSVG";
+import PasswordSVG from "../../components/SVG/PasswordSVG";
+import * as Yup from "yup";
+import { useAuth } from "../../context/AuthContext";
 
 export default function ProfileData() {
   const [profile, setProfile] = useState({});
-  const [profileImageUrl, setProfileImageUrl] = useState('');
+  const [profileImageUrl, setProfileImageUrl] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
+  const {setAuthUser}=useAuth();
+ 
   useEffect(() => {
     async function fetchData() {
       try {
-        const { data } = await axiosInstance.get(
-          "http://localhost:3005/api/v1/user"
-        );
+        const { data } = await axiosInstance.get("http://localhost:3005/api/v1/user");
 
-        const profileData =await data.data;
+        const profileData = await data.data;
         setProfile(profileData);
+        setAuthUser(profileData);
         setProfileImageUrl(profileData.images[0]);
       } catch (error) {
         console.error("Error fetching profile data:", error);
@@ -30,34 +35,29 @@ export default function ProfileData() {
     initialValues: {
       firstName: profile.firstName || "",
       lastName: profile.lastName || "",
-      password: profile.password || "",
       address: profile.address || "",
       phoneNumber: profile.phoneNumber || "",
-      images: profile.images|| [],
+      images: profile.images || [],
     },
     onSubmit: async (values) => {
       try {
-        
         const response = await axiosInstance.patch(
           "http://localhost:3005/api/v1/user",
-         values,
+          values,
           {
             headers: {
-              'Content-Type': 'multipart/form-data',
+              "Content-Type": "multipart/form-data",
             },
           }
         );
 
         toast.success("Profile Edited Successfully");
 
-        const { data } = await axiosInstance.get(
-          "http://localhost:3005/api/v1/user"
-        );
+        const { data } = await axiosInstance.get("http://localhost:3005/api/v1/user");
 
         const profileData = data.data;
         setProfile(profileData);
         setProfileImageUrl(profileData.images[0]);
-
       } catch (error) {
         console.log(error);
         toast.error(error.response.data.message);
@@ -65,6 +65,26 @@ export default function ProfileData() {
     },
   });
 
+  const formikPassword=useFormik({
+    enableReinitialize:true,
+    initialValues:{
+      oldPassword:"",
+      newPassword:"",
+      confirmPassword:""
+    },
+    onSubmit: async(values,{ resetForm })=>{
+      try{
+        const {data}=await axiosInstance.patch("http://localhost:3005/api/v1/user/changePassword",values);
+        console.log(data);
+        toast.success("Password Edited Successfully");
+        resetForm()
+
+      }catch(error){
+        console.log(error);
+        toast.error(error.response.data.message);
+      }
+    }
+  })
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     formik.setFieldValue("images", file);
@@ -72,29 +92,40 @@ export default function ProfileData() {
   };
 
   const handleImageReset = () => {
-   
-    formik.setFieldValue("images",["https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o="] );
-    setProfileImageUrl("https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o=");
-    
+    formik.setFieldValue("images", [
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSouls88ujOkH8eT0AKf0gU4wh8pY4249WYrWu9EVZwPsXgKvyIz0dH2roxugfxHvAhBfA&usqp=CAU",
+    ]);
+    setProfileImageUrl(
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSouls88ujOkH8eT0AKf0gU4wh8pY4249WYrWu9EVZwPsXgKvyIz0dH2roxugfxHvAhBfA&usqp=CAU"
+    );
+  };
+
+  const handleToggle = () => {
+    setShowModal(!showModal);
   };
 
   return (
     <>
       <div className="flex justify-between items-center">
         <h2 className="font-semibold text-textcolor2 text-xl">My Profile</h2>
-        <div className="flex items-center w-24 h-10 bg-light-button px-5 rounded-lg text-white py-2">
-          <button
-            onClick={() => document.getElementById("my_modal_3").showModal()}
-          >
-            Edit
+        <div className="flex">
+          <button title="changePassword" className="mx-4"  onClick={handleToggle}>
+            <PasswordSVG />
           </button>
-         <EditSVG/>
+          <div className=" flex items-center w-24 h-10 bg-light-button px-5 rounded-lg text-white py-2">
+            <button
+              onClick={() => document.getElementById("my_modal_3").showModal()}
+            >
+              Edit
+            </button>
+            <EditSVG />
+          </div>
         </div>
       </div>
 
       <div className="flex justify-start my-20 border rounded-xl px-8 py-4 items-center">
         <img
-          className="w-16 h-16 rounded-full"
+          className="w-16 h-16 rounded-full object-cover"
           src={profileImageUrl}
           alt="user's Image"
         />
@@ -117,7 +148,9 @@ export default function ProfileData() {
             <span> {profile.address}</span>
           </div>
           <div>
-            <p className="inline-flex font-medium text-button">Phone Number: </p>
+            <p className="inline-flex font-medium text-button">
+              Phone Number:{" "}
+            </p>
             <span> {profile.phoneNumber}</span>
           </div>
           <div>
@@ -132,13 +165,13 @@ export default function ProfileData() {
           <div className="flex gap-10 items-start">
             <div className="flex-shrink-0">
               <img
-                className="w-24 h-24 rounded-full"
+                className="w-24 h-24 rounded-full object-cover"
                 src={profileImageUrl}
                 alt=""
               />
               <div className="flex justify-center gap-2 mt-4">
                 <label>
-                 <EditSVG/>
+                  <EditSVG />
                   <input
                     type="file"
                     name="images"
@@ -146,7 +179,7 @@ export default function ProfileData() {
                     className="hidden"
                   />
                 </label>
-                
+
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -175,7 +208,9 @@ export default function ProfileData() {
               <h3 className="font-bold text-lg mb-4">Edit Profile</h3>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium">First Name</label>
+                  <label className="block text-sm font-medium">
+                    First Name
+                  </label>
                   <input
                     className="bg-transparent border-b border-gray-400 w-full focus:outline-none"
                     type="text"
@@ -194,16 +229,7 @@ export default function ProfileData() {
                     value={formik.values.lastName}
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium">Password</label>
-                  <input
-                    className="bg-transparent border-b border-gray-400 w-full focus:outline-none"
-                    type="password"
-                    name="password"
-                    onChange={formik.handleChange}
-                    value={formik.values.password}
-                  />
-                </div>
+
                 <div>
                   <label className="block text-sm font-medium">Address</label>
                   <input
@@ -215,7 +241,9 @@ export default function ProfileData() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium">Phone Number</label>
+                  <label className="block text-sm font-medium">
+                    Phone Number
+                  </label>
                   <input
                     className="bg-transparent border-b border-gray-400 w-full focus:outline-none"
                     type="text"
@@ -236,6 +264,114 @@ export default function ProfileData() {
           </div>
         </div>
       </dialog>
+
+     
+
+      {showModal && (
+  <div
+    id="authentication-modal"
+    aria-hidden="true"
+    className="fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-full bg-black50 transition-all"
+  >
+    <div className="p-4 w-full max-w-md m-auto my-28">
+      <div className="bg-white rounded-lg shadow dark:bg-gray-700">
+        <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+            Change Password
+          </h3>
+          <button
+            type="button"
+            className="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            onClick={handleToggle}
+          >
+            <svg
+              className="w-3 h-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 14"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+              />
+            </svg>
+            <span className="sr-only">Close modal</span>
+          </button>
+        </div>
+        <div className="p-4 md:p-5">
+          <form className="space-y-4" onSubmit={formikPassword.handleSubmit}>
+            <div>
+              <label
+                htmlFor="oldPassword"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Old Password
+              </label>
+              <input
+                type="password"
+                name="oldPassword"
+                id="oldPassword"
+                onChange={formikPassword.handleChange}
+                value={formikPassword.values.oldPassword}
+                className="bg-transparent border-b border-gray-400 w-full focus:outline-none"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="newPassword"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                New Password
+              </label>
+              <input
+                type="password"
+                name="newPassword"
+                id="newPassword"
+                onChange={formikPassword.handleChange}
+                value={formikPassword.values.newPassword}
+                className="bg-transparent border-b border-gray-400 w-full focus:outline-none"
+                required
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="confirmPassword"
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+                onChange={formikPassword.handleChange}
+                value={formikPassword.values.confirmPassword}
+                className="bg-transparent border-b border-gray-400 w-full focus:outline-none"
+                required
+              />
+              
+            </div>
+
+            <button
+              type="submit"
+              className="px-8 py-2 rounded-xl bg-button text-white mt-4 "
+              
+            >
+              Save
+            </button>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
     </>
   );
 }

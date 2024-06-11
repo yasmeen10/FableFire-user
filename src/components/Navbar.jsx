@@ -8,29 +8,9 @@ import axiosInstance from "../../interceptor";
 export default function Navbar() {
   const newLocal = "https://flowbite.com/docs/images/logo.svg";
 
-  let { authUser, setAuthUser, isLoggedIn, setIsLoggedIn } = useAuth();
+  let { authUser,isLoggedIn} = useAuth();
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const { data } = await axiosInstance.get(
-          "http://localhost:3005/api/v1/user"
-        );
-
-        const userData = await data.data;
-        setAuthUser(userData);
-        authUser = await userData;
-      } catch (error) {
-        console.error("Error fetching profile data:", error);
-      }
-    }
-    fetchData();
-  }, []);
-
-  const logIn = () => {
-    setIsLoggedIn(true);
-  };
-
+ 
   return (
     <div>
       <nav class="bg-white dark:bg-gray-900 h-[80px] w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
@@ -40,24 +20,19 @@ export default function Navbar() {
           </a>
           <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
             {isLoggedIn ? (
-              <div>
-                <Link to="/profile" className="px-4 py-2 text-center">
-                  <img
-                    className="h-12 w-12  rounded-full inline"
-                    src={authUser.images[0]}
-                    alt=""
-                  />
-                  <span>{authUser.firstName}</span>
-                </Link>
-                <Link to="/cart">
-                  <i className="fas fa-cart-shopping text-button"></i>
-                </Link>
-              </div>
+              <Link to="/profile" className="px-4 py-2 text-center">
+                <img
+                  className="h-12 w-12  rounded-full inline"
+                  src={authUser?.images[0]}
+                  alt=""
+                />
+                <span>{authUser?.firstName}</span>
+              </Link>
             ) : (
               <Link
                 to="/signIn"
                 type="button"
-                onClick={logIn}
+                
                 class="text-white rounded-xl bg-[#A68877] hover:bg-[#B99885] w-28 mr-6 text-sm px-4 py-2 text-center "
               >
                 SIGN IN

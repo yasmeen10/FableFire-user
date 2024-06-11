@@ -7,7 +7,7 @@ import LogOutSVG from "../../components/SVG/LogOutSVG";
 import { useAuth } from "../../context/AuthContext";
 
 export default function UserProfile() {
-  let { setAuthUser, setIsLoggedIn } = useAuth();
+  let { setAuthUser,authUser, setIsLoggedIn } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [clickedItem, setClickedItem] = useState(false);
   const navigate = useNavigate();
@@ -71,11 +71,11 @@ export default function UserProfile() {
             <a class="flex items-center ps-2.5 mb-5">
               <img
                 src="/icon.png"
-                class="h-6 me-3 sm:h-7"
+                class=" object-cover mx-2"
                 alt="FableFire Logo"
               />
               <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-                FableFire
+              FableFire
               </span>
             </a>
             <ul className="space-y-2 font-medium px-6 py-9">
