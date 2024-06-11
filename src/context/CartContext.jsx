@@ -6,14 +6,12 @@ export const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [shoppingItemData, setShoppingItemData] = useState([]);
 
-
   useEffect(() => {
     async function fetchShoppingItemData() {
       const { data } = await axiosInstance.get(
         "http://localhost:3005/api/v1/shoppingItem"
       );
       setShoppingItemData(data.data);
-      //setIsCartFilled(data.data.length > 0);
     }
     fetchShoppingItemData();
   }, []);

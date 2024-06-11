@@ -4,13 +4,13 @@ import Navbar from "../../components/Navbar";
 import OrderSummary from "../../components/OrderSummary";
 import PaymentDetails from "../../components/PaymentDetails";
 import Stepper from "../../components/Stepper";
-import { OrderContext, OrderProvider } from "../../context/OrderContext";
+import { OrderProvider } from "../../context/OrderContext";
 
 export default function Payment() {
   const formikRef = useRef(null);
   return (
-    <>
-    <Navbar />
+    <OrderProvider>
+      {/* <Navbar /> */}
       <div className="px-4 sm:px-8 lg:px-36 ">
         <Stepper />
         <h1 className=" my-10 text-textcolor2 font-medium text-center sm:text-left">
@@ -26,7 +26,7 @@ export default function Payment() {
           />
         </div>
       </div>
-<Footer />
-</>
+      <Footer />
+    </OrderProvider>
   );
 }

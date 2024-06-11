@@ -1,4 +1,3 @@
-// Shop.jsx
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../../interceptor';
 import Card from '../../components/Card';
@@ -6,6 +5,7 @@ import Background from '../../components/Backgroud';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import CategoriesPage from '../CategoriesPage/CategoriesPage';
+
 
 export default function Shop() {
   const [items, setItems] = useState([]);
@@ -17,7 +17,9 @@ export default function Shop() {
 
   const fetchItems = async () => {
     try {
-      const response = await axiosInstance.get('http://localhost:3005/api/v1/item');
+      const response = await axiosInstance.get(
+        "http://localhost:3005/api/v1/item"
+      );
       if (response.data && Array.isArray(response.data.data)) {
         setItems(response.data.data);
         // console.log(response.data.data)
@@ -54,7 +56,7 @@ export default function Shop() {
           </div>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }
