@@ -20,7 +20,6 @@ export default function Navbar() {
         const userData = await data.data;
         setAuthUser(userData);
         authUser = await userData;
-        console.log(authUser);
       } catch (error) {
         console.error("Error fetching profile data:", error);
       }
