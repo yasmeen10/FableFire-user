@@ -2,6 +2,7 @@ import { CartContext } from "../../context/CartContext";
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import axiosInstance from "../../../interceptor";
+import { data } from "autoprefixer";
 
 export default function Card(props) {
   const { item } = props;
@@ -55,6 +56,12 @@ export default function Card(props) {
     }
   };
 
+  
+// const handleAddToWishList =async (id)=>{
+//   const {data}=await axiosInstance.post("http://localhost:3005/api/v1/wishList/",id);
+//  console.log(data);
+// }
+
   useEffect(() => {
     const isInWishlist = wishlist.some(
       (wishListItem) => wishListItem._id === item._id
@@ -73,8 +80,11 @@ export default function Card(props) {
     }
   };
 
-  const toggleHeartIcon = async () => {
+  const toggleHeartIcon = async (id) => {
     const newIsHeartFilled = !isHeartFilled;
+    if(wishlist.includes(id)){
+      
+    }
     setIsHeartFilled(newIsHeartFilled);
 
     try {
@@ -122,6 +132,9 @@ export default function Card(props) {
               <div
                 className={`rounded-full bg-black p-2 cursor-pointer`}
                 onClick={toggleHeartIcon}
+               
+               
+                
               >
                 <i
                   className={`${

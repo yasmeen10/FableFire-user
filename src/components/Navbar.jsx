@@ -8,29 +8,8 @@ import axiosInstance from "../../interceptor";
 export default function Navbar() {
   const newLocal = "https://flowbite.com/docs/images/logo.svg";
 
-  let { authUser, setAuthUser, isLoggedIn, setIsLoggedIn } = useAuth();
+  let { authUser,isLoggedIn} = useAuth();
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const { data } = await axiosInstance.get(
-          "http://localhost:3005/api/v1/user"
-        );
-
-        const userData = await data.data;
-        setAuthUser(userData);
-        authUser =await userData;
-        console.log(authUser);
-      } catch (error) {
-        console.error("Error fetching profile data:", error);
-      }
-    }
-    fetchData();
-  }, []);
-
-  const logIn = () => {
-    setIsLoggedIn(true);
-  };
  
   return (
     <div>
@@ -44,16 +23,16 @@ export default function Navbar() {
               <Link to="/profile" className="px-4 py-2 text-center">
                 <img
                   className="h-12 w-12  rounded-full inline"
-                  src={authUser.images[0]}
+                  src={authUser?.images[0]}
                   alt=""
                 />
-                <span>{authUser.firstName}</span>
+                <span>{authUser?.firstName}</span>
               </Link>
             ) : (
               <Link
                 to="/signIn"
                 type="button"
-                onClick={logIn}
+                
                 class="text-white rounded-xl bg-[#A68877] hover:bg-[#B99885] w-28 mr-6 text-sm px-4 py-2 text-center "
               >
                 SIGN IN

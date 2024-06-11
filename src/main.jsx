@@ -4,14 +4,19 @@ import "./index.css";
 import { CartProvider } from "./context/CartContext.jsx";
 import { OrderProvider } from "./context/OrderContext.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
+import { BrowserRouter } from "react-router-dom";
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <div>
-  <AuthProvider>
-    <CartProvider>
-      <OrderProvider>
-        <App />
-      </OrderProvider>
-    </CartProvider>
-  </AuthProvider>
+  <BrowserRouter>
+      <AuthProvider>
+        <CartProvider>
+          <OrderProvider>
+            <App />
+          </OrderProvider>
+        </CartProvider>
+      </AuthProvider>
+  </BrowserRouter>
+
   </div>
 );

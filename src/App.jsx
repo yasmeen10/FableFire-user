@@ -35,7 +35,7 @@ function App() {
       <ToastContainer />
 
       <div>
-        <BrowserRouter>
+        {/* <BrowserRouter> */}
           
           <Routes>
             <Route path="/" element={<Home />} />
@@ -56,7 +56,7 @@ function App() {
             </Route>
           </Routes>
           
-        </BrowserRouter>
+        {/* </BrowserRouter> */}
       </div>
     </>
 
