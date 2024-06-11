@@ -12,7 +12,7 @@ import Footer from "../../components/Footer";
 export default function About() {
   return (
     <>
-    <Navbar/>
+      {/* <Navbar/> */}
       <div className={styles.landing}>
         <img className="w-full h-72" src={AboutUs} />
 
@@ -100,7 +100,7 @@ export default function About() {
           </div>
         </li>
       </ul>
-      <Footer/>
+      <Footer />
     </>
   );
 }

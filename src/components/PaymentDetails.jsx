@@ -20,9 +20,8 @@ export default function PaymentDetails(props) {
     onSubmit: async (values) => {
       try {
         if (values.paymentMethod == "cash") {
-          console.log(orderDetails.order[0]._id);
           const response = await axiosInstance.patch(
-            `http://localhost:3005/api/v1/order/${orderDetails.order[0]._id}`,
+            `http://localhost:3005/api/v1/order/${orderDetails.order._id}`,
             {
               status: "Accepted",
             }
@@ -36,7 +35,7 @@ export default function PaymentDetails(props) {
           const response = await axiosInstance.post(
             "http://localhost:3005/api/v1/stripe/create-checkout-session",
             {
-              orderId: orderDetails.order[0]._id,
+              orderId: orderDetails.order._id,
             }
           );
           if (response.status === 200) {
@@ -55,35 +54,43 @@ export default function PaymentDetails(props) {
     submitForm: formik.submitForm,
   }));
 
-  if (!orderDetails.order) {
-    return <div>loading</div>;
-  }
-
   return (
     <div>
       <div className="shippingDetails border border-landing rounded-lg">
         <div className="border-b border-b-landing">
           <h1 className="my-2 ml-6 text-sm">Shipping Details</h1>
         </div>
-        <div className="my-2 mx-6">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium capitalize">
-              {orderDetails?.order[0]?.firstName}
+        {!orderDetails.order ? (
+          <div className="my-2 mx-6">
+            <div className="flex items-center justify-between mt-2">
+              <div className="skeleton h-6 w-1/4 rounded-md"></div>
+              <div className="skeleton h-6 w-1/4 rounded-md"></div>
+            </div>
+            <div className="skeleton h-6 w-1/2 rounded-md mt-2"></div>
+            <div className="skeleton h-6 w-1/2 rounded-md mt-2"></div>
+            <div className="skeleton h-6 w-1/2 rounded-md mt-2"></div>
+          </div>
+        ) : (
+          <div className="my-2 mx-6">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium capitalize">
+                {orderDetails?.order?.firstName}
+              </span>
+              <span className="text-sm font-medium">
+                {orderDetails?.order?.email}
+              </span>
+            </div>
+            <span className="block text-sm font-medium capitalize">
+              {orderDetails?.order?.country}
             </span>
-            <span className="text-sm font-medium">
-              {orderDetails?.order[0]?.email}
+            <span className="block text-sm font-medium capitalize">
+              {orderDetails?.order?.city}
+            </span>
+            <span className="block text-sm font-medium capitalize">
+              {orderDetails?.order?.address}
             </span>
           </div>
-          <span className="block text-sm font-medium capitalize">
-            {orderDetails?.order[0]?.country}
-          </span>
-          <span className="block text-sm font-medium capitalize">
-            {orderDetails?.order[0]?.city}
-          </span>
-          <span className="block text-sm font-medium capitalize">
-            {orderDetails?.order[0]?.address}
-          </span>
-        </div>
+        )}
       </div>
       <div className="mt-10">
         <h1 className="text-base">Choose payment method</h1>
