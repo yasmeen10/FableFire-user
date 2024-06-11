@@ -4,7 +4,7 @@ import { CartContext } from "../../context/CartContext";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import axiosInstance from '../../../interceptor';
-import SuggestionSwiper from "../../components/SuggestionSwiper/SuggestionSwiper";
+import SuggestionSwiper from "../../components/SuggestionSwiper";
 
 
 export default function ItemDetails() {

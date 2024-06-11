@@ -5,7 +5,7 @@ export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [shoppingItemData, setShoppingItemData] = useState([]);
-  // const [isCartFilled, setIsCartFilled] = useState(false);
+
 
   useEffect(() => {
     async function fetchShoppingItemData() {
@@ -18,10 +18,10 @@ export const CartProvider = ({ children }) => {
     fetchShoppingItemData();
   }, []);
 
+
   const handleIncrementQuantity = async (item) => {
     try {
       const items = [...shoppingItemData];
-
       const index = items.findIndex((i) => i._id === item);
 
       if (index !== -1) {
@@ -38,20 +38,19 @@ export const CartProvider = ({ children }) => {
         );
       }
     } catch (error) {
-      console.log(error);
+      console.log( error);
     }
   };
 
   const handleDecrementQuantity = async (item) => {
     try {
       const items = [...shoppingItemData];
-
       const index = items.findIndex((i) => i._id === item);
 
       if (index !== -1) {
         const updatedItem = {
           ...items[index],
-          quantity: items[index].quantity - 1,
+          quantity: items[index].quantity - 1,  
         };
         items[index] = updatedItem;
         setShoppingItemData(items);
@@ -62,7 +61,7 @@ export const CartProvider = ({ children }) => {
         );
       }
     } catch (error) {
-      console.log(error);
+      console.log( error);
     }
   };
 
@@ -74,7 +73,7 @@ export const CartProvider = ({ children }) => {
         `http://localhost:3005/api/v1/shoppingItem/${item}`
       );
     } catch (error) {
-      console.log(error);
+      console.error("Error removing item:", error.response ? error.response.data : error.message);
     }
   };
 
@@ -100,7 +99,7 @@ export const CartProvider = ({ children }) => {
         handleIncrementQuantity,
         handleDecrementQuantity,
         handleRemoveItem,
-        handleAddTocart,
+        handleAddTocart, 
       }}
     >
       {children}

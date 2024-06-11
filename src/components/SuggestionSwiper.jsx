@@ -4,8 +4,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import Card from '../Card/Card';
-
+import Card from './Card'; 
 
 export default function SuggestionSwiper({ suggestionItems }) {
   return (
@@ -13,7 +12,6 @@ export default function SuggestionSwiper({ suggestionItems }) {
       <h2 className="text-2xl font-bold mb-4">You may also like:</h2>
       <Swiper
         slidesPerView={4}
-        
         centeredSlides={true}
         navigation={true}
         modules={[Autoplay, Pagination, Navigation]}
@@ -22,10 +20,8 @@ export default function SuggestionSwiper({ suggestionItems }) {
         {suggestionItems.map(suggestion => (
           <SwiperSlide key={suggestion._id}>
             <Card
-              _id={suggestion._id}
-              images={suggestion.images}
-              title={suggestion.title}
-              price={suggestion.price}
+              item={suggestion}
+              suggestionItems={[]} 
             />
           </SwiperSlide>
         ))}

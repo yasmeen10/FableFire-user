@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../../interceptor";
-import Card from "../../components/Card/Card";
+import Card from "../../components/Card";
 
 export default function WishList() {
   const [wishList, setWishList] = useState([]);
