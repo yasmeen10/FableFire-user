@@ -53,6 +53,7 @@ function App() {
               <Route index element={<ProfileData />} />
               <Route path="wishList" element={<WishList />} />
               <Route path="orderProfile" element={<OrderProfile />} />
+              
             </Route>
           </Routes>
           

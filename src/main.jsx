@@ -5,9 +5,11 @@ import { CartProvider } from "./context/CartContext.jsx";
 import { OrderProvider } from "./context/OrderContext.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { WishlistProvider } from "./context/WishlistContext.jsx"; 
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <div>
+    <BrowserRouter>
     <AuthProvider>
       <CartProvider>
         <OrderProvider>
@@ -17,5 +19,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </OrderProvider>
       </CartProvider>
     </AuthProvider>
+    </BrowserRouter>
   </div>
 );
