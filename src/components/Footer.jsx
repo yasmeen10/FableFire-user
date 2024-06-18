@@ -5,11 +5,13 @@ import fablefire from "../assets/FableFire-logo.png";
 export default function Footer() {
   return (
     <div>
-         <div className="w-full lg:h-[250px] md:h-[420px] sm:h-[600px] bg-[#D6CCC2] mt-32 ">
+      <div className="w-full lg:h-[250px] md:h-[420px] sm:h-[600px] bg-[#D6CCC2] mt-32 ">
         <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 ml-[px]">
           <div>
             <img className="w-[174px] h-[53px] ml-24 " src={fablefire} />
-            <p className="font-semibold ml-24 mt-9 text-[#210F04]">Subscribe Now</p>
+            <p className="font-semibold ml-24 mt-9 text-[#210F04]">
+              Subscribe Now
+            </p>
             <div className="relative z-0 w-[200px] mb-5 group grid grid-cols-2">
               <svg
                 className="w-6 h-6 text-[#210F04] dark:text-white mt-4 ml-24"
@@ -22,8 +24,8 @@ export default function Footer() {
               >
                 <path
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeWidth="2"
                   d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"
                 />
               </svg>
@@ -36,7 +38,7 @@ export default function Footer() {
                 required
               />
               <label
-                for="floating_last_name"
+                htmlFor="floating_last_name"
                 className="ml-32 mt-1 peer-focus:font-medium absolute text-sm text-[#BFAE9F]  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#BFAE9F] peer-focus:dark:text-[#BFAE9F] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Last name
@@ -51,7 +53,9 @@ export default function Footer() {
           </div>
 
           <div className="ml-28 mt-3">
-            <h1 className="text-[24px] font-medium text-[#210F04]">Information</h1>
+            <h1 className="text-[24px] font-medium text-[#210F04]">
+              Information
+            </h1>
             <ul className="mt-9 font-medium text-[#210F04]">
               <li>about us</li>
               <li>more search</li>
@@ -61,7 +65,9 @@ export default function Footer() {
           </div>
 
           <div className="ml-28 lg:ml-20 lg:mt-3 md:ml-0 md:mt-3 sm:ml-24 sm:mt-3">
-            <h1 className="text-[24px] font-medium text-[#210F04]">Help Links</h1>
+            <h1 className="text-[24px] font-medium text-[#210F04]">
+              Help Links
+            </h1>
             <ul className="mt-9 font-medium text-[#210F04]">
               <li>services</li>
               <li>supports</li>
@@ -71,7 +77,9 @@ export default function Footer() {
           </div>
 
           <div className="ml-28 lg:ml-9 lg:mt-3 md:ml-[100px] sm:ml-[110px]">
-            <h1 className="text-[24px] font-medium text-[#210F04]">Our Services</h1>
+            <h1 className="text-[24px] font-medium text-[#210F04]">
+              Our Services
+            </h1>
             <ul className="mt-9 font-medium text-[#210F04]">
               <li>book list</li>
               <li>order</li>
@@ -81,7 +89,9 @@ export default function Footer() {
           </div>
 
           <div className="ml-28 lg:mt-3 lg:ml-0 md:ml-[110px] sm:ml-[90px] md:mt-[0] sm:mt-[40px]">
-            <h1 className="text-[24px] font-medium text-[#210F04]">Contact Us</h1>
+            <h1 className="text-[24px] font-medium text-[#210F04]">
+              Contact Us
+            </h1>
             <ul className="flex mt-9">
               <li>
                 <svg
@@ -95,13 +105,15 @@ export default function Footer() {
                 >
                   <path
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeWidth="2"
                     d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"
                   />
                 </svg>
               </li>
-              <li className="ml-2 font-medium text-[#210F04]">youremailid.com</li>
+              <li className="ml-2 font-medium text-[#210F04]">
+                youremailid.com
+              </li>
             </ul>
             <ul className="flex mt-2">
               <li>

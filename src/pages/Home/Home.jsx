@@ -77,35 +77,31 @@ export default function Home() {
             </p>
             <button
               type="submit"
-              class=" mt-3 text-white bg-[#A68877] hover:bg-[#B99885] focus:ring-4 focus:outline-none font-medium rounded-md text-sm text-center w-[100px] h-[30px]"
+              className=" mt-3 text-white bg-[#A68877] hover:bg-[#B99885] focus:ring-4 focus:outline-none font-medium rounded-md text-sm text-center w-[100px] h-[30px]"
             >
               Buy Now
             </button>
           </div>
         </div>
 
-
-
-
-
         <div className="mt-10">
           <p className="text-[32px] font-medium mb-4 ml-24">Categories</p>
           <Carousel responsive={responsive}>
-            <div class="box-content h-24 w-28 p-4 ml-[90px] bg-[#F6F6F7] ">
-            <KidsSVG />
+            <div className="box-content h-24 w-28 p-4 ml-[90px] bg-[#F6F6F7] ">
+              <KidsSVG />
 
               <p className="font-medium mt-4 text-[#210F04]">Kids</p>
               <p className="font-medium text-[#735F39]">Shop Now</p>
             </div>
 
             <div className="box-content h-24 w-28 p-4 ml-[80px] bg-[#F6F6F7] ">
-            <RomanceSVG />
+              <RomanceSVG />
               <p className="font-medium mt-4 text-[#210F04]">Romance</p>
               <p className="font-medium text-[#735F39]">Shop Now</p>
             </div>
 
             <div className="box-content h-24 w-28 p-4 ml-[80px] bg-[#F6F6F7] ">
-             <HorrorSVG />
+              <HorrorSVG />
 
               <p className="font-medium mt-4 text-[#210F04]">Horror</p>
               <p className="font-medium text-[#735F39]">Shop Now</p>
@@ -118,13 +114,13 @@ export default function Home() {
             </div>
 
             <div className="box-content h-24 w-28 p-4 ml-[40px] bg-[#F6F6F7] ">
-            <SVG />
+              <SVG />
               <p className="font-medium mt-4 text-[#210F04]">Food</p>
               <p className="font-medium text-[#735F39]">Shop Now</p>
             </div>
 
             <div className="box-content h-24 w-28 p-4 ml-[40px] bg-[#F6F6F7] ">
-            <ArtSVG /> 
+              <ArtSVG />
               <p className="font-medium mt-4 text-[#210F04]">Art</p>
               <p className="font-medium text-[#735F39]">Shop Now</p>
             </div>
@@ -137,10 +133,6 @@ export default function Home() {
           </Carousel>
         </div>
 
-
-
-
-
         {/* <p className="text-[32px] font-medium text-center mt-32">
         Trending This Week
       </p> */}
@@ -150,7 +142,6 @@ export default function Home() {
 
           <div className=" lg:flex grid md:grid-cols-2 sm:grid-cols-1 md:ml-[150px] lg:ml-0 sm:ml-[35%] justify-center lg:gap-24">
             <Card />
-
           </div>
         </div>
 
@@ -197,7 +188,6 @@ export default function Home() {
             </button>
           </div>
         </div>
-
 
         <p className="ml-[50px] mt-24 text-[32px] font-medium ">Authors</p>
         <Authors />
