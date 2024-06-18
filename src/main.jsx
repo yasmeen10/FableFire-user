@@ -7,6 +7,7 @@ import { WishlistProvider } from "./context/WishlistContext.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { OrderProvider } from "./context/OrderContext.jsx";
 
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <div>
     <BrowserRouter>
