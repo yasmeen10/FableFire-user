@@ -1,12 +1,13 @@
 import React, { createContext, useEffect, useState } from "react";
 import axiosInstance from "../../interceptor";
+import { useAuth } from "./AuthContext";
 
 export const OrderContext = createContext();
 
 export const OrderProvider = ({ children }) => {
   const [orderDetails, setOrderDetails] = useState([]);
   const orderId = localStorage.getItem("orderId");
-
+  const { isLoggedIn } = useAuth();
   useEffect(() => {
     async function fetchOrder() {
       try {
@@ -19,8 +20,9 @@ export const OrderProvider = ({ children }) => {
         console.log("Error fetching order details:", error);
       }
     }
-
-    fetchOrder();
+    if (isLoggedIn) {
+      fetchOrder();
+    }
   }, []);
 
   return (
