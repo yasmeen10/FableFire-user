@@ -40,7 +40,7 @@ export default function Home() {
   };
   return (
     <>
-      {/* <Navbar/> */}
+      <Navbar />
 
       <div>
         <div className="w-full h-[400px] bg-[#D6CCC2]">

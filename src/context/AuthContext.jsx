@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { emailPattern } from "../utils/EmailRegex";
+import { emailPattern } from "../constants/EmailRegex";
 
 const AuthContext = React.createContext();
 
@@ -43,7 +43,7 @@ export function AuthProvider(props) {
         if (response.status === 200) {
           localStorage.setItem("token", response.data.token);
           setIsLoggedIn(true);
-          fetchData(); // Fetch user data after login
+          fetchData();
           toast.success("Sign In Successfully");
           navigate("/");
         }
@@ -79,8 +79,6 @@ export function AuthProvider(props) {
   };
 
   return (
-    <AuthContext.Provider value={value}>
-      {props.children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
   );
 }

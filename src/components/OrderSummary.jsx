@@ -16,7 +16,7 @@ export default function OrderSummary(props) {
     itemsToDisplay = orderDetails?.orderItems;
   }
 
-  if (!itemsToDisplay || shoppingItemData.length === 0) {
+  if (!itemsToDisplay && shoppingItemData.length === 0) {
     return (
       <div className="border rounded-lg border-landing flex flex-col p-10 h-fit">
         <h1>Order Summary</h1>
