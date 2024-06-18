@@ -5,8 +5,7 @@ import Footer from "../../components/Footer";
 export default function ContactUs() {
   return (
     <>
-      <Navbar/>
-
+      <Navbar />
       <div>
       <div className="grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 lg:ml-[190px] md:ml-[190px] ml-2 ">
         <form className="max-w-sm mt-[88px]">

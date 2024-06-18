@@ -2,7 +2,7 @@ import { useContext } from "react";
 import Stepper from "../../components/Stepper";
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
-import { OrderContext } from "../../context/OrderContext";
+import { OrderContext, OrderProvider } from "../../context/OrderContext";
 import { useLocation } from "react-router-dom";
 
 export default function OrderConfirmation() {
@@ -13,7 +13,7 @@ export default function OrderConfirmation() {
   }
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       <div className="px-4 mb-14 sm:px-8 lg:px-36 ">
         <Stepper />
         <h1 className=" my-10 text-textcolor2 font-medium text-center sm:text-left">

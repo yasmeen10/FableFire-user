@@ -1,10 +1,11 @@
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import { Autoplay, Pagination, Navigation } from 'swiper/modules';
-import Card from './Card'; 
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import Card from "./Card";
+import CardSkeleton from "./CardSkeleton";
 
 export default function SuggestionSwiper({ suggestionItems }) {
   return (
@@ -17,14 +18,21 @@ export default function SuggestionSwiper({ suggestionItems }) {
         modules={[Autoplay, Pagination, Navigation]}
         className="mySwiper"
       >
-        {suggestionItems.map(suggestion => (
-          <SwiperSlide key={suggestion._id}>
-            <Card
-              item={suggestion}
-              suggestionItems={[]} 
-            />
-          </SwiperSlide>
-        ))}
+        {suggestionItems.length === 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+          </div>
+        ) : (
+          suggestionItems.map((suggestion) => (
+            <SwiperSlide key={suggestion._id}>
+              <Card item={suggestion} suggestionItems={[]} />
+            </SwiperSlide>
+          ))
+        )}
       </Swiper>
     </div>
   );

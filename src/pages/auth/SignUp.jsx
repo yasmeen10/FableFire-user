@@ -9,7 +9,6 @@ import { letters } from "../../constants/LettersRegex";
 import { emailPattern } from "../../constants/EmailRegex";
 
 export default function SignUp() {
-  
   const navigate = useNavigate();
 
   const validationSchema = Yup.object({
@@ -42,7 +41,7 @@ export default function SignUp() {
       lastName: "",
       email: "",
       password: "",
-      confirmPassword:""
+      confirmPassword: "",
     },
 
     validationSchema: validationSchema,
@@ -167,8 +166,12 @@ export default function SignUp() {
                 value={formik.values.confirmPassword}
                 className=" bg-transparent border-b border-gray-400 w-full focus:outline-none "
               />
-              {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
-                <div className="text-red-500"> {formik.errors.confirmPassword}</div>
+              {formik.touched.confirmPassword &&
+              formik.errors.confirmPassword ? (
+                <div className="text-red-500">
+                  {" "}
+                  {formik.errors.confirmPassword}
+                </div>
               ) : null}
             </div>
 

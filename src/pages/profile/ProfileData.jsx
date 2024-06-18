@@ -12,12 +12,14 @@ export default function ProfileData() {
   const [profileImageUrl, setProfileImageUrl] = useState("");
   const [showModal, setShowModal] = useState(false);
 
-  const {setAuthUser}=useAuth();
- 
+  const { setAuthUser } = useAuth();
+
   useEffect(() => {
     async function fetchData() {
       try {
-        const { data } = await axiosInstance.get("http://localhost:3005/api/v1/user");
+        const { data } = await axiosInstance.get(
+          "http://localhost:3005/api/v1/user"
+        );
 
         const profileData = await data.data;
         setProfile(profileData);
@@ -53,38 +55,39 @@ export default function ProfileData() {
 
         toast.success("Profile Edited Successfully");
 
-        const { data } = await axiosInstance.get("http://localhost:3005/api/v1/user");
+        const { data } = await axiosInstance.get(
+          "http://localhost:3005/api/v1/user"
+        );
 
         const profileData = data.data;
         setProfile(profileData);
         setProfileImageUrl(profileData.images[0]);
       } catch (error) {
-        console.log(error);
         toast.error(error.response.data.message);
       }
     },
   });
 
-  const formikPassword=useFormik({
-    enableReinitialize:true,
-    initialValues:{
-      oldPassword:"",
-      newPassword:"",
-      confirmPassword:""
+  const formikPassword = useFormik({
+    enableReinitialize: true,
+    initialValues: {
+      oldPassword: "",
+      newPassword: "",
+      confirmPassword: "",
     },
-    onSubmit: async(values,{ resetForm })=>{
-      try{
-        const {data}=await axiosInstance.patch("http://localhost:3005/api/v1/user/changePassword",values);
-        console.log(data);
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        const { data } = await axiosInstance.patch(
+          "http://localhost:3005/api/v1/user/changePassword",
+          values
+        );
         toast.success("Password Edited Successfully");
-        resetForm()
-
-      }catch(error){
-        console.log(error);
+        resetForm();
+      } catch (error) {
         toast.error(error.response.data.message);
       }
-    }
-  })
+    },
+  });
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     formik.setFieldValue("images", file);
@@ -109,7 +112,11 @@ export default function ProfileData() {
       <div className="flex justify-between items-center">
         <h2 className="font-semibold text-textcolor2 text-xl">My Profile</h2>
         <div className="flex">
-          <button title="changePassword" className="mx-4"  onClick={handleToggle}>
+          <button
+            title="changePassword"
+            className="mx-4"
+            onClick={handleToggle}
+          >
             <PasswordSVG />
           </button>
           <div className=" flex items-center w-24 h-10 bg-light-button px-5 rounded-lg text-white py-2">
@@ -265,113 +272,110 @@ export default function ProfileData() {
         </div>
       </dialog>
 
-     
-
       {showModal && (
-  <div
-    id="authentication-modal"
-    aria-hidden="true"
-    className="fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-full bg-black50 transition-all"
-  >
-    <div className="p-4 w-full max-w-md m-auto my-28">
-      <div className="bg-white rounded-lg shadow dark:bg-gray-700">
-        <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-            Change Password
-          </h3>
-          <button
-            type="button"
-            className="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-            onClick={handleToggle}
-          >
-            <svg
-              className="w-3 h-3"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 14"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-              />
-            </svg>
-            <span className="sr-only">Close modal</span>
-          </button>
+        <div
+          id="authentication-modal"
+          aria-hidden="true"
+          className="fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-full bg-black50 transition-all"
+        >
+          <div className="p-4 w-full max-w-md m-auto my-28">
+            <div className="bg-white rounded-lg shadow dark:bg-gray-700">
+              <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Change Password
+                </h3>
+                <button
+                  type="button"
+                  className="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                  onClick={handleToggle}
+                >
+                  <svg
+                    className="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                  <span className="sr-only">Close modal</span>
+                </button>
+              </div>
+              <div className="p-4 md:p-5">
+                <form
+                  className="space-y-4"
+                  onSubmit={formikPassword.handleSubmit}
+                >
+                  <div>
+                    <label
+                      htmlFor="oldPassword"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Old Password
+                    </label>
+                    <input
+                      type="password"
+                      name="oldPassword"
+                      id="oldPassword"
+                      onChange={formikPassword.handleChange}
+                      value={formikPassword.values.oldPassword}
+                      className="bg-transparent border-b border-gray-400 w-full focus:outline-none"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="newPassword"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      New Password
+                    </label>
+                    <input
+                      type="password"
+                      name="newPassword"
+                      id="newPassword"
+                      onChange={formikPassword.handleChange}
+                      value={formikPassword.values.newPassword}
+                      className="bg-transparent border-b border-gray-400 w-full focus:outline-none"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="confirmPassword"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Confirm Password
+                    </label>
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      id="confirmPassword"
+                      onChange={formikPassword.handleChange}
+                      value={formikPassword.values.confirmPassword}
+                      className="bg-transparent border-b border-gray-400 w-full focus:outline-none"
+                      required
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="px-8 py-2 rounded-xl bg-button text-white mt-4 "
+                  >
+                    Save
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="p-4 md:p-5">
-          <form className="space-y-4" onSubmit={formikPassword.handleSubmit}>
-            <div>
-              <label
-                htmlFor="oldPassword"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Old Password
-              </label>
-              <input
-                type="password"
-                name="oldPassword"
-                id="oldPassword"
-                onChange={formikPassword.handleChange}
-                value={formikPassword.values.oldPassword}
-                className="bg-transparent border-b border-gray-400 w-full focus:outline-none"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="newPassword"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                New Password
-              </label>
-              <input
-                type="password"
-                name="newPassword"
-                id="newPassword"
-                onChange={formikPassword.handleChange}
-                value={formikPassword.values.newPassword}
-                className="bg-transparent border-b border-gray-400 w-full focus:outline-none"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Confirm Password
-              </label>
-              <input
-                type="password"
-                name="confirmPassword"
-                id="confirmPassword"
-                onChange={formikPassword.handleChange}
-                value={formikPassword.values.confirmPassword}
-                className="bg-transparent border-b border-gray-400 w-full focus:outline-none"
-                required
-              />
-              
-            </div>
-
-            <button
-              type="submit"
-              className="px-8 py-2 rounded-xl bg-button text-white mt-4 "
-              
-            >
-              Save
-            </button>
-
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
-
+      )}
     </>
   );
 }

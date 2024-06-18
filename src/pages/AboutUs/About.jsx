@@ -15,7 +15,6 @@ export default function About() {
       <Navbar/>
       <div className="relative">
         <img className="h-32 w-full lg:w-full lg:h-72 md:w-full md:h-[188px] sm:w-full sm:h-[150px]" src={AboutUs} />
-
         <div className="absolute ml-6 top-[61%] lg:top-[63%] md:top-[63%] lg:right-[78%] md:right-[75%] sm:right-[70%]">
           <h1 className="text-[26px] lg:text-[58px] md:text-[40px] sm:text-[40px] w-[140px] text-[#A68877]">Who</h1>
           <h1 className="text-[26px] lg:text-[58px] md:text-[40px] sm:text-[40px] w-[200px] text-[#A68877]">We Are</h1>
