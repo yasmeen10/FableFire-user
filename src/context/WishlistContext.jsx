@@ -7,7 +7,7 @@ export const WishlistContext = createContext();
 
 export const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
-  const [rendeList,setRendeerList]= useState(false);
+  const [rendeList, setRendeerList] = useState(false);
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
 
@@ -33,27 +33,13 @@ export const WishlistProvider = ({ children }) => {
       fetchWishlist();
     }
   }, [rendeList]);
-  const toggleWishlistItem = async (item) => {
-    try {
-      await axiosInstance.post("http://localhost:3005/api/v1/wishList/", { _id: item._id });
-      setRendeerList((prev)=>!prev);
-    if (isLoggedIn) {
-      fetchWishlist();
-    }
-  }, []);
+
   const toggleWishlistItem = async (item) => {
     try {
       await axiosInstance.post("http://localhost:3005/api/v1/wishList/", {
         _id: item._id,
       });
-      const response = await axiosInstance.get(
-        "http://localhost:3005/api/v1/wishList"
-      );
-      setWishlist(
-        Array.isArray(response.data.data.wishList)
-          ? response.data.data.wishList
-          : []
-      );
+      setRendeerList((prev) => !prev);
     } catch (error) {
       navigate("/signIn");
     }
