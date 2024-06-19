@@ -1,11 +1,14 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import axiosInstance from "../../interceptor";
+import { useAuth } from "./AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [shoppingItemData, setShoppingItemData] = useState([]);
-
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchShoppingItemData() {
@@ -13,11 +16,11 @@ export const CartProvider = ({ children }) => {
         "http://localhost:3005/api/v1/shoppingItem"
       );
       setShoppingItemData(data.data);
-      //setIsCartFilled(data.data.length > 0);
     }
-    fetchShoppingItemData();
+    if (isLoggedIn) {
+      fetchShoppingItemData();
+    }
   }, []);
-
 
   const handleIncrementQuantity = async (item) => {
     try {
@@ -38,7 +41,7 @@ export const CartProvider = ({ children }) => {
         );
       }
     } catch (error) {
-      console.log( error);
+      console.log(error);
     }
   };
 
@@ -50,7 +53,7 @@ export const CartProvider = ({ children }) => {
       if (index !== -1) {
         const updatedItem = {
           ...items[index],
-          quantity: items[index].quantity - 1,  
+          quantity: items[index].quantity - 1,
         };
         items[index] = updatedItem;
         setShoppingItemData(items);
@@ -61,7 +64,7 @@ export const CartProvider = ({ children }) => {
         );
       }
     } catch (error) {
-      console.log( error);
+      console.log(error);
     }
   };
 
@@ -73,24 +76,25 @@ export const CartProvider = ({ children }) => {
         `http://localhost:3005/api/v1/shoppingItem/${item}`
       );
     } catch (error) {
-      console.error("Error removing item:", error.response ? error.response.data : error.message);
+      console.error(
+        "Error removing item:",
+        error.response ? error.response.data : error.message
+      );
     }
   };
 
   const handleAddTocart = async (item) => {
     try {
-      const { data } = await axiosInstance.post(
-        "http://localhost:3005/api/v1/shoppingItem/",
-        { item: item._id }
-      );
+      await axiosInstance.post("http://localhost:3005/api/v1/shoppingItem/", {
+        item: item._id,
+      });
       const items = [...shoppingItemData];
       items.push(item);
       setShoppingItemData(items);
     } catch (error) {
-      console.log(error);
+      navigate("/signIn");
     }
   };
-
   return (
     <CartContext.Provider
       value={{
@@ -99,7 +103,7 @@ export const CartProvider = ({ children }) => {
         handleIncrementQuantity,
         handleDecrementQuantity,
         handleRemoveItem,
-        handleAddTocart, 
+        handleAddTocart,
       }}
     >
       {children}

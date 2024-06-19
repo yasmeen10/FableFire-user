@@ -35,7 +35,7 @@ function App() {
       <ToastContainer />
 
       <div>
-        <BrowserRouter>
+        {/* <BrowserRouter> */}
           
           <Routes>
             <Route path="/" element={<Home />} />
@@ -54,10 +54,11 @@ function App() {
               <Route index element={<ProfileData />} />
               <Route path="wishList" element={<WishList />} />
               <Route path="orderProfile" element={<OrderProfile />} />
+              
             </Route>
           </Routes>
           
-        </BrowserRouter>
+        {/* </BrowserRouter> */}
       </div>
     </>
 

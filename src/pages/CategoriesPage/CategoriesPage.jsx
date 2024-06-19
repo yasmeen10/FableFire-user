@@ -5,7 +5,7 @@ import { Navigate } from 'react-router-dom';
 
 export default function CategoriesPage({ setSelectedCategory }) {
   const [categories, setCategories] = useState([]);
-  const [activeCategory, setActiveCategory] = useState('all');
+  const [activeCategory, setActiveCategory] = useState("all");
 
   useEffect(() => {
     fetchCategories();
@@ -17,13 +17,12 @@ export default function CategoriesPage({ setSelectedCategory }) {
       if (response.data && Array.isArray(response.data.data)) {
         setCategories(response.data.data);
       } else {
-        console.error('Error:', response.data);
+        console.error("Error:", response.data);
       }
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      console.error("Error fetching categories:", error);
     }
   };
-
   const handleCategoryClick = (categoryId) => {
     setSelectedCategory(categoryId);
     setActiveCategory(categoryId);
@@ -31,10 +30,10 @@ export default function CategoriesPage({ setSelectedCategory }) {
   };
 
   return (
-    <Categories 
-      categories={categories} 
-      activeCategory={activeCategory} 
-      handleCategoryClick={handleCategoryClick} 
+    <Categories
+      categories={categories}
+      activeCategory={activeCategory}
+      handleCategoryClick={handleCategoryClick}
     />
   );
 }

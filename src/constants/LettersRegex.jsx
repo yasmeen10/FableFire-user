@@ -1,0 +1,1 @@
+export const letters = /^[a-zA-Z\s'-]+$/;

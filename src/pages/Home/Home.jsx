@@ -3,15 +3,8 @@ import { useEffect, useState } from "react";
 import lan1 from "../../assets/lan1.jpg";
 import lan2 from "../../assets/lan2.jpg";
 import lan3 from "../../assets/lan3.jpg";
-import book1 from "../../assets/book1.jpg";
-import book2 from "../../assets/book2.jpg";
-import book3 from "../../assets/book3.jpg";
-import book4 from "../../assets/book4.jpg";
 import book5 from "../../assets/book5.jpg";
 import Auther from "../../assets/Oliver.jpg";
-import female from "../../assets/Female.jpg";
-import greek from "../../assets/greek.jpg";
-import Shek from "../../assets/Shakes.jpg";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import Slider from "react-slick";
@@ -19,6 +12,15 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import axiosInstance from "../../../interceptor";
 import { useNavigate } from "react-router-dom";
+import Card from "../../components/Card";
+import Authors from "../../components/Authors";
+import KidsSVG from "../../components/SVG/KidsSVG";
+import RomanceSVG from "../../components/SVG/RomanceSVG";
+import HorrorSVG from "../../components/SVG/HorrorSVG";
+import HealthySVG from "../../components/SVG/HealthySVG";
+import ArtSVG from "../../components/SVG/ArtSVG";
+import SVG from "../../components/SVG/SVG";
+import SVGG from "../../components/SVG/SVGG";
 
 export default function Home() {
   const [categoryList, setCategoryList] = useState([]);
@@ -109,8 +111,6 @@ export default function Home() {
             </button>
           </div>
         </div>
-
-
         <div className="mt-10 ml-24">
       <div className=" max-w-4xl">
         <p className="text-[32px] font-medium mb-4">Categories</p>
@@ -336,41 +336,20 @@ export default function Home() {
                 </p>
               </div>
             </div>
+          </Carousel>
+        </div>
+        <div>
+          <p className="text-[32px] font-medium ml-24 mt-8">New Arrivals</p>
+
+          <div className=" lg:flex grid md:grid-cols-2 sm:grid-cols-1 md:ml-[150px] lg:ml-0 sm:ml-[35%] justify-center lg:gap-24">
+            <Card />
           </div>
         </div>
 
-        <div className="w-full h-[400px] bg-[#D6CCC2] mt-[90px] flex  ">
-          <div class=" w-6 flex items-center justify-center ml-10">
-            <p className="  lg:-rotate-90 ml-[350px]  font-thin text-[#210F04] -rotate-90 whitespace-nowrap text-[24px] tracking-widest">
+        <div className="  md:w-full lg:w-full h-[530px] lg:h-[440px]  bg-[#D6CCC2] mt-[90px]  lg:mt-[90px]  md:flex lg:flex">
+          <div className=" w-6 flex items-center justify-center  md:ml-10 lg:ml-10">
+            <p className=" rotate-0 md:rotate-0  lg:-rotate-90 sm:mb-[300px] md:mb-[430px] md:ml-[400px] lg:mb-4 ml-[150px] lg:ml-[300px] font-thin text-[#210F04] whitespace-nowrap text-[24px] tracking-widest">
               Best Seller
-            </p>
-          </div>
-
-          <div>
-            <div>
-              <img
-                className="rounded-2xl h-64 ml-[200px] mt-[75px] absolute"
-                src={Auther}
-              />
-            </div>
-
-            <div>
-              <img
-                className="rounded-2xl h-48 mt-[160px] ml-[330px]  relative "
-                src={book5}
-              />
-            </div>
-          </div>
-
-          <div className="mt-[130px] ml-14">
-            <p className="text-[#210F04] text-[28px] font-light ">
-              The Rise and Fall of the Dinosaurs
-            </p>
-            <p className="text-[#210F04] text-[20px] font-light italic mt-2">
-              A New History of a Lost World
-            </p>
-            <p className="text-[#210F04] text-[18px] font-thin italic mt-2">
-              by Steve Brusatte
             </p>
             <button
               type="submit"
@@ -379,8 +358,6 @@ export default function Home() {
               Veiw Details
             </button>
           </div>
-        </div>
-
         <p className="ml-24 mt-24 text-[32px] font-medium ">Authors</p>
 
         <div className=" ml-40 grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
@@ -411,6 +388,9 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        <p className="ml-[50px] mt-24 text-[32px] font-medium ">Authors</p>
+        <Authors />
       </div>
       <Footer />
     </>

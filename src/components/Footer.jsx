@@ -5,14 +5,16 @@ import fablefire from "../assets/FableFire-logo.png";
 export default function Footer() {
   return (
     <div>
-      <div className="w-full h-[250px] bg-[#D6CCC2] mt-32 ">
-        <div className="grid grid-cols-5 ml-[px]">
+      <div className="w-full lg:h-[250px] md:h-[420px] sm:h-[600px] bg-[#D6CCC2] mt-32 ">
+        <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 ml-[px]">
           <div>
             <img className="w-[174px] h-[53px] ml-24 " src={fablefire} />
-            <p className="font-semibold ml-24 mt-9 text-[#210F04]">Subscribe Now</p>
-            <div class="relative z-0 w-[200px] mb-5 group grid grid-cols-2">
+            <p className="font-semibold ml-24 mt-9 text-[#210F04]">
+              Subscribe Now
+            </p>
+            <div className="relative z-0 w-[200px] mb-5 group grid grid-cols-2">
               <svg
-                class="w-6 h-6 text-[#210F04] dark:text-white mt-4 ml-24"
+                className="w-6 h-6 text-[#210F04] dark:text-white mt-4 ml-24"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -22,8 +24,8 @@ export default function Footer() {
               >
                 <path
                   stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeWidth="2"
                   d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"
                 />
               </svg>
@@ -31,19 +33,19 @@ export default function Footer() {
                 type="text"
                 name="floating_last_name"
                 id="floating_last_name"
-                class="w-44 mt-2 mr-4 block py-2.5 px-0  text-sm text-gray-900 bg-transparent border-0 border-b-2 border-[#210F04] appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#BFAE9F] focus:outline-none focus:ring-0 focus:border-[##BFAE9F] peer"
+                className="w-44 mt-2 mr-4 block py-2.5 px-0  text-sm text-gray-900 bg-transparent border-0 border-b-2 border-[#210F04] appearance-none dark:text-white dark:border-gray-600 dark:focus:border-[#BFAE9F] focus:outline-none focus:ring-0 focus:border-[##BFAE9F] peer"
                 placeholder=" "
                 required
               />
               <label
-                for="floating_last_name"
-                class="ml-32 mt-1 peer-focus:font-medium absolute text-sm text-[#BFAE9F]  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#BFAE9F] peer-focus:dark:text-[#BFAE9F] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                htmlFor="floating_last_name"
+                className="ml-32 mt-1 peer-focus:font-medium absolute text-sm text-[#BFAE9F]  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-[#BFAE9F] peer-focus:dark:text-[#BFAE9F] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Last name
               </label>
               <button
                 type="submit"
-                class="ml-24 mt-3 text-white bg-[#A68877] hover:bg-[#B99885] focus:ring-4 focus:outline-none font-medium rounded-xl text-sm text-center w-[110px] h-[28px]"
+                className="ml-24 mt-3 text-white bg-[#A68877] hover:bg-[#B99885] focus:ring-4 focus:outline-none font-medium rounded-xl text-sm text-center w-[110px] h-[28px]"
               >
                 Subscribe
               </button>
@@ -51,7 +53,9 @@ export default function Footer() {
           </div>
 
           <div className="ml-28 mt-3">
-            <h1 className="text-[24px] font-medium">Information</h1>
+            <h1 className="text-[24px] font-medium text-[#210F04]">
+              Information
+            </h1>
             <ul className="mt-9 font-medium text-[#210F04]">
               <li>about us</li>
               <li>more search</li>
@@ -60,18 +64,22 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="ml-20 mt-3">
-            <h1 className="text-[24px] font-medium">Help Links</h1>
+          <div className="ml-28 lg:ml-20 lg:mt-3 md:ml-0 md:mt-3 sm:ml-24 sm:mt-3">
+            <h1 className="text-[24px] font-medium text-[#210F04]">
+              Help Links
+            </h1>
             <ul className="mt-9 font-medium text-[#210F04]">
-              <li> Services</li>
+              <li>services</li>
               <li>supports</li>
               <li>terms & condition</li>
               <li>privacy policy</li>
             </ul>
           </div>
 
-          <div className="ml-9 mt-3">
-            <h1 className="text-[24px] font-medium">Our Services</h1>
+          <div className="ml-28 lg:ml-9 lg:mt-3 md:ml-[100px] sm:ml-[110px]">
+            <h1 className="text-[24px] font-medium text-[#210F04]">
+              Our Services
+            </h1>
             <ul className="mt-9 font-medium text-[#210F04]">
               <li>book list</li>
               <li>order</li>
@@ -80,12 +88,14 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="mt-3">
-            <h1 className="text-[24px] font-medium text-[#210F04]">Contact Us</h1>
+          <div className="ml-28 lg:mt-3 lg:ml-0 md:ml-[110px] sm:ml-[90px] md:mt-[0] sm:mt-[40px]">
+            <h1 className="text-[24px] font-medium text-[#210F04]">
+              Contact Us
+            </h1>
             <ul className="flex mt-9">
               <li>
                 <svg
-                  class="w-6 h-6 text-[#210F04] dark:text-white "
+                  className="w-6 h-6 text-[#210F04] dark:text-white "
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -95,18 +105,20 @@ export default function Footer() {
                 >
                   <path
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeWidth="2"
                     d="m3.5 5.5 7.893 6.036a1 1 0 0 0 1.214 0L20.5 5.5M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"
                   />
                 </svg>
               </li>
-              <li className="ml-2 font-medium text-[#210F04]">youremailid.com</li>
+              <li className="ml-2 font-medium text-[#210F04]">
+                youremailid.com
+              </li>
             </ul>
             <ul className="flex mt-2">
               <li>
                 <svg
-                  class="w-6 h-6 text-[#210F04] dark:text-white "
+                  className="w-6 h-6 text-[#210F04] dark:text-white "
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -148,9 +160,6 @@ export default function Footer() {
           </div>
         </div>
       </div>
-
-     
-
     </div>
   );
 }

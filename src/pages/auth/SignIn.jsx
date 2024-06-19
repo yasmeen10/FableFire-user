@@ -1,56 +1,12 @@
-import axios from "axios";
-import { useFormik } from "formik";
-import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+
+import { Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-import * as Yup from "yup";
 import { useAuth } from "../../context/AuthContext";
 
+
 export default function SignIn() {
-  // const {isLoggedIn}=useAuth();
+  const { formik}=useAuth();
 
-  // const logIn=(e)=>{
-  //   e.preventDefault();
-  //   isLoggedIn(true)
-
-  // }
-
-  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  const validationSchema = Yup.object({
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required")
-      .matches(emailPattern, "Email must be like example@gmail.com"),
-    password: Yup.string()
-      .min(8, "Password must be at least 8 characters")
-      .required("Password is required"),
-  });
-  const navigate = useNavigate();
-
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-
-    validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      try {
-        const data = await axios.post(
-          "http://localhost:3005/api/v1/user/login",
-          values
-        );
-
-        if (data.status == 200) {
-          localStorage.setItem("token", data.data.token);
-          toast.success("Sign In Successfully");
-          navigate("/");
-        }
-      } catch (error) {
-        toast.error(error.response.data.message);
-      }
-    },
-  });
 
   return (
     <>
@@ -109,11 +65,11 @@ export default function SignIn() {
             </div>
           </form>
         </div>
-        <figure className="lg:block w-full lg:w-6/12 rounded-tr-2xl rounded-br-2xl">
+        <figure className="lg:block w-full lg:w-6/12 rounded-tl-2xl rounded-bl-2xl">
           <img
             src="/LoginProj.jpg"
             alt="Album"
-            className="hidden lg:block w-full h-screen lg:rounded-tr-2xl lg:rounded-br-2xl"
+            className="hidden lg:block w-full h-screen lg:rounded-tl-2xl lg:rounded-bl-2xl"
           />
         </figure>
       </div>
