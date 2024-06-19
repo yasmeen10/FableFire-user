@@ -1,5 +1,6 @@
-// Shop.jsx
+
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import axiosInstance from '../../../interceptor';
 import Card from '../../components/Card';
 import Background from '../../components/Backgroud';
@@ -9,18 +10,17 @@ import CategoriesPage from '../CategoriesPage/CategoriesPage';
 
 export default function Shop() {
   const [items, setItems] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const { categoryId } = useParams(); 
+  const [selectedCategory, setSelectedCategory] = useState(categoryId || 'all');
 
   useEffect(() => {
-    fetchItems();
-  }, []);
-
+    fetchItems(selectedCategory); 
+  }, [selectedCategory]);
   const fetchItems = async () => {
     try {
       const response = await axiosInstance.get('http://localhost:3005/api/v1/item');
       if (response.data && Array.isArray(response.data.data)) {
         setItems(response.data.data);
-        // console.log(response.data.data)
       } else {
         console.error("Fetched data is not an array:", response.data);
       }

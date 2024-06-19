@@ -1,7 +1,6 @@
-// Categories.jsx
 import React from 'react';
 
-export default function Categories({ categories = [], activeCategory, handleCategoryClick }) {
+const Categories = ({ categories = [], activeCategory, handleCategoryClick }) => {
   return (
     <header className="text-textcolor2 p-4 flex justify-center">
       <nav className="flex space-x-4 text-sm md:text-base">
@@ -23,4 +22,6 @@ export default function Categories({ categories = [], activeCategory, handleCate
       </nav>
     </header>
   );
-}
+};
+
+export default Categories;
