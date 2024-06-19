@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
+import { WishlistContext } from "../../context/WishlistContext";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import axiosInstance from "../../../interceptor";
 import SuggestionSwiper from "../../components/SuggestionSwiper";
 
 export default function ItemDetails() {
-  const { handleRemoveItem, handleAddTocart, shoppingItemData } =
-    useContext(CartContext);
+  const { handleRemoveItem, handleAddTocart, shoppingItemData } = useContext(CartContext);
+  const { wishlist, toggleWishlistItem } = useContext(WishlistContext); 
   const [isCartFilled, setIsCartFilled] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -19,13 +20,13 @@ export default function ItemDetails() {
 
   useEffect(() => {
     const index = shoppingItemData.findIndex(
-      (cartItem) => cartItem.item && cartItem.item._id === item._id
+      (cartItem) => cartItem.item && cartItem.item._id === item?._id
     );
 
     if (index !== -1) {
       setIsCartFilled(true);
     }
-  }, [shoppingItemData]);
+  }, [shoppingItemData, item]);
 
   const handletoggleCartIcon = async (item) => {
     if (isCartFilled) {
@@ -70,25 +71,25 @@ export default function ItemDetails() {
   }, [id]);
 
   useEffect(() => {
-    const heartState = localStorage.getItem(`heartClicked-${id}`);
-    if (heartState) {
-      setIsHeartClicked(JSON.parse(heartState));
+    if (wishlist.some(wishlistItem => wishlistItem._id === id)) {
+      setIsHeartClicked(true);
+    } else {
+      setIsHeartClicked(false);
     }
-  }, [id]);
+  }, [wishlist, id]);
 
   const handleHeartClick = () => {
+    toggleWishlistItem(item);
     setIsHeartClicked(!isHeartClicked);
-    localStorage.setItem(`heartClicked-${id}`, JSON.stringify(!isHeartClicked));
   };
 
   return (
     <>
       <Navbar />
-
       <div className="flex flex-col items-center min-h-screen p-6">
         <div className="w-full max-w-4xl bg-white">
-          <button
-            onClick={() => navigate("/shop")}
+          <button 
+            onClick={() => navigate('/shop')}
             className="textColor2 underline mb-4 font-semibold mb-8"
             style={{ fontFamily: "Roboto Flex, sans-serif" }}
           >

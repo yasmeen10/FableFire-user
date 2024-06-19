@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
-import axiosInstance from "../../../interceptor";
-import Card from "../../components/Card";
-import Background from "../../components/Backgroud";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
-import CategoriesPage from "../CategoriesPage/CategoriesPage";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import axiosInstance from '../../../interceptor';
+import Card from '../../components/Card';
+import Background from '../../components/Backgroud';
+import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
+import CategoriesPage from '../CategoriesPage/CategoriesPage';
 import CardSkeleton from "../../components/CardSkeleton";
 
 export default function Shop() {
   const [items, setItems] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const { categoryId } = useParams(); 
+  const [selectedCategory, setSelectedCategory] = useState(categoryId || 'all');
 
   useEffect(() => {
-    fetchItems();
-  }, []);
-
+    fetchItems(selectedCategory); 
+  }, [selectedCategory]);
   const fetchItems = async () => {
     try {
       const response = await axiosInstance.get(
