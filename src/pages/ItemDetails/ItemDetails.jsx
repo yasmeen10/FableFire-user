@@ -89,7 +89,7 @@ export default function ItemDetails() {
         <div className="w-full max-w-4xl bg-white">
           <button
             onClick={() => navigate("/shop")}
-            className="textColor2 underline mb-4 font-semibold mb-8"
+            className="textColor2 underline  font-semibold mb-8"
             style={{ fontFamily: "Roboto Flex, sans-serif" }}
           >
             To Category

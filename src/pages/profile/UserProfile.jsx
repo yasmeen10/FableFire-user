@@ -65,16 +65,20 @@ export default function UserProfile() {
           aria-label="Sidebar"
         >
           <div className="h-full px-3 py-4 overflow-y-auto bg-sidebar">
-            <a className="flex items-center ps-2.5 mb-5">
+            <Link to="/profile" className={`flex items-center ps-2.5 mb-5 pt-4 ${
+                  clickedItem === 0
+                    ? "bg-transparent"
+                    : "bg-transparent"
+                }`}   onClick={() => handleClick(0)}>
               <img
-                src="/icon.png"
-                className=" object-cover mx-2"
+                src={authUser?.images[0]}
+                className=" object-cover mx-2 h-12 w-12 rounded-full"
                 alt="FableFire Logo"
               />
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-                FableFire
+               {authUser?.firstName + " " + authUser?.lastName}
               </span>
-            </a>
+            </Link>
             <ul className="space-y-2 font-medium px-6 py-9">
               <li className="hover:bg-[#E3D5CA] hover:rounded-lg">
                 <Link to="/" className="flex items-center p-2 text-placeholder">
@@ -85,11 +89,11 @@ export default function UserProfile() {
 
               <li
                 className={`hover:bg-[#E3D5CA] hover:rounded-lg ${
-                  clickedItem === 0
+                  clickedItem === 1
                     ? "bg-[#E3D5CA] rounded-lg"
                     : "bg-transparent"
                 }`}
-                onClick={() => handleClick(0)}
+                onClick={() => handleClick(1)}
               >
                 <Link
                   to="wishList"
@@ -104,14 +108,14 @@ export default function UserProfile() {
 
               <li
                 className={`hover:bg-[#E3D5CA] hover:rounded-lg ${
-                  clickedItem === 1
+                  clickedItem === 2
                     ? "bg-[#E3D5CA] rounded-lg"
                     : "bg-transparent"
                 }`}
-                onClick={() => handleClick(1)}
+                onClick={() => handleClick(2)}
               >
                 <Link
-                  to="orderProfile"
+                  to="orderProfileHistory"
                   className="flex items-center p-2 text-placeholder"
                 >
                   <OrderSVG />
