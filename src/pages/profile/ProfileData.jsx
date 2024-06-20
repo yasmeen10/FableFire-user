@@ -6,22 +6,26 @@ import EditSVG from "../../components/SVG/EditSVG";
 import PasswordSVG from "../../components/SVG/PasswordSVG";
 import * as Yup from "yup";
 import { useAuth } from "../../context/AuthContext";
+import ProfileSkelton from "../../components/ProfileSkelton";
 
 export default function ProfileData() {
   const [profile, setProfile] = useState({});
   const [profileImageUrl, setProfileImageUrl] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { setAuthUser } = useAuth();
 
   useEffect(() => {
     async function fetchData() {
       try {
+        setIsLoading(true);
         const { data } = await axiosInstance.get(
           "http://localhost:3005/api/v1/user"
         );
 
         const profileData = await data.data;
+        setIsLoading(false);
         setProfile(profileData);
         setAuthUser(profileData);
         setProfileImageUrl(profileData.images[0]);
@@ -107,9 +111,14 @@ export default function ProfileData() {
     setShowModal(!showModal);
   };
 
+  if (isLoading) {
+    return (
+     <ProfileSkelton/>
+    );
+  }
   return (
     <>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center pt-3">
         <h2 className="font-semibold text-textcolor2 text-xl">My Profile</h2>
         <div className="flex">
           <button

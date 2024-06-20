@@ -47,7 +47,7 @@ export default function About() {
             <div className="font-bold text-xl mb-2 text-[#210F04]">
               Sohila elkaraly
             </div>
-            <p class=" text-base text-[#735F39]"> team leader</p>
+            <p className=" text-base text-[#735F39]"> team leader</p>
           </div>
         </div>
         </li>

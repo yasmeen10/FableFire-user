@@ -18,6 +18,7 @@ import Checkout from "./pages/Checkout/Checkout";
 import Payment from "./pages/Payment/Payment";
 import OrderConfirmation from "./pages/OrderConfirmation/OrderConfirmation";
 import OrderProfile from "./pages/profile/OrderProfile";
+import ProfileOrdersHistory from "./pages/profile/ProfileOrdersHistory";
 
 function App() {
   // const [darkMode, setDarkMode] = useState(false);
@@ -54,6 +55,7 @@ function App() {
               <Route index element={<ProfileData />} />
               <Route path="wishList" element={<WishList />} />
               <Route path="orderProfile" element={<OrderProfile />} />
+              <Route path="orderProfileHistory" element={<ProfileOrdersHistory />} />
               
             </Route>
           </Routes>
