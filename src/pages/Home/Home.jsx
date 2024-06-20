@@ -21,12 +21,23 @@ import SVG from "../../components/SVG/SVG";
 import SVGG from "../../components/SVG/SVGG";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../interceptor";
+import CardSkeleton from "../../components/CardSkeleton";
+import Trending from "../../components/Trending";
 
 export default function Home() {
   const [categoryList, setCategoryList] = useState([]);
+  const [newArrivals, setNewArrivals] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
+    async function fetchNewArrivals() {
+      const { data } = await axiosInstance.get(
+        "http://localhost:3005/api/v1/item/newArrival"
+      );
+      console.log(data.data);
+      setNewArrivals(data.data);
+    }
+    fetchNewArrivals();
     fetchCategories();
   }, []);
 
@@ -117,7 +128,7 @@ export default function Home() {
               {categoryList.map((category) => (
                 <div
                   key={category._id}
-                  className="h-32 w-32 p-4 m-10 bg-[#F6F6F7] cursor-pointer"
+                  className="h-32 w-32 p-4 m-10 bg-[#F6F6F7] cursor-pointer flex flex-col items-center justify-center"
                   onClick={() => handleCategoryClick(category._id)}
                 >
                   <img
@@ -125,7 +136,7 @@ export default function Home() {
                     alt={category.title}
                     className="h-10 w-10 object-cover"
                   />
-                  <p className="font-medium mt-4 text-[#210F04]">
+                  <p className="font-medium mt-4 text-[#210F04] capitalize">
                     {category.title}
                   </p>
                   <p className="font-medium text-[#735F39]">Shop Now</p>
@@ -134,17 +145,23 @@ export default function Home() {
             </Carousel>
           </div>
         </div>
-
-        {/* <p className="text-[32px] font-medium text-center mt-32">
-        Trending This Week
-      </p> */}
-
+        <Trending />
         <div>
           <p className="text-[32px] font-medium ml-24 mt-8">New Arrivals</p>
-
-          <div className=" lg:flex grid md:grid-cols-2 sm:grid-cols-1 md:ml-[150px] lg:ml-0 sm:ml-[35%] justify-center lg:gap-24">
-            <Card />
-          </div>
+          {newArrivals.length === 0 ? (
+            <div className=" lg:flex grid md:grid-cols-2 sm:grid-cols-1 md:ml-[150px] lg:ml-0 sm:ml-[35%] justify-center lg:gap-24 mt-5">
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+            </div>
+          ) : (
+            <div className=" lg:flex grid md:grid-cols-2 sm:grid-cols-1 md:ml-[150px] lg:ml-0 sm:ml-[35%] justify-center lg:gap-24 mt-5">
+              {newArrivals.map((item) => (
+                <Card key={item._id} item={item} />
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="  md:w-full lg:w-full h-[530px] lg:h-[440px]  bg-[#D6CCC2] mt-[90px]  lg:mt-[90px]  md:flex lg:flex">
