@@ -5,7 +5,6 @@ const Categories = ({
   activeCategory,
   handleCategoryClick,
 }) => {
-  // console.log(activeCategory);
   return (
     <header className="text-textcolor2 p-4 flex justify-center">
       <nav className="flex space-x-4 text-sm md:text-base">
