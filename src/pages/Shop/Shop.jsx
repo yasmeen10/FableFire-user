@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axiosInstance from "../../../interceptor";
 import Card from "../../components/Card";
 import Background from "../../components/Backgroud";
@@ -9,12 +10,12 @@ import CardSkeleton from "../../components/CardSkeleton";
 
 export default function Shop() {
   const [items, setItems] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const { categoryId } = useParams();
+  const [selectedCategory, setSelectedCategory] = useState(categoryId || "all");
 
   useEffect(() => {
-    fetchItems();
-  }, []);
-
+    fetchItems(selectedCategory);
+  }, [selectedCategory]);
   const fetchItems = async () => {
     try {
       const response = await axiosInstance.get(
@@ -45,11 +46,13 @@ export default function Shop() {
       <Navbar />
       <div>
         <CategoriesPage setSelectedCategory={handleCategoryChange} />
-        <Background />
+        {selectedCategory === "all" && <Background />}
         <div className="relative z-10 mt-8">
-          <h2 className="text-xl font-bold text-textColor2-900 mx-px mb-4 px-28">
-            New Arrivals
-          </h2>
+          {selectedCategory === "all" && (
+            <h2 className="text-xl font-bold text-textColor2-900 mx-px mb-4 px-28">
+              New Arrivals
+            </h2>
+          )}
 
           {Array.isArray(filteredItems) && filteredItems.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 px-28">

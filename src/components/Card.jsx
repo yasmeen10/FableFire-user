@@ -1,7 +1,7 @@
+import React, { useContext, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { WishlistContext } from "../context/WishlistContext";
-import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
 
 export default function Card(props) {
   const { item } = props;
@@ -12,9 +12,8 @@ export default function Card(props) {
   const [isCartFilled, setIsCartFilled] = useState(false);
 
   useEffect(() => {
-    const index = shoppingItemData.findIndex(
-      (cartItem) => cartItem.item && cartItem.item._id === item._id
-    );
+    const index = shoppingItemData.findIndex((cartItem) => cartItem.item && cartItem.item._id === item._id);
+
     if (index !== -1) {
       setIsCartFilled(true);
     }

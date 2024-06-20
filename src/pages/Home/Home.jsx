@@ -1,5 +1,5 @@
 import styles from "./Home.module.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import lan1 from "../../assets/lan1.jpg";
 import lan2 from "../../assets/lan2.jpg";
 import lan3 from "../../assets/lan3.jpg";
@@ -19,8 +19,47 @@ import HealthySVG from "../../components/SVG/HealthySVG";
 import ArtSVG from "../../components/SVG/ArtSVG";
 import SVG from "../../components/SVG/SVG";
 import SVGG from "../../components/SVG/SVGG";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../../interceptor";
+import CardSkeleton from "../../components/CardSkeleton";
+import Trending from "../../components/Trending";
 
 export default function Home() {
+  const [categoryList, setCategoryList] = useState([]);
+  const [newArrivals, setNewArrivals] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchNewArrivals() {
+      const { data } = await axiosInstance.get(
+        "http://localhost:3005/api/v1/item/newArrival"
+      );
+      console.log(data.data);
+      setNewArrivals(data.data);
+    }
+    fetchNewArrivals();
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axiosInstance.get(
+        "http://localhost:3005/api/v1/category"
+      );
+      if (response.data && Array.isArray(response.data.data)) {
+        setCategoryList(response.data.data);
+      } else {
+        console.error("Error:", response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  const handleCategoryClick = (categoryId) => {
+    navigate(`/shop/${categoryId}`);
+  };
+
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
@@ -42,7 +81,6 @@ export default function Home() {
   return (
     <>
       <Navbar />
-
       <div>
         <div className="h-[620px] lg:w-full md:w-full md:h-[505px] lg:h-[400px] bg-[#D6CCC2] ">
           <div className=" ml-8  lg:ml-[790px] md:p-5 lg:p-0 md:ml-[300px]">
@@ -83,66 +121,47 @@ export default function Home() {
             </button>
           </div>
         </div>
-
-        <div className="mt-10">
-          <p className="text-[32px] font-medium mb-4 ml-24">Categories</p>
-          <Carousel responsive={responsive}>
-            <div className="box-content h-24 w-28 p-4 ml-[90px] bg-[#F6F6F7] ">
-              <KidsSVG />
-
-              <p className="font-medium mt-4 text-[#210F04]">Kids</p>
-              <p className="font-medium text-[#735F39]">Shop Now</p>
-            </div>
-
-            <div className="box-content h-24 w-28 p-4 ml-[80px] bg-[#F6F6F7] ">
-              <RomanceSVG />
-              <p className="font-medium mt-4 text-[#210F04]">Romance</p>
-              <p className="font-medium text-[#735F39]">Shop Now</p>
-            </div>
-
-            <div className="box-content h-24 w-28 p-4 ml-[80px] bg-[#F6F6F7] ">
-              <HorrorSVG />
-
-              <p className="font-medium mt-4 text-[#210F04]">Horror</p>
-              <p className="font-medium text-[#735F39]">Shop Now</p>
-            </div>
-
-            <div className="box-content h-24 w-28 p-4 ml-[80px] bg-[#F6F6F7] ">
-              <HealthySVG />
-              <p className="font-medium mt-4 text-[#210F04]">Health</p>
-              <p className="font-medium text-[#735F39]">Shop Now</p>
-            </div>
-
-            <div className="box-content h-24 w-28 p-4 ml-[40px] bg-[#F6F6F7] ">
-              <SVG />
-              <p className="font-medium mt-4 text-[#210F04]">Food</p>
-              <p className="font-medium text-[#735F39]">Shop Now</p>
-            </div>
-
-            <div className="box-content h-24 w-28 p-4 ml-[40px] bg-[#F6F6F7] ">
-              <ArtSVG />
-              <p className="font-medium mt-4 text-[#210F04]">Art</p>
-              <p className="font-medium text-[#735F39]">Shop Now</p>
-            </div>
-
-            <div className="box-content h-24 w-28 p-4 ml-[40px] bg-[#F6F6F7] ">
-              <SVGG />
-              <p className="font-medium mt-4 text-[#210F04]">Sport</p>
-              <p className="font-medium text-[#735F39]">Shop Now</p>
-            </div>
-          </Carousel>
+        <div className="mt-10 ml-24">
+          <div className=" max-w-4xl">
+            <p className="text-[32px] font-medium mb-4">Categories</p>
+            <Carousel responsive={responsive}>
+              {categoryList.map((category) => (
+                <div
+                  key={category._id}
+                  className="h-32 w-32 p-4 m-10 bg-[#F6F6F7] cursor-pointer flex flex-col items-center justify-center"
+                  onClick={() => handleCategoryClick(category._id)}
+                >
+                  <img
+                    src={category.images[0]}
+                    alt={category.title}
+                    className="h-10 w-10 object-cover"
+                  />
+                  <p className="font-medium mt-4 text-[#210F04] capitalize">
+                    {category.title}
+                  </p>
+                  <p className="font-medium text-[#735F39]">Shop Now</p>
+                </div>
+              ))}
+            </Carousel>
+          </div>
         </div>
-
-        {/* <p className="text-[32px] font-medium text-center mt-32">
-        Trending This Week
-      </p> */}
-
+        <Trending />
         <div>
           <p className="text-[32px] font-medium ml-24 mt-8">New Arrivals</p>
-
-          <div className=" lg:flex grid md:grid-cols-2 sm:grid-cols-1 md:ml-[150px] lg:ml-0 sm:ml-[35%] justify-center lg:gap-24">
-            <Card />
-          </div>
+          {newArrivals.length === 0 ? (
+            <div className=" lg:flex grid md:grid-cols-2 sm:grid-cols-1 md:ml-[150px] lg:ml-0 sm:ml-[35%] justify-center lg:gap-24 mt-5">
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+            </div>
+          ) : (
+            <div className=" lg:flex grid md:grid-cols-2 sm:grid-cols-1 md:ml-[150px] lg:ml-0 sm:ml-[35%] justify-center lg:gap-24 mt-5">
+              {newArrivals.map((item) => (
+                <Card key={item._id} item={item} />
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="  md:w-full lg:w-full h-[530px] lg:h-[440px]  bg-[#D6CCC2] mt-[90px]  lg:mt-[90px]  md:flex lg:flex">

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../../interceptor";
 import Categories from "../../components/Categories";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function CategoriesPage({ setSelectedCategory }) {
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState("all");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCategories();
@@ -27,6 +29,7 @@ export default function CategoriesPage({ setSelectedCategory }) {
   const handleCategoryClick = (categoryId) => {
     setSelectedCategory(categoryId);
     setActiveCategory(categoryId);
+    navigate(`/shop/${categoryId}`);
   };
 
   return (

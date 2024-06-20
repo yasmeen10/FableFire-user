@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import axiosInstance from "../../../interceptor";
+import React, { useContext } from "react";
 import Card from "../../components/Card";
+
 import CardSkeleton from "../../components/CardSkeleton";
 
 export default function WishList() {
@@ -34,12 +34,19 @@ export default function WishList() {
     )
   }
 
+
+import { WishlistContext } from "../../context/WishlistContext"
+
+export default function WishList() {
+  const { wishlist } = useContext(WishlistContext);
+
+
   return (
     <>
       <h2 className="font-semibold text-textcolor2 text-xl pt-4">WishList</h2>
 
       <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 gap-4">
-        {wishList.map((item) => {
+        {wishlist.map((item) => {
           return <Card key={item._id} item={item} />;
         })}
       </div>
