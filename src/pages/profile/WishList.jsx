@@ -1,11 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Card from "../../components/Card";
-
+import { WishlistContext } from "../../context/WishlistContext"
 import CardSkeleton from "../../components/CardSkeleton";
+import axiosInstance from "../../../interceptor";
 
 export default function WishList() {
-  const [wishList, setWishList] = useState([]);
-  const [isLoading , setIsLoading] = useState(false)
+  
+  const [isLoading , setIsLoading] = useState(false);
+  const { wishlist } = useContext(WishlistContext);
 
   useEffect(() => {
     async function fetchData() {
@@ -16,7 +18,8 @@ export default function WishList() {
       const wishListData = data.data.wishList;
 
       setIsLoading(false)
-      setWishList(wishListData);
+      // setWishList(wishListData);
+      console.log(wishlist);
     }
     fetchData();
   }, []);
@@ -33,13 +36,6 @@ export default function WishList() {
       </>
     )
   }
-
-
-import { WishlistContext } from "../../context/WishlistContext"
-
-export default function WishList() {
-  const { wishlist } = useContext(WishlistContext);
-
 
   return (
     <>
