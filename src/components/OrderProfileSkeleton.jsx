@@ -25,7 +25,7 @@ export default function OrderProfileSkeleton() {
         </div>
         <div className="px-4">
             <div className="h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 w-44 mb-2"></div>
-            <div className="w-60 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+            <div className="w-48 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
           </div>
         </div>
        

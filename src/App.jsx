@@ -19,6 +19,8 @@ import Payment from "./pages/Payment/Payment";
 import OrderConfirmation from "./pages/OrderConfirmation/OrderConfirmation";
 import OrderProfile from "./pages/profile/OrderProfile";
 import ProfileOrdersHistory from "./pages/profile/ProfileOrdersHistory";
+import ProtectedRoute from "./utils/ProtectedRoute";
+import RedirectToHome from "./utils/RedirectToHome";
 
 function App() {
   // const [darkMode, setDarkMode] = useState(false);
@@ -45,19 +47,28 @@ function App() {
             <Route path="/shop" element={<Shop />} />
             <Route path="/shop/:categoryId" element={<Shop/>} />
             <Route path="/item/:id" element={<ItemDetails />} />
+
+            <Route element = {<ProtectedRoute/>}>
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/orderconfirmation" element={<OrderConfirmation />} />
-            <Route path="/signUp" element={<SignUp />} />
-            <Route path="/signIn" element={<SignIn />} />
+
             <Route path="/profile" element={<UserProfile />}>
               <Route index element={<ProfileData />} />
               <Route path="wishList" element={<WishList />} />
               <Route path="orderProfile" element={<OrderProfile />} />
               <Route path="orderProfileHistory" element={<ProfileOrdersHistory />} />
-              
             </Route>
+
+            </Route>
+
+            <Route element = {<RedirectToHome/>}>
+
+            <Route path="/signUp" element={<SignUp />} />
+            <Route path="/signIn" element={<SignIn />} />
+            </Route>
+            
           </Routes>
           
         {/* </BrowserRouter> */}

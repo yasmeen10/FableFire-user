@@ -99,7 +99,7 @@ export default function OrderProfile() {
                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
                     <img
-                      className="h-44 w-44 inline px-3"
+                      className="h-44 w-44 inline px-3 object-cover "
                       src={item.item.images}
                       alt=""
                     />
