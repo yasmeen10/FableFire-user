@@ -72,7 +72,7 @@ export function AuthProvider(props) {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [isLoggedIn , authUser]);
 
   const value = {
     authUser,

@@ -21,6 +21,7 @@ import OrderProfile from "./pages/profile/OrderProfile";
 import ProfileOrdersHistory from "./pages/profile/ProfileOrdersHistory";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import RedirectToHome from "./utils/RedirectToHome";
+import NotFound from "./pages/NotFound";
 
 function App() {
   // const [darkMode, setDarkMode] = useState(false);
@@ -68,6 +69,7 @@ function App() {
             <Route path="/signUp" element={<SignUp />} />
             <Route path="/signIn" element={<SignIn />} />
             </Route>
+            <Route path="*" element= {<NotFound/>} />
             
           </Routes>
           
