@@ -62,13 +62,17 @@ export function AuthProvider(props) {
       setIsLoggedIn(true);
       setAuthUser(userData);
     } catch (error) {
+      if(error.response.status == 401){
+        console.log(error.response.data.message);
+        return;
+      }
       toast.error(error.response.data.message);
     }
   };
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [isLoggedIn , authUser]);
 
   const value = {
     authUser,

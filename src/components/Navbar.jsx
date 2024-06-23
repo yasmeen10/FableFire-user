@@ -107,6 +107,7 @@ export default function Navbar() {
                       SHOP
                     </Link>
                   </li>
+
                   <li>
                     <Link
                       to="/about"
@@ -158,6 +159,7 @@ export default function Navbar() {
                   className={`font-normal block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 ${
                     location.pathname.includes("/shop") ||
                     activeLink === "/shop"
+
                       ? "text-[#BFAE9F]"
                       : "text-dark-textcolor2"
                   } md:dark:text-[#BFAE9F]`}
