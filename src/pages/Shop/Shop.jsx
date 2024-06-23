@@ -12,10 +12,18 @@ import { toast } from "react-toastify";
 
 export default function Shop() {
   const { categoryId } = useParams();
-  const [items, setItems] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(categoryId || 'all');
+ const [items, setItems] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(categoryId || "all");
   const [currentPage, setCurrentPage] = useState(1);
   const [pages, setPages] = useState(1);
+  useEffect(() => {
+    setSelectedCategory(categoryId || "all");
+  }, [categoryId]);
+
+  useEffect(() => {
+    fetchItems();
+  }, [selectedCategory]); 
   
   const formik = useFormik({
     initialValues: {
@@ -71,14 +79,8 @@ export default function Shop() {
     setSelectedCategory(categoryId);
     setCurrentPage(1); // Reset currentPage when category changes
   };
-
-  // Filter items based on selectedCategory
-  const filteredItems =
-    selectedCategory === "all"
-      ? items
-      : items.filter(
-          (item) => item.category && item.category._id === selectedCategory
-        );
+  
+  const filteredItems = selectedCategory === 'all' ? items : items.filter(item => item.category && item.category._id === selectedCategory);
 
   return (
     <>
@@ -133,22 +135,19 @@ export default function Shop() {
               New Arrivals
             </h2>
           )}
-
-          {Array.isArray(filteredItems) && filteredItems.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 px-28">
-              {filteredItems.map((item) => (
-                <Card key={item._id} item={item} />
-              ))}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 px-28">
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-            </div>
-          )}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 px-28">
+            {Array.isArray(filteredItems) && filteredItems.length > 0 ? (
+              filteredItems.map((item) => <Card key={item._id} item={item} />)
+            ) : (
+              <>
+                <CardSkeleton />
+                <CardSkeleton />
+                <CardSkeleton />
+                <CardSkeleton />
+                <CardSkeleton />
+              </>
+            )}
+          </div>
         </div>
       </div>
 
