@@ -1,15 +1,12 @@
 import { createContext, useEffect, useState } from "react";
 import axiosInstance from "../../interceptor";
-import { useAuth } from "./AuthContext";
-import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const WishlistContext = createContext();
 
 export const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
   const [rendeList, setRendeerList] = useState(false);
-  const { isLoggedIn } = useAuth();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -23,15 +20,11 @@ export const WishlistProvider = ({ children }) => {
             : []
         );
       } catch (error) {
-        console.error(
-          "Error fetching wishlist items:",
-          error.response ? error.response.data : error.message
-        );
+        toast.error("Something Went Wrong Please try again");
       }
     };
-    if (isLoggedIn) {
-      fetchWishlist();
-    }
+
+    fetchWishlist();
   }, [rendeList]);
 
   const toggleWishlistItem = async (item) => {
@@ -41,7 +34,7 @@ export const WishlistProvider = ({ children }) => {
       });
       setRendeerList((prev) => !prev);
     } catch (error) {
-      navigate("/signIn");
+      toast.error("Something Went Wrong Please try again");
     }
   };
 

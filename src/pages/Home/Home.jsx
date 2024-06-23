@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../interceptor";
 import CardSkeleton from "../../components/CardSkeleton";
 import Trending from "../../components/Trending";
+import { toast } from "react-toastify";
 
 export default function Home() {
   const [categoryList, setCategoryList] = useState([]);
@@ -34,7 +35,6 @@ export default function Home() {
       const { data } = await axiosInstance.get(
         "http://localhost:3005/api/v1/item/newArrival"
       );
-      console.log(data.data);
       setNewArrivals(data.data);
     }
     fetchNewArrivals();
@@ -49,10 +49,10 @@ export default function Home() {
       if (response.data && Array.isArray(response.data.data)) {
         setCategoryList(response.data.data);
       } else {
-        console.error("Error:", response.data);
+        toast.error("Something Went Wrong Please try again");
       }
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      toast.error("Something Went Wrong Please try again");
     }
   };
 

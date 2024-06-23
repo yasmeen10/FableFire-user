@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        abel: ['Abel', 'sans-serif'],
+        abel: ["Abel", "sans-serif"],
       },
       colors: {
         button: "#A68877", // BUTTON
@@ -15,9 +15,7 @@ export default {
         sidebar: "#FAF2F2", // sidebar
         landing: "#D6CCC2", // landing and footer
         gray1: "#B9B8B8", // gray one
-
-        black50:"rgba(0,0,0,0.5)",
-
+        black50: "rgba(0,0,0,0.5)",
         red1: "#D7513D", // 40 in background
         gray2: "D9D9D9",
         // Defining light theme colors

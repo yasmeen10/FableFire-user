@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import axiosInstance from "../../interceptor";
 import { useAuth } from "./AuthContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const CartContext = createContext();
 
@@ -41,7 +42,7 @@ export const CartProvider = ({ children }) => {
         );
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Something Went Wrong Please try again");
     }
   };
 
@@ -64,7 +65,7 @@ export const CartProvider = ({ children }) => {
         );
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Something Went Wrong Please try again");
     }
   };
 
@@ -76,10 +77,7 @@ export const CartProvider = ({ children }) => {
         `http://localhost:3005/api/v1/shoppingItem/${item}`
       );
     } catch (error) {
-      console.error(
-        "Error removing item:",
-        error.response ? error.response.data : error.message
-      );
+      toast.error("Something Went Wrong Please try again");
     }
   };
 

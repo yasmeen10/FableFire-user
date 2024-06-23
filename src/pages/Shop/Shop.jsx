@@ -7,6 +7,7 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import CategoriesPage from "../CategoriesPage/CategoriesPage";
 import CardSkeleton from "../../components/CardSkeleton";
+import { toast } from "react-toastify";
 
 export default function Shop() {
   const [items, setItems] = useState([]);
@@ -24,10 +25,10 @@ export default function Shop() {
       if (response.data && Array.isArray(response.data.data.results)) {
         setItems(response.data.data.results);
       } else {
-        console.error("Fetched data is not an array:", response.data);
+        toast.error("Something Went Wrong Please try again");
       }
     } catch (error) {
-      console.error("Error fetching items:", error);
+      toast.error("Something Went Wrong Please try again");
     }
   };
 

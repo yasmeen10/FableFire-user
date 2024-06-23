@@ -4,6 +4,7 @@ import { Field, Form, Formik, useFormik } from "formik";
 import { OrderContext } from "../context/OrderContext";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../interceptor";
+import { toast } from "react-toastify";
 
 export default function PaymentDetails(props) {
   const { formikRef } = props;
@@ -45,7 +46,7 @@ export default function PaymentDetails(props) {
           }
         }
       } catch (error) {
-        console.log(error);
+        toast.error("Something Went Wrong Please try again");
       }
     },
   });
