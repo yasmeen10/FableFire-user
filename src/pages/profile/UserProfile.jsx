@@ -73,7 +73,7 @@ export default function UserProfile() {
               <img
                 src={authUser?.images[0]}
                 className=" object-cover mx-2 h-12 w-12 rounded-full"
-                alt="FableFire Logo"
+                alt="userImage"
               />
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
                {authUser?.firstName + " " + authUser?.lastName}
