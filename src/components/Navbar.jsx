@@ -20,14 +20,17 @@ export default function Navbar() {
 
   const handleSetActiveLink = (link) => {
     setActiveLink(link);
-    setMenuOpen(false); 
+    setMenuOpen(false);
   };
 
   return (
     <div>
       <nav className="bg-white dark:bg-gray-900 h-[80px] w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
         <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4 relative">
-          <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <a
+            href="#"
+            className="flex items-center space-x-3 rtl:space-x-reverse"
+          >
             <img src={fablefire} className="h-12" alt="Logo" />
           </a>
           <div className="flex space-x-3 items-center md:order-2">
@@ -85,9 +88,11 @@ export default function Navbar() {
                   <li>
                     <Link
                       to="/"
-                      className={`block px-4 py-2 text-gray-800 hover:bg-gray-100 ${activeLink === '/' ? 'text-[#BFAE9F]' : ''}`}
+                      className={`block px-4 py-2 text-gray-800 hover:bg-gray-100 ${
+                        activeLink === "/" ? "text-[#BFAE9F]" : ""
+                      }`}
                       aria-current="page"
-                      onClick={() => handleSetActiveLink('/')}
+                      onClick={() => handleSetActiveLink("/")}
                     >
                       HOME
                     </Link>
@@ -95,17 +100,22 @@ export default function Navbar() {
                   <li>
                     <Link
                       to="/shop"
-                      className={`block px-4 py-2 text-gray-800 hover:bg-gray-100 ${activeLink === '/shop' ? 'text-[#BFAE9F]' : ''}`}
-                      onClick={() => handleSetActiveLink('/shop')}
+                      className={`block px-4 py-2 text-gray-800 hover:bg-gray-100 ${
+                        activeLink === "/shop" ? "text-[#BFAE9F]" : ""
+                      }`}
+                      onClick={() => handleSetActiveLink("/shop")}
                     >
                       SHOP
                     </Link>
                   </li>
+
                   <li>
                     <Link
                       to="/about"
-                      className={`block px-4 py-2 text-gray-800 hover:bg-gray-100 ${activeLink === '/about' ? 'text-[#BFAE9F]' : ''}`}
-                      onClick={() => handleSetActiveLink('/about')}
+                      className={`block px-4 py-2 text-gray-800 hover:bg-gray-100 ${
+                        activeLink === "/about" ? "text-[#BFAE9F]" : ""
+                      }`}
+                      onClick={() => handleSetActiveLink("/about")}
                     >
                       ABOUT
                     </Link>
@@ -113,8 +123,10 @@ export default function Navbar() {
                   <li>
                     <Link
                       to="/contact"
-                      className={`block px-4 py-2 text-gray-800 hover:bg-gray-100 ${activeLink === '/contact' ? 'text-[#BFAE9F]' : ''}`}
-                      onClick={() => handleSetActiveLink('/contact')}
+                      className={`block px-4 py-2 text-gray-800 hover:bg-gray-100 ${
+                        activeLink === "/contact" ? "text-[#BFAE9F]" : ""
+                      }`}
+                      onClick={() => handleSetActiveLink("/contact")}
                     >
                       CONTACT US
                     </Link>
@@ -131,9 +143,13 @@ export default function Navbar() {
               <li>
                 <Link
                   to="/"
-                  className={`font-normal block py-2 px-3 md:bg-transparent md:p-0 ${location.pathname === '/' || activeLink === '/' ? 'text-[#BFAE9F]' : 'text-dark-textcolor2'} md:dark:text-[#BFAE9F]`}
+                  className={`font-normal block py-2 px-3 md:bg-transparent md:p-0 ${
+                    location.pathname === "/" || activeLink === "/"
+                      ? "text-[#BFAE9F]"
+                      : "text-dark-textcolor2"
+                  } md:dark:text-[#BFAE9F]`}
                   aria-current="page"
-                  onClick={() => handleSetActiveLink('/')}
+                  onClick={() => handleSetActiveLink("/")}
                 >
                   HOME
                 </Link>
@@ -141,8 +157,12 @@ export default function Navbar() {
               <li>
                 <Link
                   to="/shop"
-                  className={`font-normal block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 ${location.pathname === '/shop' || activeLink === '/shop' ? 'text-[#BFAE9F]' : 'text-dark-textcolor2'} md:dark:text-[#BFAE9F]`}
-                  onClick={() => handleSetActiveLink('/shop')}
+                  className={`font-normal block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 ${
+                    location.pathname === "/shop" || activeLink === "/shop"
+                      ? "text-[#BFAE9F]"
+                      : "text-dark-textcolor2"
+                  } md:dark:text-[#BFAE9F]`}
+                  onClick={() => handleSetActiveLink("/shop")}
                 >
                   SHOP
                 </Link>
@@ -150,8 +170,12 @@ export default function Navbar() {
               <li>
                 <Link
                   to="/about"
-                  className={`font-normal block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 ${location.pathname === '/about' || activeLink === '/about' ? 'text-[#BFAE9F]' : 'text-dark-textcolor2'} md:dark:text-[#BFAE9F]`}
-                  onClick={() => handleSetActiveLink('/about')}
+                  className={`font-normal block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 ${
+                    location.pathname === "/about" || activeLink === "/about"
+                      ? "text-[#BFAE9F]"
+                      : "text-dark-textcolor2"
+                  } md:dark:text-[#BFAE9F]`}
+                  onClick={() => handleSetActiveLink("/about")}
                 >
                   ABOUT
                 </Link>
@@ -159,8 +183,13 @@ export default function Navbar() {
               <li>
                 <Link
                   to="/contact"
-                  className={`font-normal block py-2 px-3 hover:bg-gray-100 md:hover:bg-transparent md:p-0 ${location.pathname === '/contact' || activeLink === '/contact' ? 'text-[#BFAE9F]' : 'text-dark-textcolor2'} md:dark:text-[#BFAE9F]`}
-                  onClick={() => handleSetActiveLink('/contact')}
+                  className={`font-normal block py-2 px-3 hover:bg-gray-100 md:hover:bg-transparent md:p-0 ${
+                    location.pathname === "/contact" ||
+                    activeLink === "/contact"
+                      ? "text-[#BFAE9F]"
+                      : "text-dark-textcolor2"
+                  } md:dark:text-[#BFAE9F]`}
+                  onClick={() => handleSetActiveLink("/contact")}
                 >
                   CONTACT US
                 </Link>
