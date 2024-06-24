@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import fablefire from "../assets/FableFire-logo.png";
-import styles from "./Navbar.module.css";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -158,13 +157,28 @@ export default function Navbar() {
                 <Link
                   to="/shop"
                   className={`font-normal block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 ${
-                    location.pathname === "/shop" || activeLink === "/shop"
+                    location.pathname.includes("/shop") ||
+                    activeLink === "/shop"
+
                       ? "text-[#BFAE9F]"
                       : "text-dark-textcolor2"
                   } md:dark:text-[#BFAE9F]`}
                   onClick={() => handleSetActiveLink("/shop")}
                 >
                   SHOP
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/blog"
+                  className={`font-normal block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 ${
+                    location.pathname === "/blog" || activeLink === "/blog"
+                      ? "text-[#BFAE9F]"
+                      : "text-dark-textcolor2"
+                  } md:dark:text-[#BFAE9F]`}
+                  onClick={() => handleSetActiveLink("/blog")}
+                >
+                  BLOG
                 </Link>
               </li>
               <li>

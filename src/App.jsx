@@ -12,12 +12,15 @@ import UserProfile from "./pages/profile/UserProfile";
 import Home from "./pages/Home/Home";
 import ProfileData from "./pages/profile/ProfileData";
 import WishList from "./pages/profile/WishList";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Cart from "./pages/Cart/Cart";
 import Checkout from "./pages/Checkout/Checkout";
 import Payment from "./pages/Payment/Payment";
 import OrderConfirmation from "./pages/OrderConfirmation/OrderConfirmation";
 import OrderProfile from "./pages/profile/OrderProfile";
+import Blog from "./pages/Blog/Blog";
+import UsedItemDetails from "./pages/UsedItemDetails/UsedItemDetails";
+import UsedItemForm from "./pages/UsedItemForm/UsedItemForm";
 import ProfileOrdersHistory from "./pages/profile/ProfileOrdersHistory";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import RedirectToHome from "./utils/RedirectToHome";
@@ -40,13 +43,14 @@ function App() {
 
       <div>
         {/* <BrowserRouter> */}
-          
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/about" element={<About />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/shop/:categoryId" element={<Shop/>} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/usedItemDetails/:id" element={<UsedItemDetails />} />
             <Route path="/item/:id" element={<ItemDetails />} />
 
             <Route element = {<ProtectedRoute/>}>
@@ -54,6 +58,8 @@ function App() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/orderconfirmation" element={<OrderConfirmation />} />
+            <Route path="/usedItem/create" element={<UsedItemForm />} />
+            <Route path="/usedItem/:id" element={<UsedItemForm />} />
 
             <Route path="/profile" element={<UserProfile />}>
               <Route index element={<ProfileData />} />
@@ -72,7 +78,6 @@ function App() {
             <Route path="*" element= {<NotFound/>} />
             
           </Routes>
-          
         {/* </BrowserRouter> */}
       </div>
     </>

@@ -6,10 +6,12 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import axiosInstance from "../../../interceptor";
 import SuggestionSwiper from "../../components/SuggestionSwiper";
+import { toast } from "react-toastify";
 
 export default function ItemDetails() {
-  const { handleRemoveItem, handleAddTocart, shoppingItemData } = useContext(CartContext);
-  const { wishlist, toggleWishlistItem } = useContext(WishlistContext); 
+  const { handleRemoveItem, handleAddTocart, shoppingItemData } =
+    useContext(CartContext);
+  const { wishlist, toggleWishlistItem } = useContext(WishlistContext);
   const [isCartFilled, setIsCartFilled] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -58,11 +60,11 @@ export default function ItemDetails() {
           setItem(response.data.item);
           setSuggestionItems(response.data.suggestionItems);
         } else {
-          console.error("Fetched data is not as expected:", response.data);
+          toast.error("Something Went Wrong Please try again");
           setError("Unexpected response format");
         }
       } catch (error) {
-        console.error("Error fetching item:", error);
+        toast.error("Something Went Wrong Please try again");
         setError("Error fetching item. Please try again later.");
       }
     };
@@ -71,7 +73,7 @@ export default function ItemDetails() {
   }, [id]);
 
   useEffect(() => {
-    if (wishlist.some(wishlistItem => wishlistItem._id === id)) {
+    if (wishlist.some((wishlistItem) => wishlistItem._id === id)) {
       setIsHeartClicked(true);
     } else {
       setIsHeartClicked(false);
@@ -88,11 +90,9 @@ export default function ItemDetails() {
       <Navbar />
       <div className="flex flex-col items-center min-h-screen p-6">
         <div className="w-full max-w-4xl bg-white">
-
           <button
             onClick={() => navigate("/shop")}
-            className="textColor2 underline  font-semibold mb-8"
-
+            className="textColor2 underline mb-4 font-semibold mb-8"
             style={{ fontFamily: "Roboto Flex, sans-serif" }}
           >
             To Category
