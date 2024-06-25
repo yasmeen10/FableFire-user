@@ -17,6 +17,7 @@ export default function Shop() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pages, setPages] = useState(1);
 
+
   useEffect(() => {
     setSelectedCategory(categoryId || "all");
   }, [categoryId]);
@@ -42,8 +43,10 @@ export default function Shop() {
         setPages(1);
         setCurrentPage(1);
         values.search = "";
+        values.search = "";
       } catch (error) {
         console.log("Error fetching search results:", error.response.data.message);
+        toast.error(error.response.data.message);
         toast.error(error.response.data.message);
       }
     },
@@ -57,12 +60,15 @@ export default function Shop() {
         `http://localhost:3005/api/v1/item?category=${category}&page=${page}&limit=${limit}`
       );
       setItems(response.data.data.results);
+      setItems(response.data.data.results);
       setPages(response.data.data.numOfPages);
     } catch (error) {
       console.error("Error fetching items:", error);
       toast.error("Error fetching items");
+      toast.error("Error fetching items");
     }
   };
+
 
   const handleCategoryChange = useCallback((categoryId) => {
     setSelectedCategory(categoryId);
@@ -75,6 +81,7 @@ export default function Shop() {
       <Navbar />
 
       {/* Search */}
+      {/* Search */}
       <form onSubmit={formik.handleSubmit} className="max-w-lg mx-auto mt-4">
         <div className="flex">
           <div className="relative w-full">
@@ -85,6 +92,7 @@ export default function Shop() {
               value={formik.values.search}
               onChange={formik.handleChange}
               className="block p-2.5 w-full z-20 text-sm text-gray-900 border-b"
+              placeholder="What are you looking for ... ?"
               placeholder="What are you looking for ... ?"
               required
             />
@@ -114,6 +122,7 @@ export default function Shop() {
       </form>
 
       {/* Category filter */}
+      {/* Category filter */}
       <div>
         <CategoriesPage setSelectedCategory={handleCategoryChange} />
         {selectedCategory === "all" && <Background />}
@@ -139,6 +148,8 @@ export default function Shop() {
         </div>
       </div>
 
+      {/* Pagination */}
+      {pages > 1 && (
       {/* Pagination */}
       {pages > 1 && (
         <div className="flex flex-col items-center">
