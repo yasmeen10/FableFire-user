@@ -14,9 +14,9 @@ export default function Shop() {
   const { categoryId } = useParams();
   const [selectedCategory, setSelectedCategory] = useState(categoryId || 'all');
  const [items, setItems] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(categoryId || "all");
   const [currentPage, setCurrentPage] = useState(1);
   const [pages, setPages] = useState(1);
+  
   useEffect(() => {
     setSelectedCategory(categoryId || "all");
   }, [categoryId]);
@@ -65,6 +65,7 @@ export default function Shop() {
 
   // Effect to fetch items when currentPage or selectedCategory changes
   useEffect(() => {
+    
     fetchItems(selectedCategory, currentPage)
       .then((data) => {
         setItems(data);
@@ -72,7 +73,7 @@ export default function Shop() {
       .catch((error) => {
         console.error("Error fetching items:", error);
       });
-  }, [currentPage, selectedCategory]);
+  }, [currentPage, selectedCategory ,categoryId]);
 
   // Handle category change
   const handleCategoryChange = (categoryId) => {
