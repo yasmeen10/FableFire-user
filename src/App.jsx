@@ -22,6 +22,8 @@ import ProfileOrdersHistory from "./pages/profile/ProfileOrdersHistory";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import RedirectToHome from "./utils/RedirectToHome";
 import NotFound from "./pages/NotFound";
+import TicketProfile from "./pages/profile/TicketProfile";
+import PostsProfile from "./pages/profile/PostsProfile";
 
 function App() {
   // const [darkMode, setDarkMode] = useState(false);
@@ -60,6 +62,8 @@ function App() {
               <Route path="wishList" element={<WishList />} />
               <Route path="orderProfile" element={<OrderProfile />} />
               <Route path="orderProfileHistory" element={<ProfileOrdersHistory />} />
+              <Route path="ticket" element={<TicketProfile/>}/>
+              <Route path="posts" element={<PostsProfile/>}/>
             </Route>
 
             </Route>

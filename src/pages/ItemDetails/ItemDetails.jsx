@@ -6,10 +6,13 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import axiosInstance from "../../../interceptor";
 import SuggestionSwiper from "../../components/SuggestionSwiper";
+import Review from "./Review";
+import Rating from "./Rating";
 
 export default function ItemDetails() {
-  const { handleRemoveItem, handleAddTocart, shoppingItemData } = useContext(CartContext);
-  const { wishlist, toggleWishlistItem } = useContext(WishlistContext); 
+  const { handleRemoveItem, handleAddTocart, shoppingItemData } =
+    useContext(CartContext);
+  const { wishlist, toggleWishlistItem } = useContext(WishlistContext);
   const [isCartFilled, setIsCartFilled] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -71,7 +74,7 @@ export default function ItemDetails() {
   }, [id]);
 
   useEffect(() => {
-    if (wishlist.some(wishlistItem => wishlistItem._id === id)) {
+    if (wishlist.some((wishlistItem) => wishlistItem._id === id)) {
       setIsHeartClicked(true);
     } else {
       setIsHeartClicked(false);
@@ -88,11 +91,9 @@ export default function ItemDetails() {
       <Navbar />
       <div className="flex flex-col items-center min-h-screen p-6">
         <div className="w-full max-w-4xl bg-white">
-
           <button
             onClick={() => navigate("/shop")}
             className="textColor2 underline  font-semibold mb-8"
-
             style={{ fontFamily: "Roboto Flex, sans-serif" }}
           >
             To Category
@@ -189,9 +190,19 @@ export default function ItemDetails() {
             </div>
           )}
           <SuggestionSwiper suggestionItems={suggestionItems} />
+          <div className="mt-4">
+
+           <p className="font-medium m-2"> Customer Review & Rating</p>
+          <div className="flex flex-col md:flex-row gap-4 ">
+            <Rating />
+            <hr className="md:rotate-90 md:mt-20 md:w-28 w-full h-px" />
+            <Review />
+          </div>
+          </div>
         </div>
       </div>
-      <Footer />
+
+      {/* <Footer /> */}
     </>
   );
 }

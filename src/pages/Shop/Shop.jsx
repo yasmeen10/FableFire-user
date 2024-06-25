@@ -43,6 +43,7 @@ export default function Shop() {
 
   // Function to fetch items based on selected category and page
   const fetchItems = async (category, page) => {
+    
     try {
       const response = await axiosInstance.get(
         `http://localhost:3005/api/v1/item?category=${category}&page=${page}&limit=${limit}`
@@ -94,7 +95,7 @@ export default function Shop() {
               name="search"
               value={formik.values.search}
               onChange={formik.handleChange}
-              className="block p-2.5 w-full z-20 text-sm text-gray-900 border-b"
+              className="block p-2.5 w-full z-20 text-sm outline-none  text-gray-900 border-b "
               placeholder="What are you Looking For ... ?"
               required
             />
