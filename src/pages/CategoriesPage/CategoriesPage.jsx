@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../../interceptor";
 import Categories from "../../components/Categories";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function CategoriesPage({ setSelectedCategory }) {
@@ -20,7 +20,7 @@ export default function CategoriesPage({ setSelectedCategory }) {
     const categoryToSet = categoryIdFromUrl === "shop" ? "all" : categoryIdFromUrl || "all";
     setActiveCategory(categoryToSet);
     setSelectedCategory(categoryToSet);
-  }, [categoryIdFromUrl, setSelectedCategory]);  
+  }, [categoryIdFromUrl, setSelectedCategory]);
 
   const fetchCategories = async () => {
     try {
@@ -28,10 +28,10 @@ export default function CategoriesPage({ setSelectedCategory }) {
       if (response.data && Array.isArray(response.data.data)) {
         setCategories(response.data.data);
       } else {
-        toast.error("Something Went Wrong Please try again");
+        toast.error("Something went wrong, please try again");
       }
     } catch (error) {
-      toast.error("Something Went Wrong Please try again");
+      toast.error("Something went wrong, please try again");
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../../interceptor";
 import Card from "../../components/Card";
@@ -12,82 +12,69 @@ import { toast } from "react-toastify";
 
 export default function Shop() {
   const { categoryId } = useParams();
-  const [selectedCategory, setSelectedCategory] = useState(categoryId || 'all');
- const [items, setItems] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(categoryId || "all");
+  const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pages, setPages] = useState(1);
-  
+
   useEffect(() => {
     setSelectedCategory(categoryId || "all");
   }, [categoryId]);
 
   useEffect(() => {
-    fetchItems();
-  }, [selectedCategory]); 
-  
+    fetchItems(selectedCategory, currentPage);
+  }, [currentPage]);
+
   const formik = useFormik({
     initialValues: {
       search: "",
     },
     onSubmit: async (values) => {
       try {
-        const { data } = await axiosInstance.get(`http://localhost:3005/api/v1/item/search/${values.search}`);
-      
-          if(data.data.itemsByTitle.length !=0){setItems(data.data.itemsByTitle);}
-          if(data.data.itemsByAuthor.length !=0){setItems(data.data.itemsByAuthor);}
-          
+        const { data } = await axiosInstance.get(
+          `http://localhost:3005/api/v1/item/search/${values.search}`
+        );
+        if (data.data.itemsByTitle.length !== 0) {
+          setItems(data.data.itemsByTitle);
+        } else if (data.data.itemsByAuthor.length !== 0) {
+          setItems(data.data.itemsByAuthor);
+        }
         setPages(1);
         setCurrentPage(1);
-        values.search = ""
+        values.search = "";
       } catch (error) {
         console.log("Error fetching search results:", error.response.data.message);
-        toast.error(error.response.data.message)
-        
+        toast.error(error.response.data.message);
       }
     },
   });
 
   const limit = 5;
 
-  // Function to fetch items based on selected category and page
   const fetchItems = async (category, page) => {
     try {
       const response = await axiosInstance.get(
         `http://localhost:3005/api/v1/item?category=${category}&page=${page}&limit=${limit}`
       );
+      setItems(response.data.data.results);
       setPages(response.data.data.numOfPages);
-      return response.data.data.results; // Return fetched data
     } catch (error) {
       console.error("Error fetching items:", error);
-      throw new Error("Error fetching items");
+      toast.error("Error fetching items");
     }
   };
 
-  // Effect to fetch items when currentPage or selectedCategory changes
-  useEffect(() => {
-    
-    fetchItems(selectedCategory, currentPage)
-      .then((data) => {
-        setItems(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching items:", error);
-      });
-  }, [currentPage, selectedCategory ,categoryId]);
-
-  // Handle category change
-  const handleCategoryChange = (categoryId) => {
+  const handleCategoryChange = useCallback((categoryId) => {
     setSelectedCategory(categoryId);
-    setCurrentPage(1); // Reset currentPage when category changes
-  };
-  
-  const filteredItems = selectedCategory === 'all' ? items : items.filter(item => item.category && item.category._id === selectedCategory);
+    setCurrentPage(1);
+  }, []);
 
+  console.log(currentPage);
   return (
     <>
       <Navbar />
 
-      {/* search */}
+      {/* Search */}
       <form onSubmit={formik.handleSubmit} className="max-w-lg mx-auto mt-4">
         <div className="flex">
           <div className="relative w-full">
@@ -98,7 +85,7 @@ export default function Shop() {
               value={formik.values.search}
               onChange={formik.handleChange}
               className="block p-2.5 w-full z-20 text-sm text-gray-900 border-b"
-              placeholder="What are you Looking For ... ?"
+              placeholder="What are you looking for ... ?"
               required
             />
             <button
@@ -126,7 +113,7 @@ export default function Shop() {
         </div>
       </form>
 
-      {/* category filter */}
+      {/* Category filter */}
       <div>
         <CategoriesPage setSelectedCategory={handleCategoryChange} />
         {selectedCategory === "all" && <Background />}
@@ -137,8 +124,8 @@ export default function Shop() {
             </h2>
           )}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 px-28">
-            {Array.isArray(filteredItems) && filteredItems.length > 0 ? (
-              filteredItems.map((item) => <Card key={item._id} item={item} />)
+            {Array.isArray(items) && items.length > 0 ? (
+              items.map((item) => <Card key={item._id} item={item} />)
             ) : (
               <>
                 <CardSkeleton />
@@ -152,10 +139,8 @@ export default function Shop() {
         </div>
       </div>
 
-      {/* pagination */}
-      {pages <= 1 ? (
-        ""
-      ) : (
+      {/* Pagination */}
+      {pages > 1 && (
         <div className="flex flex-col items-center">
           <span className="text-sm text-gray-700 dark:text-gray-400">
             Showing{" "}
