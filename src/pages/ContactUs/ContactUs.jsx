@@ -1,14 +1,40 @@
-import React from "react";
+import React, { useRef } from 'react';
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import emailjs from '@emailjs/browser';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function ContactUs() {
+  const formRef = useRef();
+
+  const sendEmail = (event) => {
+    event.preventDefault();
+
+
+    emailjs
+    .sendForm('service_u0zdyms', 'template_g3dyo33', formRef.current, {
+      publicKey: 'NSAgvNqKg-Bh9c0ct',
+    })
+    .then(
+      () => {
+        toast.success("Form Submited Successfully");
+      },
+      (error) => {
+        console.log('FAILED...', error.text);
+      },
+    );
+
+    
+    formRef.current.reset();
+  };
+
   return (
     <>
       <Navbar />
       <div>
         <div className="grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 lg:ml-[190px] md:ml-[190px] ml-2 ">
-          <form className="max-w-sm mt-[88px]">
+          <form className="max-w-sm mt-[88px]" ref={formRef} onSubmit={sendEmail}>
             <h1 className="text-[32px] text-[#210F04] font-semibold ">
               Contact Us
             </h1>
@@ -22,6 +48,7 @@ export default function ContactUs() {
                 id="name"
                 className="shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5  dark:placeholder-[#735F39] "
                 placeholder="Name"
+                name="user_name"
                 required
               />
             </div>
@@ -30,6 +57,7 @@ export default function ContactUs() {
                 type="email"
                 id="email"
                 placeholder="Email"
+                name="user_email"
                 className="shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:placeholder-[#735F39]  "
                 required
               />
@@ -39,6 +67,7 @@ export default function ContactUs() {
                 type="message"
                 id="message"
                 placeholder="Message"
+                name="message"
                 className="shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5  dark:placeholder-[#735F39] "
                 required
               />
@@ -76,7 +105,7 @@ export default function ContactUs() {
                 </svg>
               </li>
               <li>
-                <p className="mt-9 ml-10 text-[#210F04]">FableFire@gmail.com</p>
+                <p className="mt-9 ml-10 text-[#210F04]">fablefire794@gmail.com</p>
               </li>
             </ul>
 

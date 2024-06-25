@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from "react";
 import axiosInstance from "../../interceptor";
 import { useAuth } from "./AuthContext";
+import { toast } from "react-toastify";
 
 export const OrderContext = createContext();
 
@@ -17,7 +18,7 @@ export const OrderProvider = ({ children }) => {
 
         setOrderDetails(response.data.data);
       } catch (error) {
-        console.log("Error fetching order details:", error);
+        toast.error("Something Went Wrong Please try again");
       }
     }
     if (isLoggedIn) {

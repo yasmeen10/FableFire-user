@@ -30,7 +30,7 @@ export default function ProfileData() {
         setAuthUser(profileData);
         setProfileImageUrl(profileData.images[0]);
       } catch (error) {
-        console.error("Error fetching profile data:", error);
+        toast.error("Something Went Wrong Please try again");
       }
     }
     fetchData();
@@ -134,7 +134,7 @@ export default function ProfileData() {
             >
               Edit
             </button>
-            <EditSVG />
+            <EditSVG color="text-white" />
           </div>
         </div>
       </div>
@@ -187,7 +187,7 @@ export default function ProfileData() {
               />
               <div className="flex justify-center gap-2 mt-4">
                 <label>
-                  <EditSVG />
+                  <EditSVG color="text-textcolor2" />
                   <input
                     type="file"
                     name="images"

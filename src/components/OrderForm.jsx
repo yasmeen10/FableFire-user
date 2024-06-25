@@ -4,6 +4,7 @@ import { phoneNumberRegex } from "../constants/PhoneNumberRegex";
 import { useEffect, useImperativeHandle, useState } from "react";
 import axiosInstance from "../../interceptor";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function OrderForm(props) {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ export default function OrderForm(props) {
           phoneNumber: data.data.phoneNumber || "",
         });
       } catch (error) {
-        console.log(error);
+        toast.error("Something Went Wrong Please try again");
       }
     }
     fetchUserData();
@@ -73,7 +74,7 @@ export default function OrderForm(props) {
           navigate("/payment");
         }
       } catch (error) {
-        console.log(error);
+        toast.error("Something Went Wrong Please try again");
       }
     },
   });

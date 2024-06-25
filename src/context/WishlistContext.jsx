@@ -1,5 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import axiosInstance from "../../interceptor";
+import { toast } from "react-toastify";
+
 
 export const WishlistContext = createContext();
 
@@ -15,7 +17,7 @@ export const WishlistProvider = ({ children }) => {
         );
         setWishlist(Array.isArray(response.data.data.wishList) ? response.data.data.wishList : []);
       } catch (error) {
-        console.error("Error fetching wishlist items:", error.response ? error.response.data : error.message);
+        toast.error("Something Went Wrong Please try again");
       }
     };
 
@@ -27,7 +29,7 @@ export const WishlistProvider = ({ children }) => {
       await axiosInstance.post("http://localhost:3005/api/v1/wishList/", { _id: item._id });
       setRendeerList((prev)=>!prev);
     } catch (error) {
-      console.error("Error updating wishlist:", error.response ? error.response.data : error.message);
+      toast.error("Something Went Wrong Please try again");
     }
   };
 

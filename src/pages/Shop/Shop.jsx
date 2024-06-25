@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 export default function Shop() {
   const { categoryId } = useParams();
   const [selectedCategory, setSelectedCategory] = useState(categoryId || 'all');
+
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pages, setPages] = useState(1);
@@ -22,8 +23,10 @@ export default function Shop() {
   }, [categoryId]);
 
   useEffect(() => {
+
     fetchItems(selectedCategory, currentPage);
   }, [selectedCategory, currentPage]);
+
 
   const formik = useFormik({
     initialValues: {
@@ -62,10 +65,28 @@ export default function Shop() {
     }
   };
 
+
+  // Effect to fetch items when currentPage or selectedCategory changes
+  useEffect(() => {
+    
+    fetchItems(selectedCategory, currentPage)
+      .then((data) => {
+        setItems(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching items:", error);
+      });
+  }, [currentPage, selectedCategory ,categoryId]);
+
+  // Handle category change
+
   const handleCategoryChange = (categoryId) => {
     setSelectedCategory(categoryId);
     setCurrentPage(1);
   };
+
+  
+  const filteredItems = selectedCategory === 'all' ? items : items.filter(item => item.category && item.category._id === selectedCategory);
 
   return (
     <>
@@ -121,8 +142,13 @@ export default function Shop() {
             </h2>
           )}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 px-28">
+
             {Array.isArray(items) && items.length > 0 ? (
               items.map((item) => <Card key={item._id} item={item} />)
+
+            {Array.isArray(filteredItems) && filteredItems.length > 0 ? (
+              filteredItems.map((item) => <Card key={item._id} item={item} />)
+
             ) : (
               <>
                 <CardSkeleton />
