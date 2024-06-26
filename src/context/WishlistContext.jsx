@@ -22,8 +22,12 @@ export const WishlistProvider = ({ children }) => {
             : []
         );
       } catch (error) {
-        console.log(error);
-        toast.error("Something Went Wrong Please try again");
+        
+        if(error.response.status == 401) {
+          console.log(error.response.data.message);
+          return;
+        }
+        toast.error(error.response.data.message);
       }
     };
     if (isLoggedIn) {

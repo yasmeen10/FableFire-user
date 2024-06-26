@@ -6,7 +6,11 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import axiosInstance from "../../../interceptor";
 import SuggestionSwiper from "../../components/SuggestionSwiper";
+
+import Review from "./Review";
+import Rating from "./Rating";
 import { toast } from "react-toastify";
+
 
 export default function ItemDetails() {
   const { handleRemoveItem, handleAddTocart, shoppingItemData } =
@@ -92,7 +96,11 @@ export default function ItemDetails() {
         <div className="w-full max-w-4xl bg-white">
           <button
             onClick={() => navigate("/shop")}
-            className="textColor2 underline mb-4 font-semibold mb-8"
+
+            className="textColor2 underline  font-semibold mb-8"
+
+           
+
             style={{ fontFamily: "Roboto Flex, sans-serif" }}
           >
             To Category
@@ -117,7 +125,11 @@ export default function ItemDetails() {
                   <div className="skeleton h-8 w-48 rounded-lg mr-4"></div>
                   <div className="skeleton h-8 w-48 rounded-lg"></div>
                 </div>
+
               </div>
+              
+            
+
             </div>
           ) : (
             <div className="flex flex-col md:flex-row">
@@ -189,9 +201,19 @@ export default function ItemDetails() {
             </div>
           )}
           <SuggestionSwiper suggestionItems={suggestionItems} />
+          <div className="mt-4">
+
+           <p className="font-medium m-2 mb-4"> Customer Review & Rating</p>
+          <div className="flex flex-col md:flex-row gap-4 ">
+            <Review />
+            <hr className="md:rotate-90 md:mt-20 md:w-28 w-full h-px mr-7" />
+            <Rating />
+          </div>
+          </div>
         </div>
       </div>
-      <Footer />
+
+      {/* <Footer /> */}
     </>
   );
 }
