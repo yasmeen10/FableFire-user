@@ -125,7 +125,11 @@ export default function ItemDetails() {
                   <div className="skeleton h-8 w-48 rounded-lg mr-4"></div>
                   <div className="skeleton h-8 w-48 rounded-lg"></div>
                 </div>
+
               </div>
+              
+            
+
             </div>
           ) : (
             <div className="flex flex-col md:flex-row">
@@ -199,11 +203,11 @@ export default function ItemDetails() {
           <SuggestionSwiper suggestionItems={suggestionItems} />
           <div className="mt-4">
 
-           <p className="font-medium m-2"> Customer Review & Rating</p>
+           <p className="font-medium m-2 mb-4"> Customer Review & Rating</p>
           <div className="flex flex-col md:flex-row gap-4 ">
-            <Rating />
-            <hr className="md:rotate-90 md:mt-20 md:w-28 w-full h-px" />
             <Review />
+            <hr className="md:rotate-90 md:mt-20 md:w-28 w-full h-px mr-7" />
+            <Rating />
           </div>
           </div>
         </div>

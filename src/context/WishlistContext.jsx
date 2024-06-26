@@ -17,7 +17,12 @@ export const WishlistProvider = ({ children }) => {
         );
         setWishlist(Array.isArray(response.data.data.wishList) ? response.data.data.wishList : []);
       } catch (error) {
-        toast.error("Something Went Wrong Please try again");
+        
+        if(error.response.status == 401) {
+          console.log(error.response.data.message);
+          return;
+        }
+        toast.error(error.response.data.message);
       }
     };
 

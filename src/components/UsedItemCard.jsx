@@ -12,7 +12,7 @@ export default function UsedItemCard(props) {
   let isOwned = false;
 
   const isItemInArray = (item, array) => {
-    return array.some((arrayItem) => arrayItem._id === item._id);
+    return array.some((arrayItem) => arrayItem?._id === item?._id);
   };
   const isCurrentUserItem = isItemInArray(item, currUserUsedItems);
 
@@ -22,7 +22,7 @@ export default function UsedItemCard(props) {
 
   return (
     <div className="w-full h-full border border-gray1 rounded-lg p-3 relative">
-      {item.images && (
+      {item?.images && (
         <div>
           <div className="relative">
             <img
