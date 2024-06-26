@@ -20,7 +20,7 @@ export default function Cart() {
     fetchShoppingItemData();
   }, [setShoppingItemData]);
   const handleClick = () => {};
-
+  console.log(shoppingItemData);
   return (
     <>
       <Navbar />
@@ -32,14 +32,9 @@ export default function Cart() {
         <div className=" grid grid-cols-1 lg:grid-cols-3 gap-9">
           {shoppingItemData.length === 0 ? (
             <div className="col-span-1 lg:col-span-2">
-              <div className="flex items-center justify-between p-2">
-                <div className="skeleton h-36 w-1/5 rounded-md"></div>
-                <div className="flex items-center justify-between ml-2 w-4/5 rounded-md">
-                  <div className="skeleton h-6 w-48 rounded-md"></div>
-                  <div className="skeleton h-6 w-40 rounded-md"></div>
-                  <div className="skeleton h-6 w-20 rounded-md"></div>
-                </div>
-              </div>
+              <h1 className="text-textcolor2 font-medium text-center">
+                Cart is Empty
+              </h1>
             </div>
           ) : (
             <div className="col-span-1 lg:col-span-2">

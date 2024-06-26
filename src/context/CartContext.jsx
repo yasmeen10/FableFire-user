@@ -42,6 +42,7 @@ export const CartProvider = ({ children }) => {
         );
       }
     } catch (error) {
+      console.log(error);
       toast.error("Something Went Wrong Please try again");
     }
   };
@@ -65,6 +66,7 @@ export const CartProvider = ({ children }) => {
         );
       }
     } catch (error) {
+      console.log(error);
       toast.error("Something Went Wrong Please try again");
     }
   };

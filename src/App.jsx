@@ -25,11 +25,14 @@ import ProfileOrdersHistory from "./pages/profile/ProfileOrdersHistory";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import RedirectToHome from "./utils/RedirectToHome";
 import NotFound from "./pages/NotFound";
+import Events from "./pages/Events/Events";
+import EventDetails from "./pages/EventDetails/EventDetails";
+import Ticket from "./pages/Ticket/Ticket";
 import TicketProfile from "./pages/profile/TicketProfile";
 import PostsProfile from "./pages/profile/PostsProfile";
 
 function App() {
-  // const [darkMode, setDarkMode] = useState(false);
+  // const [darkMode, setDarkModez] = useState(false);
 
   // useEffect(() => {
   //   if (darkMode) {
@@ -45,23 +48,26 @@ function App() {
 
       <div>
         {/* <BrowserRouter> */}
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/contact" element={<ContactUs />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/shop" element={<Shop />} />
-            <Route path="/shop/:categoryId" element={<Shop/>} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/usedItemDetails/:id" element={<UsedItemDetails />} />
-            <Route path="/item/:id" element={<ItemDetails />} />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/shop/:categoryId" element={<Shop />} />
+          <Route path="/item/:id" element={<ItemDetails />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/usedItemDetails/:id" element={<UsedItemDetails />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/events/:id" element={<EventDetails />} />
 
-            <Route element = {<ProtectedRoute/>}>
+          <Route element={<ProtectedRoute />}>
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/payment" element={<Payment />} />
             <Route path="/orderconfirmation" element={<OrderConfirmation />} />
             <Route path="/usedItem/create" element={<UsedItemForm />} />
             <Route path="/usedItem/:id" element={<UsedItemForm />} />
+            <Route path="/ticket" element={<Ticket />} />
 
             <Route path="/profile" element={<UserProfile />}>
               <Route index element={<ProfileData />} />
@@ -71,17 +77,14 @@ function App() {
               <Route path="ticket" element={<TicketProfile/>}/>
               <Route path="posts" element={<PostsProfile/>}/>
             </Route>
+          </Route>
 
-            </Route>
-
-            <Route element = {<RedirectToHome/>}>
-
+          <Route element={<RedirectToHome />}>
             <Route path="/signUp" element={<SignUp />} />
             <Route path="/signIn" element={<SignIn />} />
-            </Route>
-            <Route path="*" element= {<NotFound/>} />
-            
-          </Routes>
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
         {/* </BrowserRouter> */}
       </div>
     </>

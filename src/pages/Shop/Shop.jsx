@@ -26,6 +26,7 @@ export default function Shop() {
     fetchItems(selectedCategory, currentPage);
   }, [currentPage,selectedCategory]);
 
+
   const formik = useFormik({
     initialValues: {
       search: "",
@@ -47,7 +48,6 @@ export default function Shop() {
       } catch (error) {
         console.log("Error fetching search results:", error.response.data.message);
         toast.error(error.response.data.message);
-        
       }
     },
   });
@@ -55,6 +55,7 @@ export default function Shop() {
   const limit = 5;
 
   const fetchItems = async (category, page) => {
+    console.log(category);
     try {
       const response = await axiosInstance.get(
         `http://localhost:3005/api/v1/item?category=${category}&page=${page}&limit=${limit}`
@@ -71,7 +72,7 @@ export default function Shop() {
 
   const handleCategoryChange = useCallback((categoryId) => {
     setSelectedCategory(categoryId);
-    setCurrentPage(1);
+    setCurrentPage(1); // Reset currentPage when category changes
   }, []);
 
   

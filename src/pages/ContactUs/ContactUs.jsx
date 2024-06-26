@@ -1,76 +1,140 @@
-import React, { useRef } from 'react';
+import React, { useRef } from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import emailjs from '@emailjs/browser';
+import emailjs from "@emailjs/browser";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { letters } from "../../constants/LettersRegex";
+import { emailPattern } from "../../constants/EmailRegex";
 
 export default function ContactUs() {
   const formRef = useRef();
 
-  const sendEmail = (event) => {
-    event.preventDefault();
+  const validationSchema = Yup.object({
+    user_name: Yup.string()
+      .min(3, "Name must be at least 3 characters")
+      .max(20, "Name must be shorter than 20 characters")
+      .matches(letters, "Name Must be Letters")
+      .required("Name is required"),
+    user_email: Yup.string()
+      .email("Invalid email address")
+      .required("Email is required")
+      .matches(emailPattern, "Email must be like example@gmail.com "),
+    message: Yup.string().required("Message is required"),
+  });
 
-
+  const sendEmail = () => {
     emailjs
-    .sendForm('service_u0zdyms', 'template_g3dyo33', formRef.current, {
-      publicKey: 'NSAgvNqKg-Bh9c0ct',
-    })
-    .then(
-      () => {
-        toast.success("Form Submited Successfully");
-      },
-      (error) => {
-        console.log('FAILED...', error.text);
-      },
-    );
-
-    
-    formRef.current.reset();
+      .sendForm(
+        "service_u0zdyms",
+        "template_g3dyo33",
+        formRef.current,
+        "NSAgvNqKg-Bh9c0ct"
+      )
+      .then(
+        () => {
+          toast.success("Form submitted successfully!");
+          formik.resetForm();
+        },
+        (error) => {
+          console.error("Failed to send email:", error);
+          toast.error("Failed to submit form");
+        }
+      );
   };
+
+  const formik = useFormik({
+    initialValues: {
+      user_name: "",
+      user_email: "",
+      message: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: sendEmail,
+  });
 
   return (
     <>
       <Navbar />
       <div>
         <div className="grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 lg:ml-[190px] md:ml-[190px] ml-2 ">
-          <form className="max-w-sm mt-[88px]" ref={formRef} onSubmit={sendEmail}>
+          <form
+            className="max-w-sm mt-[88px]"
+            ref={formRef}
+            onSubmit={formik.handleSubmit}
+          >
             <h1 className="text-[32px] text-[#210F04] font-semibold ">
               Contact Us
             </h1>
             <p className="w-[320px] text-[#735F39] mt-[15px]">
-              feel free to contact us any time. we will get back to you as we
-              can!
+              Feel free to contact us any time. We will get back to you as soon
+              as possible!
             </p>
             <div className="mb-5 mt-[25px]">
               <input
-                type="name"
+                type="text"
                 id="name"
-                className="shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5  dark:placeholder-[#735F39] "
-                placeholder="Name"
                 name="user_name"
-                required
+                className={`shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:placeholder-[#735F39] ${
+                  formik.touched.user_name && formik.errors.user_name
+                    ? "border-red-500"
+                    : ""
+                }`}
+                placeholder="Name"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.user_name}
               />
+              {formik.touched.user_name && formik.errors.user_name ? (
+                <div className="text-red-500 text-xs mt-1">
+                  {formik.errors.user_name}
+                </div>
+              ) : null}
             </div>
+
             <div className="mb-5">
               <input
                 type="email"
                 id="email"
-                placeholder="Email"
                 name="user_email"
-                className="shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:placeholder-[#735F39]  "
-                required
+                placeholder="Email"
+                className={`shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:placeholder-[#735F39] ${
+                  formik.touched.user_email && formik.errors.user_email
+                    ? "border-red-500"
+                    : ""
+                }`}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.user_email}
               />
+              {formik.touched.user_email && formik.errors.user_email ? (
+                <div className="text-red-500 text-xs mt-1">
+                  {formik.errors.user_email}
+                </div>
+              ) : null}
             </div>
+
             <div className="mb-5">
-              <input
-                type="message"
+              <textarea
                 id="message"
-                placeholder="Message"
                 name="message"
-                className="shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5  dark:placeholder-[#735F39] "
-                required
+                placeholder="Message"
+                className={`shadow-sm bg-white border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:placeholder-[#735F39] ${
+                  formik.touched.message && formik.errors.message
+                    ? "border-red-500"
+                    : ""
+                }`}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.message}
               />
+              {formik.touched.message && formik.errors.message ? (
+                <div className="text-red-500 text-xs mt-1">
+                  {formik.errors.message}
+                </div>
+              ) : null}
             </div>
 
             <button
@@ -105,7 +169,9 @@ export default function ContactUs() {
                 </svg>
               </li>
               <li>
-                <p className="mt-9 ml-10 text-[#210F04]">fablefire794@gmail.com</p>
+                <p className="mt-9 ml-10 text-[#210F04]">
+                  fablefire794@gmail.com
+                </p>
               </li>
             </ul>
 

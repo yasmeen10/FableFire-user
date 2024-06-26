@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import fablefire from "../assets/FableFire-logo.png";
+import HeartSVG from "./SVG/HeartSVG";
+import CartSVG from "./SVG/CartSVG";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -35,12 +37,20 @@ export default function Navbar() {
           <div className="flex space-x-3 items-center md:order-2">
             {isLoggedIn ? (
               <Link to="/profile" className="px-4 py-2 text-center">
-                <img
-                  className="h-12 w-12 rounded-full inline"
-                  src={authUser?.images[0]}
-                  alt=""
-                />
-                <span>{authUser?.firstName}</span>
+                <div className="flex items-center justify-between gap-2">
+                  <Link to="/profile/wishList">
+                    <HeartSVG />
+                  </Link>
+                  <Link to="/cart">
+                    <CartSVG />
+                  </Link>
+                  <img
+                    className="h-12 w-12 rounded-full inline"
+                    src={authUser?.images[0]}
+                    alt=""
+                  />
+                  <span>{authUser?.firstName}</span>
+                </div>
               </Link>
             ) : (
               <Link
@@ -107,7 +117,6 @@ export default function Navbar() {
                       SHOP
                     </Link>
                   </li>
-
                   <li>
                     <Link
                       to="/about"
@@ -159,7 +168,6 @@ export default function Navbar() {
                   className={`font-normal block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 ${
                     location.pathname.includes("/shop") ||
                     activeLink === "/shop"
-
                       ? "text-[#BFAE9F]"
                       : "text-dark-textcolor2"
                   } md:dark:text-[#BFAE9F]`}
@@ -179,6 +187,20 @@ export default function Navbar() {
                   onClick={() => handleSetActiveLink("/blog")}
                 >
                   BLOG
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/events"
+                  className={`font-normal block py-2 px-3 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 ${
+                    location.pathname.includes("/events") ||
+                    activeLink === "/events"
+                      ? "text-[#BFAE9F]"
+                      : "text-dark-textcolor2"
+                  } md:dark:text-[#BFAE9F]`}
+                  onClick={() => handleSetActiveLink("/events")}
+                >
+                  Events
                 </Link>
               </li>
               <li>

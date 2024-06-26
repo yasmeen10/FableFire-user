@@ -9,6 +9,7 @@ export const OrderProvider = ({ children }) => {
   const [orderDetails, setOrderDetails] = useState([]);
   const orderId = localStorage.getItem("orderId");
   const { isLoggedIn } = useAuth();
+
   useEffect(() => {
     async function fetchOrder() {
       try {
@@ -18,13 +19,14 @@ export const OrderProvider = ({ children }) => {
 
         setOrderDetails(response.data.data);
       } catch (error) {
+        console.log(error);
         toast.error("Something Went Wrong Please try again");
       }
     }
     if (isLoggedIn) {
       fetchOrder();
     }
-  }, []);
+  }, [orderId, isLoggedIn]);
 
   return (
     <OrderContext.Provider value={{ orderDetails, setOrderDetails }}>
