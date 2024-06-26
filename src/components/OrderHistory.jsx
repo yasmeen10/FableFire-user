@@ -10,14 +10,20 @@ export default function OrderHistory() {
   const navigate = useNavigate();
   useEffect(() => {
     async function fetchData() {
-      setIsLoading(true);
-      const { data } = await axiosInstance.get(
-        "http://localhost:3005/api/v1/order/"
-      );
-      const orderData = await data.data;
-      setIsLoading(false)
-      setOrder(orderData);
-      console.log(data.data);
+      try{
+
+        setIsLoading(true);
+        const { data } = await axiosInstance.get(
+          "http://localhost:3005/api/v1/order/"
+        );
+       
+        
+        setIsLoading(false)
+        setOrder(data.data);
+      
+      }catch(error){
+        console.log(error);
+      }
     }
     fetchData();
   }, []);
@@ -38,24 +44,28 @@ export default function OrderHistory() {
       </>
     );
   }
+  
   return (
     <>
+  
+
+    
       {order.map((ord, index) => (
         <div
           key={index}
-          className="relative overflow-x-auto shadow-md sm:rounded-lg mt-20"
+          className="relative m-auto w-8/12 overflow-x-auto shadow-md sm:rounded-lg mt-20"
         >
-          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <table className="w-8/12 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3  text-dark-textcolor1">
-                  Date of Order : {ord.order.dateOfOrder.split("T")[0]}
+                  Date of Order : {ord?.order.dateOfOrder.split("T")[0]}
                 </th>
                 <th className="">
                   <p
                     className=" cursor-pointer text-textcolor1 "
                     title="Order Details"
-                    onClick={() => showOrderDetails(ord.order._id)}
+                    onClick={() => showOrderDetails(ord?.order._id)}
                   >
                     More Details {">>"}
                   </p>
@@ -74,17 +84,18 @@ export default function OrderHistory() {
                   >
                     <img
                       className="h-44 w-44 inline px-3 object-cover"
-                      src={ordData.orderItem.item.images[0]}
+                      src={ordData?.orderItem.item.images[0]}
                       alt=""
                     />
                   </th>
-                  <td className="px-6 py-4">{ordData.orderItem.item.title}</td>
+                  <td className="px-6 py-4">{ordData?.orderItem.item.title}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       ))}
+  
     </>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../../interceptor";
 import Card from "../../components/Card";
@@ -12,21 +12,19 @@ import { toast } from "react-toastify";
 
 export default function Shop() {
   const { categoryId } = useParams();
-  const [selectedCategory, setSelectedCategory] = useState(categoryId || 'all');
-
+  const [selectedCategory, setSelectedCategory] = useState(categoryId || "all");
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pages, setPages] = useState(1);
+
 
   useEffect(() => {
     setSelectedCategory(categoryId || "all");
   }, [categoryId]);
 
   useEffect(() => {
-
     fetchItems(selectedCategory, currentPage);
-  }, [selectedCategory, currentPage]);
-
+  }, [currentPage,selectedCategory]);
 
   const formik = useFormik({
     initialValues: {
@@ -34,7 +32,9 @@ export default function Shop() {
     },
     onSubmit: async (values) => {
       try {
-        const { data } = await axiosInstance.get(`http://localhost:3005/api/v1/item/search/${values.search}`);
+        const { data } = await axiosInstance.get(
+          `http://localhost:3005/api/v1/item/search/${values.search}`
+        );
         if (data.data.itemsByTitle.length !== 0) {
           setItems(data.data.itemsByTitle);
         } else if (data.data.itemsByAuthor.length !== 0) {
@@ -43,9 +43,11 @@ export default function Shop() {
         setPages(1);
         setCurrentPage(1);
         values.search = "";
+       
       } catch (error) {
         console.log("Error fetching search results:", error.response.data.message);
         toast.error(error.response.data.message);
+        
       }
     },
   });
@@ -62,36 +64,22 @@ export default function Shop() {
     } catch (error) {
       console.error("Error fetching items:", error);
       toast.error("Error fetching items");
+     
     }
   };
 
 
-  // Effect to fetch items when currentPage or selectedCategory changes
-  useEffect(() => {
-    
-    fetchItems(selectedCategory, currentPage)
-      .then((data) => {
-        setItems(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching items:", error);
-      });
-  }, [currentPage, selectedCategory ,categoryId]);
-
-  // Handle category change
-
-  const handleCategoryChange = (categoryId) => {
+  const handleCategoryChange = useCallback((categoryId) => {
     setSelectedCategory(categoryId);
     setCurrentPage(1);
-  };
+  }, []);
 
   
-  const filteredItems = selectedCategory === 'all' ? items : items.filter(item => item.category && item.category._id === selectedCategory);
-
   return (
     <>
       <Navbar />
 
+     
       {/* Search */}
       <form onSubmit={formik.handleSubmit} className="max-w-lg mx-auto mt-4">
         <div className="flex">
@@ -131,6 +119,7 @@ export default function Shop() {
         </div>
       </form>
 
+     
       {/* Category filter */}
       <div>
         <CategoriesPage setSelectedCategory={handleCategoryChange} />
@@ -142,13 +131,8 @@ export default function Shop() {
             </h2>
           )}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 px-28">
-
             {Array.isArray(items) && items.length > 0 ? (
               items.map((item) => <Card key={item._id} item={item} />)
-
-            {Array.isArray(filteredItems) && filteredItems.length > 0 ? (
-              filteredItems.map((item) => <Card key={item._id} item={item} />)
-
             ) : (
               <>
                 <CardSkeleton />
@@ -162,6 +146,7 @@ export default function Shop() {
         </div>
       </div>
 
+      
       {/* Pagination */}
       {pages > 1 && (
         <div className="flex flex-col items-center">
