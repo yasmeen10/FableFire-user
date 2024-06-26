@@ -46,10 +46,10 @@ export default function Home() {
       const response = await axiosInstance.get(
         "http://localhost:3005/api/v1/category"
       );
-      if (response.data && Array.isArray(response.data.data)) {
-        setCategoryList(response.data.data);
+      if (response.data && Array.isArray(response.data.data.results)) {
+        setCategoryList(response.data.data.results);
       } else {
-        toast.error("Something Went Wrong Please try again");
+        toast.error("Something Went Wrong Please try again category");
       }
     } catch (error) {
       toast.error("Something Went Wrong Please try again");

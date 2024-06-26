@@ -7,8 +7,7 @@ import { WishlistProvider } from "./context/WishlistContext.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { OrderProvider } from "./context/OrderContext.jsx";
 import { UsedItemProvider } from "./context/UsedItemContext.jsx";
-
-
+import { EventProvider } from "./context/EventContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <div>
@@ -18,7 +17,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <CartProvider>
             <OrderProvider>
               <WishlistProvider>
-                <App />
+                <EventProvider>
+                  <App />
+                </EventProvider>
               </WishlistProvider>
             </OrderProvider>
           </CartProvider>

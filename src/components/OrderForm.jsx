@@ -35,6 +35,7 @@ export default function OrderForm(props) {
           phoneNumber: data.data.phoneNumber || "",
         });
       } catch (error) {
+        console.log(error);
         toast.error("Something Went Wrong Please try again");
       }
     }
@@ -74,6 +75,7 @@ export default function OrderForm(props) {
           navigate("/payment");
         }
       } catch (error) {
+        console.log(error);
         toast.error("Something Went Wrong Please try again");
       }
     },

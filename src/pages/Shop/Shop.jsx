@@ -12,45 +12,53 @@ import { toast } from "react-toastify";
 
 export default function Shop() {
   const { categoryId } = useParams();
-  const [selectedCategory, setSelectedCategory] = useState(categoryId || 'all');
- const [items, setItems] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(categoryId || "all");
+  const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pages, setPages] = useState(1);
-  useEffect(() => {
-    setSelectedCategory(categoryId || "all");
-  }, [categoryId]);
 
-  useEffect(() => {
-    fetchItems();
-  }, [selectedCategory]); 
-  
+  // useEffect(() => {
+  //   setSelectedCategory(categoryId || "all");
+  // }, [categoryId]);
+  //
+  // useEffect(() => {
+  //   fetchItems();
+  // }, [selectedCategory]);
+
   const formik = useFormik({
     initialValues: {
       search: "",
     },
     onSubmit: async (values) => {
       try {
-        const { data } = await axiosInstance.get(`http://localhost:3005/api/v1/item/search/${values.search}`);
-      
-          if(data.data.itemsByTitle.length !=0){setItems(data.data.itemsByTitle);}
-          if(data.data.itemsByAuthor.length !=0){setItems(data.data.itemsByAuthor);}
-          
+        const { data } = await axiosInstance.get(
+          `http://localhost:3005/api/v1/item/search/${values.search}`
+        );
+
+        if (data.data.itemsByTitle.length != 0) {
+          setItems(data.data.itemsByTitle);
+        }
+        if (data.data.itemsByAuthor.length != 0) {
+          setItems(data.data.itemsByAuthor);
+        }
+
         setPages(1);
         setCurrentPage(1);
-        values.search = ""
+        values.search = "";
       } catch (error) {
-        console.log("Error fetching search results:", error.response.data.message);
-        toast.error(error.response.data.message)
-        
+        console.log(
+          "Error fetching search results:",
+          error.response.data.message
+        );
+        toast.error(error.response.data.message);
       }
     },
   });
 
   const limit = 5;
 
-  // Function to fetch items based on selected category and page
   const fetchItems = async (category, page) => {
+    console.log(category);
     try {
       const response = await axiosInstance.get(
         `http://localhost:3005/api/v1/item?category=${category}&page=${page}&limit=${limit}`
@@ -79,8 +87,13 @@ export default function Shop() {
     setSelectedCategory(categoryId);
     setCurrentPage(1); // Reset currentPage when category changes
   };
-  
-  const filteredItems = selectedCategory === 'all' ? items : items.filter(item => item.category && item.category._id === selectedCategory);
+
+  const filteredItems =
+    selectedCategory === "all"
+      ? items
+      : items.filter(
+          (item) => item.category && item.category._id === selectedCategory
+        );
 
   return (
     <>

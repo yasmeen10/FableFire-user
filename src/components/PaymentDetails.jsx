@@ -1,4 +1,4 @@
-import { useContext, useEffect, useImperativeHandle, useState } from "react";
+import { useContext, useImperativeHandle, useState } from "react";
 import * as Yup from "yup";
 import { Field, Form, Formik, useFormik } from "formik";
 import { OrderContext } from "../context/OrderContext";
@@ -11,6 +11,7 @@ export default function PaymentDetails(props) {
   const [initialValues, setInitialValues] = useState({ paymentMethod: "" });
   const { orderDetails } = useContext(OrderContext);
   const navigate = useNavigate();
+  console.log(orderDetails);
 
   const formik = useFormik({
     initialValues,

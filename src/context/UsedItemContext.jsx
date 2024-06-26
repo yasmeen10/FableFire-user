@@ -18,8 +18,9 @@ export const UsedItemProvider = ({ children }) => {
         const { data } = await axiosInstance.get(
           "http://localhost:3005/api/v1/usedItem"
         );
-        setUsedItems(data.data);
+        setUsedItems(data.data.results);
       } catch (error) {
+        console.log(error);
         toast.error("Something Went Wrong Please try again");
       }
     }
@@ -31,6 +32,7 @@ export const UsedItemProvider = ({ children }) => {
         );
         setCurrUserUsedItems(data.data);
       } catch (error) {
+        console.log(error);
         toast.error("Something Went Wrong Please try again");
       }
     }
@@ -52,6 +54,7 @@ export const UsedItemProvider = ({ children }) => {
         toast.success("Deleted Successfully");
       }
     } catch (error) {
+      console.log(error);
       toast.error("Something Went Wrong Please try again");
     }
   };

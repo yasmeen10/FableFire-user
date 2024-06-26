@@ -19,6 +19,7 @@ export default function UsedItemCard(props) {
   if (isCurrentUserItem) {
     isOwned = true;
   }
+  console.log(item.user);
 
   return (
     <div className="w-full h-full border border-gray1 rounded-lg p-3 relative">
@@ -49,23 +50,25 @@ export default function UsedItemCard(props) {
           </div>
           <Link to={`/usedItemDetails/${item._id}`}>
             <div className="my-10">
-              <span className="block font-medium text-base text-textcolor2 capitalize ">
-                {item.title}
-              </span>
+              <div className="flex items-center justify-between my-1">
+                <span className="block font-medium text-base text-textcolor2 capitalize ">
+                  {item?.title}
+                </span>
+                <span className="block font-medium text-base text-textcolor2 capitalize">
+                  {item?.price}$
+                </span>
+              </div>
               <div className="flex items-center justify-between my-1">
                 <span className="block font-medium text-base text-textcolor2 capitalize">
-                  {item.user.firstName}
+                  {item?.user?.firstName}
                 </span>
                 <span className="block font-medium text-base text-textcolor2">
-                  {item.phoneNumber}
+                  {item?.phoneNumber}
                 </span>
               </div>
               <span className="block font-medium text-base text-textcolor2">
-                {item.email}
+                {item?.email}
               </span>
-              <p className="text-placeholder text-sm font-medium capitalize mt-4">
-                {item.message}
-              </p>
             </div>
           </Link>
           <Link to={`/usedItemDetails/${item._id}`}>

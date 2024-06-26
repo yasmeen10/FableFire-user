@@ -61,7 +61,7 @@ export default function UsedItemForm() {
       const { data } = await axiosInstance.get(
         "http://localhost:3005/api/v1/category"
       );
-      setCategories(data.data);
+      setCategories(data.data.results);
     }
     async function fetchUsedItemsData() {
       try {

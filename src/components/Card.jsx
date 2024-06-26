@@ -12,7 +12,9 @@ export default function Card(props) {
   const [isCartFilled, setIsCartFilled] = useState(false);
 
   useEffect(() => {
-    const index = shoppingItemData.findIndex((cartItem) => cartItem.item && cartItem.item._id === item._id);
+    const index = shoppingItemData.findIndex(
+      (cartItem) => cartItem.item && cartItem.item._id === item._id
+    );
 
     if (index !== -1) {
       setIsCartFilled(true);
