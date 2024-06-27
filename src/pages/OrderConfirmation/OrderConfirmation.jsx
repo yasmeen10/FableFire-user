@@ -7,10 +7,12 @@ import { useLocation } from "react-router-dom";
 
 export default function OrderConfirmation() {
   const { orderDetails } = useContext(OrderContext);
-  const loaction = useLocation();
+  const paymentMethod = localStorage.getItem("paymentMethod");
+
   if (!orderDetails.order) {
     <div className="className=px-4 mb-14 sm:px-8 lg:px-36"></div>;
   }
+  console.log(paymentMethod);
   return (
     <>
       <Navbar />
@@ -60,7 +62,7 @@ export default function OrderConfirmation() {
                     <span className="skeleton h-6 w-1/2 mx-auto mt-1 rounded-md block"></span>
                   ) : (
                     <span className="block text-xl font-normal text-textcolor2">
-                      {loaction.state.paymentMethod}
+                      {paymentMethod}
                     </span>
                   )}
                 </td>
@@ -114,11 +116,11 @@ export default function OrderConfirmation() {
                     {item.item.title}
                   </p>
                   <span className="text-base text-placeholder">
-                    Quantity:${item.quantity}
+                    Quantity:${item?.quantity}
                   </span>
                 </div>
                 <span className="text-textcolor2 font-medium text-base">
-                  ${item.item.price * item.quantity}
+                  ${item.item.price * item?.quantity}
                 </span>
               </div>
             </div>

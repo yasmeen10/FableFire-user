@@ -64,7 +64,7 @@ export default function ItemDetails() {
           setError("Unexpected response format");
         }
       } catch (error) {
-        toast.error("Something Went Wrong Please try again");
+        toast.error(error.response.data.message);
         setError("Error fetching item. Please try again later.");
       }
     };
@@ -157,11 +157,15 @@ export default function ItemDetails() {
                     {item.price + "$"}
                   </div>
                 </div>
+                <div className="mb-6 text-base font-medium text-placeholder">
+                  <span>Count In Stock:</span>
+                  <span className="ml-1">{item?.countInStock}</span>
+                </div>
                 <p
-                  className="textcolor2 mb-6 italic text-base"
+                  className="textcolor2 mb-6 italic text-base capitalize"
                   style={{ fontFamily: "Roboto Flex, sans-serif" }}
                 >
-                  {item.description}
+                  {item?.description}
                 </p>
                 <div className="flex items-center">
                   <i

@@ -36,7 +36,7 @@ export default function OrderForm(props) {
         });
       } catch (error) {
         console.log(error);
-        toast.error("Something Went Wrong Please try again");
+        toast.error(error.response.data.message);
       }
     }
     fetchUserData();
@@ -76,7 +76,7 @@ export default function OrderForm(props) {
         }
       } catch (error) {
         console.log(error);
-        toast.error("Something Went Wrong Please try again");
+        toast.error(error.response.data.message);
       }
     },
   });

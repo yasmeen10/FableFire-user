@@ -22,7 +22,7 @@ export default function Ticket() {
   return (
     <>
       <Navbar />
-      <div className="px-4 sm:px-8 lg:px-36 mt-9">
+      <div className="px-8 lg:px-36 mt-9">
         <TicketCard ticket={ticket} />
       </div>
       <Footer />

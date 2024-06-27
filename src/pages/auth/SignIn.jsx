@@ -1,12 +1,10 @@
-
 import { Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../../context/AuthContext";
 
-
 export default function SignIn() {
-  const { formik}=useAuth();
-
+  const { formik, loading } = useAuth();
+  console.log(loading);
 
   return (
     <>
@@ -59,9 +57,15 @@ export default function SignIn() {
             </div>
 
             <div className="mt-5  h-11 m-auto bg-button text-center pt-2 w-full lg:w-64 rounded-lg">
-              <button className="text-white" type="submit">
-                Sign In
-              </button>
+              {loading ? (
+                <button className="text-white" type="submit">
+                  <span className="loading loading-spinner">loading</span>
+                </button>
+              ) : (
+                <button className="text-white" type="submit">
+                  Sign In
+                </button>
+              )}
             </div>
           </form>
         </div>

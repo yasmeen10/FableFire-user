@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import fablefire from "../assets/FableFire-logo.png";
 import HeartSVG from "./SVG/HeartSVG";
 import CartSVG from "./SVG/CartSVG";
+import { CartContext } from "../context/CartContext";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("");
   const { authUser, isLoggedIn } = useAuth();
+  const { shoppingItemData } = useContext(CartContext);
   const location = useLocation();
+  console.log(shoppingItemData);
 
   useEffect(() => {
     setActiveLink(location.pathname);
@@ -41,9 +44,14 @@ export default function Navbar() {
                   <Link to="/profile/wishList">
                     <HeartSVG />
                   </Link>
-                  <Link to="/cart">
-                    <CartSVG />
-                  </Link>
+                  <div className="relative">
+                    <span className="block absolute bottom-5 left-3 border rounded-full px-2 bg-placeholder text-center">
+                      {shoppingItemData?.length}
+                    </span>
+                    <Link to="/cart">
+                      <CartSVG />
+                    </Link>
+                  </div>
                   <img
                     className="h-12 w-12 rounded-full inline"
                     src={authUser?.images[0]}

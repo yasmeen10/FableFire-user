@@ -84,7 +84,7 @@ export default function UsedItemForm() {
         setImagePreviews(response.data.data.usedItem.images || [ImageIcon]);
       } catch (error) {
         console.log(error);
-        toast.error("Something Went Wrong Please try again");
+        toast.error(error.response.data.message);
       }
     }
     fetchItemTypes();
