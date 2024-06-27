@@ -92,7 +92,11 @@ export const CartProvider = ({ children }) => {
       items.push(item);
       setShoppingItemData(items);
     } catch (error) {
-      navigate("/signIn");
+      if (error.response.status == 401) {
+        navigate("/signIn");
+        return;
+      }
+      toast.error(error.response.data.message);
     }
   };
   return (

@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import axiosInstance from "../../interceptor";
 import { toast } from "react-toastify";
 import { useAuth } from "./AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const WishlistContext = createContext();
 
@@ -9,6 +10,7 @@ export const WishlistProvider = ({ children }) => {
   const [wishlist, setWishlist] = useState([]);
   const { isLoggedIn } = useAuth();
   const [rendeList, setRendeerList] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -41,8 +43,11 @@ export const WishlistProvider = ({ children }) => {
       });
       setRendeerList((prev) => !prev);
     } catch (error) {
-      console.log(error);
-      toast.error("Something Went Wrong Please try again");
+      if (error.response.status == 401) {
+        navigate("/signIn");
+        return;
+      }
+      toast.error(error.response.data.message);
     }
   };
 
