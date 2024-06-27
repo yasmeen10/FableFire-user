@@ -35,12 +35,12 @@ export default function Ratings() {
   }, [ratings]);
 
   return (
-    <div>
+    <div >
       <p className="font-medium text-textcolor2">
         <span className="text-6xl">{Number(ratings.itemRate).toFixed(1)}</span> Out of{" "}
         <span className="text-6xl">5</span>
       </p>
-      <div className="flex m-3">
+      <div className="flex ">
         <ReactStars
           count={5}
           value={Number(ratings.itemRate)}
@@ -53,7 +53,7 @@ export default function Ratings() {
           activeColor="#ffd700"
         />
       </div>
-      <p className="text-lg">Put Your Rate</p>
+        <p className="text-lg text-button font-medium">Add Rating</p>
     </div>
   );
 }
