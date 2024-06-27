@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
 import { WishlistContext } from "../../context/WishlistContext";
@@ -6,11 +6,11 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import axiosInstance from "../../../interceptor";
 import SuggestionSwiper from "../../components/SuggestionSwiper";
-
 import Review from "./Review";
 import Rating from "./Rating";
 import { toast } from "react-toastify";
-
+import CurrencyConverter from "../../components/CurrencyConverter";
+import ReactStars from "react-rating-stars-component";
 
 export default function ItemDetails() {
   const { handleRemoveItem, handleAddTocart, shoppingItemData } =
@@ -23,6 +23,7 @@ export default function ItemDetails() {
   const [suggestionItems, setSuggestionItems] = useState([]);
   const [isHeartClicked, setIsHeartClicked] = useState(false);
   const [error, setError] = useState(null);
+  const [ratings, setRatings] = useState(0); // Initializing ratings as a number
 
   useEffect(() => {
     const index = shoppingItemData.findIndex(
@@ -68,7 +69,7 @@ export default function ItemDetails() {
           setError("Unexpected response format");
         }
       } catch (error) {
-        toast.error("Something Went Wrong Please try again");
+        toast.error(error.response.data.message);
         setError("Error fetching item. Please try again later.");
       }
     };
@@ -89,6 +90,21 @@ export default function ItemDetails() {
     setIsHeartClicked(!isHeartClicked);
   };
 
+  const fetchRatings = useCallback(async () => {
+    try {
+      const { data } = await axiosInstance.get(
+        `http://localhost:3005/api/v1/rating/${id}`
+      );
+      setRatings(data.itemRate);
+    } catch (error) {
+      console.error("Error fetching ratings data:", error);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    fetchRatings();
+  }, [ratings]);
+
   return (
     <>
       <Navbar />
@@ -96,11 +112,7 @@ export default function ItemDetails() {
         <div className="w-full max-w-4xl bg-white">
           <button
             onClick={() => navigate("/shop")}
-
-            className="textColor2 underline  font-semibold mb-8"
-
-           
-
+            className="textColor2 underline font-semibold mb-8"
             style={{ fontFamily: "Roboto Flex, sans-serif" }}
           >
             To Category
@@ -115,7 +127,7 @@ export default function ItemDetails() {
                 <div className="skeleton h-96 w-96 rounded-lg relative"></div>
               </div>
               <div className="md:w-2/3 md:pl-6 mt-6 md:mt-0">
-                <div className="skeleton h-8 w-48 rounded-lg  mb-6"></div>
+                <div className="skeleton h-8 w-48 rounded-lg mb-6"></div>
                 <div className="flex items-center justify-between mb-6">
                   <div className="skeleton h-8 w-48 rounded-lg"></div>
                   <div className="skeleton h-8 w-48 rounded-lg"></div>
@@ -125,11 +137,7 @@ export default function ItemDetails() {
                   <div className="skeleton h-8 w-48 rounded-lg mr-4"></div>
                   <div className="skeleton h-8 w-48 rounded-lg"></div>
                 </div>
-
               </div>
-              
-            
-
             </div>
           ) : (
             <div className="flex flex-col md:flex-row">
@@ -148,12 +156,26 @@ export default function ItemDetails() {
                 />
               </div>
               <div className="md:w-2/3 md:pl-6 mt-6 md:mt-0">
-                <h1
-                  className="text-[56px] mb-2 capitalize"
-                  style={{ fontFamily: "Ropa Sans, sans-serif" }}
-                >
-                  {item.title}
-                </h1>
+                <div className="flex items-center justify-between mb-6">
+                  <h1
+                    className="text-[56px] mb-2 capitalize"
+                    style={{ fontFamily: "Ropa Sans, sans-serif" }}
+                  >
+                    {item.title}
+                  </h1>
+                  <div className="flex items-center">
+                    <ReactStars
+                      count={5}
+                      value={Number(ratings)}
+                      size={24}
+                      isHalf={true}
+                      emptyIcon={<i className="far fa-star"></i>}
+                      halfIcon={<i className="fa fa-star-half-alt"></i>}
+                      fullIcon={<i className="fa fa-star"></i>}
+                      activeColor="#ffd700"
+                    />
+                  </div>
+                </div>
                 <div className="flex items-center justify-between mb-6">
                   <h2
                     className="text-[24px] text-gray-900 font-bold capitalize"
@@ -162,18 +184,29 @@ export default function ItemDetails() {
                     <span style={{ color: "#A68877" }}>By</span>{" "}
                     {item.authorId.name}
                   </h2>
-                  <div
-                    className="text-[20px] font-semibold"
-                    style={{ color: "#A68877" }}
-                  >
-                    {item.price + "$"}
-                  </div>
+
+                  <CurrencyConverter price={item.price}>
+                    {({ localPrice, currency }) => (
+                      <div
+                        className="text-[20px] font-semibold"
+                        style={{ color: "#A68877" }}
+                      >
+                        <span>
+                          {localPrice} {currency}
+                        </span>
+                      </div>
+                    )}
+                  </CurrencyConverter>
+                </div>
+                <div className="mb-6 text-base font-medium text-placeholder">
+                  <span>Count In Stock:</span>
+                  <span className="ml-1">{item?.countInStock}</span>
                 </div>
                 <p
-                  className="textcolor2 mb-6 italic text-base"
+                  className="textcolor2 mb-6 italic text-base capitalize"
                   style={{ fontFamily: "Roboto Flex, sans-serif" }}
                 >
-                  {item.description}
+                  {item?.description}
                 </p>
                 <div className="flex items-center">
                   <i
@@ -192,7 +225,7 @@ export default function ItemDetails() {
                       isCartFilled
                         ? "bg-transparent text-button border-button"
                         : "bg-button text-white"
-                    }    px-6 py-2 border rounded-[4px] flex items-center transition-all hover:bg-transparent hover:border-button hover:text-button `}
+                    } px-6 py-2 border rounded-[4px] flex items-center transition-all hover:bg-transparent hover:border-button hover:text-button `}
                   >
                     Add To Cart
                   </button>
@@ -200,20 +233,18 @@ export default function ItemDetails() {
               </div>
             </div>
           )}
-          <SuggestionSwiper suggestionItems={suggestionItems} />
           <div className="mt-4">
-
-           <p className="font-medium m-2 mb-4"> Customer Review & Rating</p>
-          <div className="flex flex-col md:flex-row gap-4 ">
-            <Review />
-            <hr className="md:rotate-90 md:mt-20 md:w-28 w-full h-px mr-7" />
-            <Rating />
+            <p className="font-medium m-2"> Customer Review & Rating</p>
+            <div className="flex flex-col md:flex-row gap-4 ">
+              <Rating />
+              <hr className="md:rotate-90 md:mt-20 md:w-28 w-full h-px" />
+              <Review />
+            </div>
           </div>
-          </div>
+          <SuggestionSwiper suggestionItems={suggestionItems} />
         </div>
       </div>
-
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

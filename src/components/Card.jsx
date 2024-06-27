@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { WishlistContext } from "../context/WishlistContext";
+import CurrencyConverter from "./CurrencyConverter";
 
 export default function Card(props) {
   const { item } = props;
@@ -103,27 +104,36 @@ export default function Card(props) {
             <h5 className="text-lg font-bold textColor2 text-center">
               {item.title}
             </h5>
-            <div className="flex items-center justify-center mt-2.5">
-              {item.discount > 0 ? (
+
+            <CurrencyConverter price={item.price}>
+              {({ localPrice, currency }) => (
+                <div
+                  className="flex items-center justify-center mt-2.5"
+                 
+                >
+                 {item.discount > 0 ? (
                 <>
-                  <p className="text-sm font-medium line-through text-red-500">
-                    {item.price + "$"}
-                  </p>
-                  <p className="text-sm font-medium ml-2 text-red-500" style={{ color: "#A68877" }}>
+                  <span  className="text-sm font-medium" style={{ color: "#A68877" }} >
+                    {localPrice} {currency}
+                  </span>
+                   <p className="text-sm font-medium ml-2 text-red-500" style={{ color: "#A68877" }}>
                     {discountedPrice.toFixed(2) + "$"}
                   </p>
                 </>
-              ) : (
-                <p className="text-sm font-medium" style={{ color: "#A68877" }}>
-                  {item.price + "$"}
-                </p>
-              )}
-            </div>
-            {item.discount > 0 && (
+                ) :
+                  <span  className="text-sm font-medium" style={{ color: "#A68877" }} >
+                    {localPrice} {currency}
+                  </span>
+                  )}
+                </div>
+                 {item.discount > 0 && (
               <div className="text-center text-green-500 font-bold">
                 {item.discount}% OFF
               </div>
-            )}
+                
+              )}
+            </CurrencyConverter>
+
           </Link>
         </div>
       </div>

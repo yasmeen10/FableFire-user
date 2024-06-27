@@ -16,46 +16,34 @@ export default function Shop() {
   const [items, setItems] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pages, setPages] = useState(1);
-
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     setSelectedCategory(categoryId || "all");
   }, [categoryId]);
 
   useEffect(() => {
-    fetchItems(selectedCategory, currentPage);
-  }, [currentPage,selectedCategory]);
+    if (searchQuery) {
+      searchItems(searchQuery, currentPage);
+    } else {
+      fetchItems(selectedCategory, currentPage);
+    }
+  }, [currentPage, selectedCategory, searchQuery]);
 
+  const limit = 5;
 
   const formik = useFormik({
     initialValues: {
       search: "",
     },
-    onSubmit: async (values) => {
-      try {
-        const { data } = await axiosInstance.get(
-          `http://localhost:3005/api/v1/item/search/${values.search}`
-        );
-        if (data.data.itemsByTitle.length !== 0) {
-          setItems(data.data.itemsByTitle);
-        } else if (data.data.itemsByAuthor.length !== 0) {
-          setItems(data.data.itemsByAuthor);
-        }
-        setPages(1);
-        setCurrentPage(1);
-        values.search = "";
-       
-      } catch (error) {
-        console.log("Error fetching search results:", error.response.data.message);
-        toast.error(error.response.data.message);
-      }
+    onSubmit: async (values , { resetForm }) => {
+      setSearchQuery(values.search);
+      setCurrentPage(1);
+      resetForm()
     },
   });
 
-  const limit = 5;
-
   const fetchItems = async (category, page) => {
-    console.log(category);
     try {
       const response = await axiosInstance.get(
         `http://localhost:3005/api/v1/item?category=${category}&page=${page}&limit=${limit}`
@@ -65,22 +53,35 @@ export default function Shop() {
     } catch (error) {
       console.error("Error fetching items:", error);
       toast.error("Error fetching items");
-     
     }
   };
 
+  const searchItems = async (key, page) => {
+    try {
+      const response = await axiosInstance.get(
+        `http://localhost:3005/api/v1/item/search/${key}?page=${page}&limit=${limit}`
+      );
+      const data = response.data.data;
+      setItems(data.itemsByTitle.length ? data.itemsByTitle : data.itemsByAuthor);
+      setPages(data.numOfPages);
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+      toast.error("Error fetching search results");
+    }
+  };
 
   const handleCategoryChange = useCallback((categoryId) => {
     setSelectedCategory(categoryId);
-    setCurrentPage(1); 
+
+    setCurrentPage(1);
+    setSearchQuery(""); // Clear search query when category changes
+
   }, []);
 
-  
   return (
     <>
       <Navbar />
 
-     
       {/* Search */}
       <form onSubmit={formik.handleSubmit} className="max-w-lg mx-auto mt-4">
         <div className="flex">
@@ -120,7 +121,6 @@ export default function Shop() {
         </div>
       </form>
 
-     
       {/* Category filter */}
       <div>
         <CategoriesPage setSelectedCategory={handleCategoryChange} />
@@ -147,7 +147,6 @@ export default function Shop() {
         </div>
       </div>
 
-      
       {/* Pagination */}
       {pages > 1 && (
         <div className="flex flex-col items-center">

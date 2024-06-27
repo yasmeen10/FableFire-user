@@ -21,7 +21,7 @@ export const CartProvider = ({ children }) => {
     if (isLoggedIn) {
       fetchShoppingItemData();
     }
-  }, []);
+  }, [setShoppingItemData, isLoggedIn]);
 
   const handleIncrementQuantity = async (item) => {
     try {
@@ -43,7 +43,7 @@ export const CartProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something Went Wrong Please try again");
+      toast.error(error.response.data.message);
     }
   };
 
@@ -67,7 +67,7 @@ export const CartProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something Went Wrong Please try again");
+      toast.error(error.response.data.message);
     }
   };
 
@@ -79,7 +79,7 @@ export const CartProvider = ({ children }) => {
         `http://localhost:3005/api/v1/shoppingItem/${item}`
       );
     } catch (error) {
-      toast.error("Something Went Wrong Please try again");
+      toast.error(error.response.data.message);
     }
   };
 
@@ -92,7 +92,11 @@ export const CartProvider = ({ children }) => {
       items.push(item);
       setShoppingItemData(items);
     } catch (error) {
-      navigate("/signIn");
+      if (error.response.status == 401) {
+        navigate("/signIn");
+        return;
+      }
+      toast.error(error.response.data.message);
     }
   };
   return (

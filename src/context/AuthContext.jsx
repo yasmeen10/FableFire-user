@@ -16,6 +16,7 @@ export function AuthProvider(props) {
   const [authUser, setAuthUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const validationSchema = Yup.object({
     email: Yup.string()
@@ -35,6 +36,7 @@ export function AuthProvider(props) {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
+        setLoading(true);
         const response = await axiosInstance.post(
           "http://localhost:3005/api/v1/user/login",
           values
@@ -50,6 +52,7 @@ export function AuthProvider(props) {
       } catch (error) {
         toast.error(error.response.data.message);
       }
+      setLoading(false);
     },
   });
 
@@ -80,6 +83,7 @@ export function AuthProvider(props) {
     isLoggedIn,
     setIsLoggedIn,
     formik,
+    loading,
   };
 
   return (

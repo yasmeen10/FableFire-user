@@ -1,6 +1,6 @@
 import axios from "axios";
 import { replace, useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,6 +10,7 @@ import { emailPattern } from "../../constants/EmailRegex";
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const validationSchema = Yup.object({
     firstName: Yup.string()
@@ -29,9 +30,9 @@ export default function SignUp() {
     password: Yup.string()
       .min(8, "Password must be at least 8 characters")
       .required("Password is required"),
-      confirmPassword: Yup.string()
-      .oneOf([Yup.ref("password"), null], 'ConfirmPassword must match Password')
-      .required('Confirm Password is required'),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], "ConfirmPassword must match Password")
+      .required("Confirm Password is required"),
   });
 
   const formik = useFormik({
@@ -41,20 +42,22 @@ export default function SignUp() {
       email: "",
       password: "",
       confirmPassword: "",
+      images: [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSouls88ujOkH8eT0AKf0gU4wh8pY4249WYrWu9EVZwPsXgKvyIz0dH2roxugfxHvAhBfA&usqp=CAU",
+      ],
     },
 
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        const data = await axios.post(
-          "http://localhost:3005/api/v1/user",
-          {
-            firstName: values.firstName,
-            lastName: values.lastName,
-            email: values.email,
-            password: values.password,
-          }
-        );
+        setLoading(true);
+        const data = await axios.post("http://localhost:3005/api/v1/user", {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          email: values.email,
+          password: values.password,
+          images: values.images[0],
+        });
 
         if (data.status == 201) {
           toast.success("Sign Up Successfully");
@@ -63,6 +66,7 @@ export default function SignUp() {
       } catch (error) {
         toast.error(error.response.data.message);
       }
+      setLoading(false);
     },
   });
 
@@ -88,6 +92,7 @@ export default function SignUp() {
           </p>
 
           <form onSubmit={formik.handleSubmit} className="p-5 w-full">
+            <img className="hidden" src={formik.values.images[0]} alt="" />
             <div></div>
             <div className="pb-2 ">
               <label className="text-textcolor1" htmlFor="firstName">
@@ -180,9 +185,15 @@ export default function SignUp() {
             </div>
 
             <div className="mt-5  h-11 m-auto bg-button text-center pt-2 w-full lg:w-64 rounded-lg">
-              <button className="text-white" type="submit">
-                Sign Up
-              </button>
+              {loading ? (
+                <button className="text-white" type="submit">
+                  <span className="loading loading-spinner">loading</span>
+                </button>
+              ) : (
+                <button className="text-white" type="submit">
+                  Sign Up
+                </button>
+              )}
             </div>
           </form>
         </div>
