@@ -3,10 +3,12 @@ import axiosInstance from "../../../interceptor";
 import Categories from "../../components/Categories";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import CategoryShopSkeletone from "../../components/CategoryShopSkeletone";
 
 export default function CategoriesPage({ setSelectedCategory }) {
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
 
   const categoryIdFromUrl = location.pathname.split("/").pop();
@@ -37,6 +39,8 @@ export default function CategoriesPage({ setSelectedCategory }) {
       }
     } catch (error) {
       toast.error("Something went wrong, please try again");
+    }finally {
+      setLoading(false);
     }
   };
 
@@ -47,10 +51,14 @@ export default function CategoriesPage({ setSelectedCategory }) {
   };
 
   return (
-    <Categories
+    loading ? (
+      <CategoryShopSkeletone />
+    ) : (
+      <Categories
       categories={categories}
       activeCategory={activeCategory}
       handleCategoryClick={handleCategoryClick}
     />
-  );
+  )
+);
 }

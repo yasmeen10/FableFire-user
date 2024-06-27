@@ -72,8 +72,10 @@ export default function Shop() {
 
   const handleCategoryChange = useCallback((categoryId) => {
     setSelectedCategory(categoryId);
+
     setCurrentPage(1);
     setSearchQuery(""); // Clear search query when category changes
+
   }, []);
 
   return (
@@ -129,7 +131,7 @@ export default function Shop() {
               New Arrivals
             </h2>
           )}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 px-28">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 px-28 mx-auto">
             {Array.isArray(items) && items.length > 0 ? (
               items.map((item) => <Card key={item._id} item={item} />)
             ) : (
