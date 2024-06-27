@@ -158,6 +158,10 @@ export default function ProfileData() {
             <span> {profile.lastName}</span>
           </div>
           <div>
+            <p className="inline-flex font-medium text-button">Email: </p>
+            <span> {profile.email}</span>
+          </div>
+          <div>
             <p className="inline-flex font-medium text-button">Address: </p>
             <span> {profile.address}</span>
           </div>
@@ -166,10 +170,6 @@ export default function ProfileData() {
               Phone Number:{" "}
             </p>
             <span> {profile.phoneNumber}</span>
-          </div>
-          <div>
-            <p className="inline-flex font-medium text-button">Email: </p>
-            <span> {profile.email}</span>
           </div>
         </div>
       </div>
