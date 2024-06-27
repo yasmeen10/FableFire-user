@@ -52,7 +52,7 @@ export default function Home() {
         toast.error("Something Went Wrong Please try again category");
       }
     } catch (error) {
-      toast.error("Something Went Wrong Please try again");
+      toast.error(error.response.data.message);
     }
   };
 

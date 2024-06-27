@@ -38,7 +38,7 @@ export default function OrderSummary(props) {
   const totalAmount = useMemo(
     () =>
       itemsToDisplay?.reduce(
-        (total, item) => total + item.item.price * item.quantity,
+        (total, item) => total + item?.item?.price * item?.quantity,
         0
       ),
     [itemsToDisplay]

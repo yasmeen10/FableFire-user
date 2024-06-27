@@ -29,9 +29,8 @@ export default function PaymentDetails(props) {
             }
           );
           if (response.status === 200) {
-            navigate("/orderconfirmation", {
-              state: { paymentMethod: "Cash" },
-            });
+            navigate("/orderconfirmation");
+            localStorage.setItem("paymentMethod", "Cash");
           }
         } else {
           const response = await axiosInstance.post(
@@ -40,14 +39,15 @@ export default function PaymentDetails(props) {
               orderId: orderDetails.order._id,
             }
           );
+          console.log(response.data.url);
           if (response.status === 200) {
-            navigate("/orderconfirmation", {
-              state: { paymentMethod: "VISA" },
-            });
+            window.location.href = response.data.url;
+            localStorage.setItem("paymentMethod", "VISA");
           }
         }
       } catch (error) {
-        toast.error("Something Went Wrong Please try again");
+        console.log(error);
+        toast.error(error.response.data.message);
       }
     },
   });

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { replace, useFormik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -10,6 +10,7 @@ import { emailPattern } from "../../constants/EmailRegex";
 
 export default function SignUp() {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const validationSchema = Yup.object({
     firstName: Yup.string()
@@ -46,6 +47,7 @@ export default function SignUp() {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
+        setLoading(true);
         const data = await axios.post(
           "http://localhost:3005/api/v1/user",
           {
@@ -63,6 +65,7 @@ export default function SignUp() {
       } catch (error) {
         toast.error(error.response.data.message);
       }
+      setLoading(false);
     },
   });
 
@@ -180,9 +183,15 @@ export default function SignUp() {
             </div>
 
             <div className="mt-5  h-11 m-auto bg-button text-center pt-2 w-full lg:w-64 rounded-lg">
-              <button className="text-white" type="submit">
-                Sign Up
-              </button>
+              {loading ? (
+                <button className="text-white" type="submit">
+                  <span className="loading loading-spinner">loading</span>
+                </button>
+              ) : (
+                <button className="text-white" type="submit">
+                  Sign Up
+                </button>
+              )}
             </div>
           </form>
         </div>

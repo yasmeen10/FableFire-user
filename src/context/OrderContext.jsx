@@ -20,10 +20,10 @@ export const OrderProvider = ({ children }) => {
         setOrderDetails(response.data.data);
       } catch (error) {
         console.log(error);
-        toast.error("Something Went Wrong Please try again");
+        toast.error(error.response.data.message);
       }
     }
-    if (isLoggedIn) {
+    if (isLoggedIn && orderId) {
       fetchOrder();
     }
   }, [orderId, isLoggedIn]);

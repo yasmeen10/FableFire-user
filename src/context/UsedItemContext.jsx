@@ -21,7 +21,7 @@ export const UsedItemProvider = ({ children }) => {
         setUsedItems(data.data.results);
       } catch (error) {
         console.log(error);
-        toast.error("Something Went Wrong Please try again");
+        toast.error(error.response.data.message);
       }
     }
 
@@ -33,7 +33,7 @@ export const UsedItemProvider = ({ children }) => {
         setCurrUserUsedItems(data.data);
       } catch (error) {
         console.log(error);
-        toast.error("Something Went Wrong Please try again");
+        toast.error(error.response.data.message);
       }
     }
 
@@ -55,7 +55,7 @@ export const UsedItemProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something Went Wrong Please try again");
+      toast.error(error.response.data.message);
     }
   };
 
@@ -74,7 +74,7 @@ export const UsedItemProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something Went wrong please try again");
+      toast.error(error.response.data.message);
     }
   };
 
@@ -100,7 +100,7 @@ export const UsedItemProvider = ({ children }) => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something Went wrong please try again");
+      toast.error(error.response.data.message);
     }
   };
 

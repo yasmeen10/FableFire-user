@@ -30,7 +30,7 @@ export default function ProfileData() {
         setAuthUser(profileData);
         setProfileImageUrl(profileData.images[0]);
       } catch (error) {
-        toast.error("Something Went Wrong Please try again");
+        toast.error(error.response.data.message);
       }
     }
     fetchData();
@@ -112,9 +112,7 @@ export default function ProfileData() {
   };
 
   if (isLoading) {
-    return (
-     <ProfileSkelton/>
-    );
+    return <ProfileSkelton />;
   }
   return (
     <>
