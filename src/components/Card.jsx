@@ -52,6 +52,8 @@ export default function Card(props) {
     );
   }
 
+  const discountedPrice = item.price - (item.price * (item.discount / 100));
+
   return (
     <div className="flex items-center justify-center p-2 relative">
       <div className="bg-white rounded-lg flex-col w-40 overflow-hidden">
@@ -102,10 +104,26 @@ export default function Card(props) {
               {item.title}
             </h5>
             <div className="flex items-center justify-center mt-2.5">
-              <p className="text-sm font-medium" style={{ color: "#A68877" }}>
-                {item.price + "$"}
-              </p>
+              {item.discount > 0 ? (
+                <>
+                  <p className="text-sm font-medium line-through text-red-500">
+                    {item.price + "$"}
+                  </p>
+                  <p className="text-sm font-medium ml-2 text-red-500" style={{ color: "#A68877" }}>
+                    {discountedPrice.toFixed(2) + "$"}
+                  </p>
+                </>
+              ) : (
+                <p className="text-sm font-medium" style={{ color: "#A68877" }}>
+                  {item.price + "$"}
+                </p>
+              )}
             </div>
+            {item.discount > 0 && (
+              <div className="text-center text-green-500 font-bold">
+                {item.discount}% OFF
+              </div>
+            )}
           </Link>
         </div>
       </div>

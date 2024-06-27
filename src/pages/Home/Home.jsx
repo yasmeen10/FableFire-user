@@ -12,11 +12,11 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import Card from "../../components/Card";
 import Authors from "../../components/Authors";
-import KidsSVG from "../../components/SVG/KidsSVG";
-import RomanceSVG from "../../components/SVG/RomanceSVG";
-import HorrorSVG from "../../components/SVG/HorrorSVG";
-import HealthySVG from "../../components/SVG/HealthySVG";
-import ArtSVG from "../../components/SVG/ArtSVG";
+// import KidsSVG from "../../components/SVG/KidsSVG";
+// import RomanceSVG from "../../components/SVG/RomanceSVG";
+// import HorrorSVG from "../../components/SVG/HorrorSVG";
+// import HealthySVG from "../../components/SVG/HealthySVG";
+// import ArtSVG from "../../components/SVG/ArtSVG";
 import SVG from "../../components/SVG/SVG";
 import SVGG from "../../components/SVG/SVGG";
 import { useNavigate } from "react-router-dom";
@@ -24,10 +24,16 @@ import axiosInstance from "../../../interceptor";
 import CardSkeleton from "../../components/CardSkeleton";
 import Trending from "../../components/Trending";
 import { toast } from "react-toastify";
+import WhyChooseUs from "../../components/WhyChooseUs";
+import CategorySkeleton from "../../components/CategorySkeleton";
 
 export default function Home() {
   const [categoryList, setCategoryList] = useState([]);
   const [newArrivals, setNewArrivals] = useState([]);
+  const [author, setAuthor] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [book, setBook] = useState(null);
+  const [discount, setDiscount] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,6 +45,8 @@ export default function Home() {
     }
     fetchNewArrivals();
     fetchCategories();
+    fetchAuthor();
+    fetchItemsDiscount();
   }, []);
 
   const fetchCategories = async () => {
@@ -49,13 +57,44 @@ export default function Home() {
       if (response.data && Array.isArray(response.data.data.results)) {
         setCategoryList(response.data.data.results);
       } else {
-        toast.error("Something Went Wrong Please try again category");
+        console.error("Error:", response.data);
       }
     } catch (error) {
-      toast.error("Something Went Wrong Please try again");
+      console.error("Error fetching categories:", error);
+    }finally {
+      setLoading(false);
     }
   };
-
+  const fetchItemsDiscount = async () => {
+    try {
+      const response = await axiosInstance.get(
+        "http://localhost:3005/api/v1/item"
+      );
+      if (response.data && Array.isArray(response.data.data.results)) {
+        const discountedItems = response.data.data.results.filter(item => item.discount > 0);
+        setDiscount(discountedItems);
+      } else {
+        console.error("Error:", response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+  const fetchAuthor = async () => {
+    try {
+      const response = await axiosInstance.get(
+        "http://localhost:3005/api/v1/author/mostPopularAuthor"
+      );
+      if (response.data && response.data.data && response.data.data.author) {
+        setAuthor(response.data.data.author);
+        setBook(response.data.data.Book);
+      } else {
+        console.log("Error:", response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching author:", error);
+    }
+  };
   const handleCategoryClick = (categoryId) => {
     navigate(`/shop/${categoryId}`);
   };
@@ -121,14 +160,22 @@ export default function Home() {
             </button>
           </div>
         </div>
-        <div className="mt-10 ml-24">
-          <div className=" max-w-4xl">
-            <p className="text-[32px] font-medium mb-4">Categories</p>
-            <Carousel responsive={responsive}>
-              {categoryList.map((category) => (
+        <div className="max-w-4xl">
+          <p className="text-[32px] font-medium mb-4 ml-24 mt-8">Categories</p>
+          <Carousel responsive={responsive}>
+            {loading ? (
+               <div className="flex flex-row">
+               <CategorySkeleton />
+               <CategorySkeleton />
+               <CategorySkeleton />
+               <CategorySkeleton />
+               <CategorySkeleton />
+             </div>
+            ) : (
+              categoryList.map((category) => (
                 <div
                   key={category._id}
-                  className="h-32 w-32 p-4 m-10 bg-[#F6F6F7] cursor-pointer flex flex-col items-center justify-center"
+                  className="h-32 w-32 p-4 m-10 ml-24 bg-[#F6F6F7] cursor-pointer flex flex-col items-center justify-center"
                   onClick={() => handleCategoryClick(category._id)}
                 >
                   <img
@@ -141,9 +188,9 @@ export default function Home() {
                   </p>
                   <p className="font-medium text-[#735F39]">Shop Now</p>
                 </div>
-              ))}
-            </Carousel>
-          </div>
+              ))
+            )}
+          </Carousel>
         </div>
         <Trending />
         <div>
@@ -167,49 +214,78 @@ export default function Home() {
         <div className="  md:w-full lg:w-full h-[530px] lg:h-[440px]  bg-[#D6CCC2] mt-[90px]  lg:mt-[90px]  md:flex lg:flex">
           <div className=" w-6 flex items-center justify-center  md:ml-10 lg:ml-10">
             <p className=" rotate-0 md:rotate-0  lg:-rotate-90 sm:mb-[300px] md:mb-[430px] md:ml-[400px] lg:mb-4 ml-[150px] lg:ml-[300px] font-thin text-[#210F04] whitespace-nowrap text-[24px] tracking-widest">
-              Best Seller
+              Top Author
             </p>
           </div>
 
           <div className="flex lg:mt-[0px] md:mt-[50px]">
             <div>
-              <img
-                className="  rounded-2xl h-64 ml-[30px] mt-[20px] absolute sm:h-[200px] lg:ml-[200px] lg:mt-[80px] md:mt-[80px] md:ml-[200px] lg:h-[250px] md:h-[250px]"
-                src={Auther}
-              />
+              {author && author.images && author.images[0] ? (
+                <img
+                  className="  rounded-2xl h-64 w-48 ml-[30px] mt-[20px] absolute sm:h-[200px] lg:ml-[200px] lg:mt-[80px] md:mt-[80px] md:ml-[200px] lg:h-[250px] md:h-[250px] object-cover"
+                  src={author.images[0]}
+                  alt={author.name}
+                />
+              ) : (
+                <p>Loading author image...</p>
+              )}
             </div>
-
             <div className=" ">
               <div>
                 <img
                   className="ml-[170px] mt-[100px]  rounded-2xl h-48 sm:mt-[150px] sm:ml-[300px] md:mt-[160px] md:ml-[330px] lg:mt-[160px] lg:ml-[330px]  relative sm: sm:h-[150px] lg:h-[200px] md:h-[200px]"
-                  src={book5}
+                  src={book ? book.images[0] : 'default-image-url'} 
                 />
               </div>
             </div>
           </div>
 
-          <div className="ml-[30px] mt-[20px] lg:mt-[130px] md:mt-[200px] lg:ml-10 md:ml-10 sm:mt-[100px] sm:ml-[80px] sm:mr-8">
-            <p className="text-[#210F04] lg:first-line:text-[28px] sm:text-[20px] font-light ">
-              The Rise and Fall of the Dinosaurs
-            </p>
-            <p className="text-[#210F04] lg:text-[20px] sm:text-[16px] font-light italic mt-2">
-              A New History of a Lost World
-            </p>
-            <p className="text-[#210F04] lg-text-[18px] sm:text-[16px] font-thin italic mt-2">
-              by Steve Brusatte
-            </p>
-            <button
-              type="submit"
-              className="font-thin mt-2 text-white bg-[#A68877] hover:bg-[#B99885] focus:ring-4 focus:outline-none rounded-md text-sm text-center w-[130px] h-[30px]"
-            >
-              Veiw Details
-            </button>
+          <div
+            className="ml-[30px] mt-[20px] lg:mt-[130px] md:mt-[200px] lg:ml-10 md:ml-10 sm:mt-[100px] sm:ml-[80px] sm:mr-8"
+            style={{ fontFamily: "Roboto Flex, sans-serif" }}
+          >
+            {author ? (
+              <>
+                <p className="text-[#210F04] lg:first-line:text-[28px] sm:text-[20px] font-light">
+                  {author.name}
+                </p>
+                <p className="text-[#210F04] w-[400px] lg:text-[20px] sm:text-[16px] font-light italic mt-2">
+                  {author.description}
+                </p>
+              </>
+            ) : (
+              <p>Loading author details...</p>
+            )}
           </div>
         </div>
 
-        <p className="ml-[50px] mt-24 text-[32px] font-medium ">Authors</p>
-        <Authors />
+      <p className="text-[32px] font-medium ml-24 mt-8 mb-8">Amazing Discounts</p>
+      <div className="w-4/5 mx-auto">
+      {discount && discount.length > 0 ? (
+        <Carousel
+          showDots={false}
+          arrows={true}
+          responsive={responsive}
+          infinite={true}
+          autoPlay={true}
+          autoPlaySpeed={1000}
+          keyBoardControl={true}
+          transitionDuration={200}
+        >
+          {discount.map((item) => (
+            <Card key={item._id} item={item} />
+          ))}
+        </Carousel>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+        </div>
+      )}
+    </div>
+    <WhyChooseUs/>
       </div>
       <Footer />
     </>
