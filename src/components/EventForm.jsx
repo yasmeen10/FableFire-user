@@ -3,9 +3,11 @@ import { useState } from "react";
 import * as Yup from "yup";
 import { phoneNumberRegex } from "../constants/PhoneNumberRegex";
 import axiosInstance from "../../interceptor";
+import { toast } from "react-toastify";
 
 export default function EventForm(props) {
   const { close } = props;
+  const [loading, setLoading] = useState(false);
   const [initialValues, setInitialValues] = useState({
     phoneNumber: "",
     address: "",
@@ -22,14 +24,20 @@ export default function EventForm(props) {
     validationSchema: validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      const response = await axiosInstance.patch(
-        "http://localhost:3005/api/v1/user",
-        values
-      );
-      if (response.status === 200) {
-        close();
+      try {
+        setLoading(true);
+        const response = await axiosInstance.patch(
+          "http://localhost:3005/api/v1/user",
+          values
+        );
+        if (response.status === 200) {
+          close();
+        }
+        console.log(response);
+      } catch (error) {
+        toast.error(error.response.data.message);
       }
-      console.log(response);
+      setLoading(false);
     },
   });
 
@@ -75,12 +83,21 @@ export default function EventForm(props) {
               </div>
             ) : null}
             <div className="mt-4 flex items-center justify-end">
-              <button
-                type="submit"
-                className="bg-button text-white font-medium text-lg py-1 px-10 rounded cursor-pointer"
-              >
-                Save
-              </button>
+              {loading ? (
+                <button
+                  type="submit"
+                  className="bg-button text-white font-medium text-lg py-1 px-10 rounded cursor-pointer"
+                >
+                  <span className="loading loading-spinner">loading</span>
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="bg-button text-white font-medium text-lg py-1 px-10 rounded cursor-pointer"
+                >
+                  Save
+                </button>
+              )}
             </div>
           </Form>
         </Formik>

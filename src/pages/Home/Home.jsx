@@ -103,8 +103,9 @@ export default function Home() {
         toast.error("Something Went Wrong Please try again category");
       }
     } catch (error) {
-      console.log(error);
-      toast.error();
+
+      toast.error(error.response.data.message);
+
     }
   };
 

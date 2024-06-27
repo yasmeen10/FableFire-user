@@ -9,6 +9,8 @@ import Popup from "reactjs-popup";
 import EventForm from "../../components/EventForm";
 import { useAuth } from "../../context/AuthContext";
 import { EventContext } from "../../context/EventContext";
+import QRCodeCard from "../../components/QRCodeCard";
+import { toast } from "react-toastify";
 
 export default function Events() {
   const [events, setEvents] = useState([]);
@@ -32,6 +34,7 @@ export default function Events() {
       navigate("/signin");
     } else {
       handleReverseTicket(eventId);
+      toast.success("Your reservation has been completed successfully");
     }
   };
 

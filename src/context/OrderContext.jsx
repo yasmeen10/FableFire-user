@@ -19,6 +19,7 @@ export const OrderProvider = ({ children }) => {
 
         setOrderDetails(response.data.data);
       } catch (error) {
+
         toast.error(error.response.data.message);
       }
     }

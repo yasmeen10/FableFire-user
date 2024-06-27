@@ -22,8 +22,7 @@ export const WishlistProvider = ({ children }) => {
             : []
         );
       } catch (error) {
-        
-        if(error.response.status == 401) {
+        if (error.response.status == 401) {
           console.log(error.response.data.message);
           return;
         }

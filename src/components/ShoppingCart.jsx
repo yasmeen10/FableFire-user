@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import CancelArrow from "./SVG/CancelArrow";
 import { CartContext } from "../context/CartContext";
 
@@ -6,6 +6,9 @@ export default function ShoppingCart(props) {
   const { shoppingItem } = props;
   const { handleIncrementQuantity, handleDecrementQuantity, handleRemoveItem } =
     useContext(CartContext);
+  console.log(shoppingItem);
+  console.log(shoppingItem?.item?.countInStock);
+  console.log(shoppingItem?.quantity);
   return (
     <div>
       {!shoppingItem ? (
@@ -40,7 +43,15 @@ export default function ShoppingCart(props) {
               <span>{shoppingItem?.quantity}</span>
               <button
                 onClick={() => handleIncrementQuantity(shoppingItem?._id)}
-                className="text-textcolor2"
+                disabled={
+                  shoppingItem?.quantity >= shoppingItem?.item?.countInStock
+                }
+                className={`${
+                  shoppingItem &&
+                  shoppingItem?.quantity >= shoppingItem?.item?.countInStock
+                    ? "text-gray1"
+                    : "text-textcolor2"
+                }`}
               >
                 +
               </button>
