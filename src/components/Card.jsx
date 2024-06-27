@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { WishlistContext } from "../context/WishlistContext";
+import CurrencyConverter from "./CurrencyConverter";
 
 export default function Card(props) {
   const { item } = props;
@@ -101,11 +102,18 @@ export default function Card(props) {
             <h5 className="text-lg font-bold textColor2 text-center">
               {item.title}
             </h5>
-            <div className="flex items-center justify-center mt-2.5">
-              <p className="text-sm font-medium" style={{ color: "#A68877" }}>
-                {item.price + "$"}
-              </p>
-            </div>
+            <CurrencyConverter price={item.price}>
+              {({ localPrice, currency }) => (
+                <div
+                  className="flex items-center justify-center mt-2.5"
+                 
+                >
+                  <span  className="text-sm font-medium" style={{ color: "#A68877" }} >
+                    {localPrice} {currency}
+                  </span>
+                </div>
+              )}
+            </CurrencyConverter>
           </Link>
         </div>
       </div>

@@ -22,13 +22,63 @@ import SVGG from "../../components/SVG/SVGG";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../interceptor";
 import CardSkeleton from "../../components/CardSkeleton";
-import Trending from "../../components/Trending";
 import { toast } from "react-toastify";
+import SwiperComponent from "../../components/SwiperComponent";
 
 export default function Home() {
   const [categoryList, setCategoryList] = useState([]);
   const [newArrivals, setNewArrivals] = useState([]);
+
+  const [images, setImages] = useState([]);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const { data } = await axiosInstance.get(
+          "http://localhost:3005/api/v1/item"
+        );
+       
+        
+        setImages(data.data.results);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  // const Images = [
+  //   {
+
+  //     url: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8Y2Fyc3xlbnwwfHwwfA%3D%3D&auto=format&fit=crop&w=500&q=60",
+  //   },
+  //   {
+
+  //     url: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
+  //   },
+  //   {
+
+  //     url: "https://images.unsplash.com/photo-1517672651691-24622a91b550?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1189&q=80",
+  //   },
+  //   {
+  //     url: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixid=MXwxMjA3fDB8MHxzZWFyY2h8Mnx8Y2Fyc3xlbnwwfHwwfA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60",
+  //   },
+  //   {
+
+  //     url: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8Y2Fyc3xlbnwwfHwwfA%3D%3D&auto=format&fit=crop&w=500&q=60",
+  //   },
+  //   {
+
+  //     url: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8Y2Fyc3xlbnwwfHwwfA%3D%3D&auto=format&fit=crop&w=500&q=60",
+  //   },
+  //   {
+
+  //     url: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8Y2Fyc3xlbnwwfHwwfA%3D%3D&auto=format&fit=crop&w=500&q=60",
+  //   },
+  // ];
 
   useEffect(() => {
     async function fetchNewArrivals() {
@@ -46,13 +96,15 @@ export default function Home() {
       const response = await axiosInstance.get(
         "http://localhost:3005/api/v1/category"
       );
+
       if (response.data && Array.isArray(response.data.data.results)) {
         setCategoryList(response.data.data.results);
       } else {
         toast.error("Something Went Wrong Please try again category");
       }
     } catch (error) {
-      toast.error("Something Went Wrong Please try again");
+      console.log(error);
+      toast.error();
     }
   };
 
@@ -78,6 +130,8 @@ export default function Home() {
       items: 1,
     },
   };
+
+  
   return (
     <>
       <Navbar />
@@ -145,7 +199,14 @@ export default function Home() {
             </Carousel>
           </div>
         </div>
-        <Trending />
+       
+       {
+        images.slice(30,31).map((ll)=>{
+          return  <SwiperComponent imageList= {images.slice(30,38)}/>
+         
+        })
+       }
+        
         <div>
           <p className="text-[32px] font-medium ml-24 mt-8">New Arrivals</p>
           {newArrivals.length === 0 ? (
