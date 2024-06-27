@@ -28,6 +28,8 @@ import NotFound from "./pages/NotFound";
 import Events from "./pages/Events/Events";
 import EventDetails from "./pages/EventDetails/EventDetails";
 import Ticket from "./pages/Ticket/Ticket";
+import TicketProfile from "./pages/profile/TicketProfile";
+import PostsProfile from "./pages/profile/PostsProfile";
 
 function App() {
   // const [darkMode, setDarkModez] = useState(false);
@@ -71,10 +73,9 @@ function App() {
               <Route index element={<ProfileData />} />
               <Route path="wishList" element={<WishList />} />
               <Route path="orderProfile" element={<OrderProfile />} />
-              <Route
-                path="orderProfileHistory"
-                element={<ProfileOrdersHistory />}
-              />
+              <Route path="orderProfileHistory" element={<ProfileOrdersHistory />} />
+              <Route path="ticket" element={<TicketProfile/>}/>
+              <Route path="posts" element={<PostsProfile/>}/>
             </Route>
           </Route>
 

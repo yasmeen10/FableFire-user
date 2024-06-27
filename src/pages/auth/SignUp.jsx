@@ -30,10 +30,9 @@ export default function SignUp() {
     password: Yup.string()
       .min(8, "Password must be at least 8 characters")
       .required("Password is required"),
-    confirmPassword: Yup.string().oneOf(
-      [Yup.ref("password"), null],
-      "Passwords must match"
-    ),
+      confirmPassword: Yup.string()
+      .oneOf([Yup.ref("password"), null], 'ConfirmPassword must match Password')
+      .required('Confirm Password is required'),
   });
 
   const formik = useFormik({
@@ -51,7 +50,12 @@ export default function SignUp() {
         setLoading(true);
         const data = await axios.post(
           "http://localhost:3005/api/v1/user",
-          values
+          {
+            firstName: values.firstName,
+            lastName: values.lastName,
+            email: values.email,
+            password: values.password,
+          }
         );
 
         if (data.status == 201) {

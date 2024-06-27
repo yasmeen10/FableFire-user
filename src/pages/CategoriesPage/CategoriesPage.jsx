@@ -33,11 +33,10 @@ export default function CategoriesPage({ setSelectedCategory }) {
       if (response.data && Array.isArray(response.data.data.results)) {
         setCategories(response.data.data.results);
       } else {
-        toast.error("Something Went Wrong Please try again");
+        toast.error("Something went wrong, please try again");
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message);
+      toast.error("Something went wrong, please try again");
     }
   };
 

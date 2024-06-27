@@ -5,6 +5,8 @@ import WishListSVG from "../../components/SVG/WishListSVG";
 import OrderSVG from "../../components/SVG/OrderSVG";
 import LogOutSVG from "../../components/SVG/LogOutSVG";
 import { useAuth } from "../../context/AuthContext";
+import TicketSVG from "../../components/SVG/TicketSVG";
+import PostsSVG from "../../components/SVG/PostsSVG";
 
 export default function UserProfile() {
   let { setAuthUser, authUser, setIsLoggedIn } = useAuth();
@@ -65,18 +67,20 @@ export default function UserProfile() {
           aria-label="Sidebar"
         >
           <div className="h-full px-3 py-4 overflow-y-auto bg-sidebar">
-            <Link to="/profile" className={`flex items-center ps-2.5 mb-5 pt-4 ${
-                  clickedItem === 0
-                    ? "bg-transparent"
-                    : "bg-transparent"
-                }`}   onClick={() => handleClick(0)}>
+            <Link
+              to="/profile"
+              className={`flex items-center ps-2.5 mb-5 pt-4 ${
+                clickedItem === 0 ? "bg-transparent" : "bg-transparent"
+              }`}
+              onClick={() => handleClick(0)}
+            >
               <img
                 src={authUser?.images[0]}
                 className=" object-cover mx-2 h-12 w-12 rounded-full"
                 alt="userImage"
               />
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-               {authUser?.firstName + " " + authUser?.lastName}
+                {authUser?.firstName + " " + authUser?.lastName}
               </span>
             </Link>
             <ul className="space-y-2 font-medium px-6 py-9">
@@ -120,6 +124,42 @@ export default function UserProfile() {
                 >
                   <OrderSVG />
                   <span className="flex-1 ms-3 whitespace-nowrap">Orders</span>
+                </Link>
+              </li>
+              <li
+                className={`hover:bg-[#E3D5CA] hover:rounded-lg ${
+                  clickedItem === 3
+                    ? "bg-[#E3D5CA] rounded-lg"
+                    : "bg-transparent"
+                }`}
+                onClick={() => handleClick(3)}
+              >
+                <Link
+                  to="ticket"
+                  className="flex items-center p-2 text-placeholder"
+                >
+                  <TicketSVG />
+                  <span className="flex-1 ms-3 whitespace-nowrap">
+                    Tickets{" "}
+                  </span>
+                </Link>
+              </li>
+              <li
+                className={`hover:bg-[#E3D5CA] hover:rounded-lg ${
+                  clickedItem === 4
+                    ? "bg-[#E3D5CA] rounded-lg"
+                    : "bg-transparent"
+                }`}
+                onClick={() => handleClick(4)}
+              >
+                <Link
+                  to="posts"
+                  className="flex items-center p-2 text-placeholder"
+                >
+                  <PostsSVG/>
+                  <span className="flex-1 ms-3 whitespace-nowrap">
+                    Posts{" "}
+                  </span>
                 </Link>
               </li>
 

@@ -22,7 +22,10 @@ export const WishlistProvider = ({ children }) => {
             : []
         );
       } catch (error) {
-        console.log(error);
+        if (error.response.status == 401) {
+          console.log(error.response.data.message);
+          return;
+        }
         toast.error(error.response.data.message);
       }
     };
@@ -39,7 +42,7 @@ export const WishlistProvider = ({ children }) => {
       setRendeerList((prev) => !prev);
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message);
+      toast.error("Something Went Wrong Please try again");
     }
   };
 
