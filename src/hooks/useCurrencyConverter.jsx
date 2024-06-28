@@ -28,7 +28,8 @@ const useCurrencyConverter = (price) => {
           setLocalPrice(price);
         }
       } catch (error) {
-        toast.error("Error fetching location or conversion rate:", error);
+        // toast.error("Error fetching location or conversion rate:", error);
+        console.log(error);
 
         setLocalPrice(price);
       } finally {

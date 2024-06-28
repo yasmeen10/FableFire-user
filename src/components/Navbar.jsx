@@ -28,9 +28,9 @@ export default function Navbar() {
   };
 
   return (
-    <div>
+    <div  >
       <nav className="bg-white dark:bg-gray-900 h-[80px] w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-        <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4 relative">
+        <div className=" flex items-center justify-around  mx-auto p-4 relative">
           <a
             href="#"
             className="flex items-center space-x-3 rtl:space-x-reverse"
@@ -40,24 +40,30 @@ export default function Navbar() {
           <div className="flex space-x-3 items-center md:order-2">
             {isLoggedIn ? (
               <Link to="/profile" className="px-4 py-2 text-center">
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center justify-between gap-4 px-2">
+                  <div>
                   <Link to="/profile/wishList">
                     <HeartSVG />
                   </Link>
+
+                  </div>
                   <div className="relative">
-                    <span className="block absolute bottom-5 left-3 border rounded-full px-2 bg-placeholder text-center">
+                    <span className="block absolute bottom-5 left-3 border rounded-full px-2  bg-placeholder text-center">
                       {shoppingItemData?.length}
                     </span>
-                    <Link to="/cart">
+                    <Link to="/cart"  >
                       <CartSVG />
                     </Link>
                   </div>
+                  <div>
                   <img
                     className="h-12 w-12 rounded-full inline"
                     src={authUser?.images[0]}
-                    alt=""
+                    alt="userImage"
                   />
                   <span>{authUser?.firstName}</span>
+
+                  </div>
                 </div>
               </Link>
             ) : (
