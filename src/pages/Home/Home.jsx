@@ -220,7 +220,9 @@ export default function Home() {
         </div>
 
         <div className="w-full">
-          <p className="lg:ml-20 sm:ml-10 ml-8 text-[32px] font-medium my-8">Categories</p>
+          <p className="lg:ml-20 sm:ml-10 ml-8 text-[32px] font-medium my-8">
+            Categories
+          </p>
           <Carousel responsive={responsive}>
             {loading ? (
               <div className="flex flex-row">
@@ -242,18 +244,12 @@ export default function Home() {
                       key={category._id}
                       className="h-32 bg-[#F6F6F7] w-40 p-4 m-auto  cursor-pointer flex flex-col items-center justify-center"
                       onClick={() => handleCategoryClick(category._id)}
-                    >         
-                    {imageState.loading && (
-                      <div className="skeleton z-10 h-10 w-10 rounded-lg"></div>
-                    )}
-                    {!imageState.loading && imageState.error && (
+                    >
                       <img
-                        src={fallbackImage}
-                        alt="Fallback"
-                        className="rounded-lg shadow-md relative z-10 w-10 h-10"
+                        src={category.images[0]}
+                        alt={category.title}
+                        className="h-10 w-10 object-cover"
                       />
-                    )}
-                    {!imageState.error && (
                       <p className="font-medium mt-4 text-[#210F04] capitalize">
                         {category.title}
                       </p>
@@ -261,67 +257,53 @@ export default function Home() {
                     </div>
                   ))}
                 </Carousel>
-                        onLoad={handleImageLoad}
-                        onError={handleImageError}
-                        style={{
-                          display: imageState.loading ? "none" : "block",
-                        }}
-                      />
-                    )}
-                    <p className="font-medium mt-4 text-[#210F04] capitalize">
-                      {category.title}
-                    </p>
-                    <p className="font-medium text-[#735F39]">Shop Now</p>
-                  </div>
-                ))}
               </div>
             )}
           </Carousel>
         </div>
 
-
         <div className="">
-  <p className="lg:ml-20 sm:ml-10 ml-8 text-[32px] font-medium my-8">Amazing Discount</p>
-  <div className="w-4/5 mx-auto">
-    {discount && discount.length > 0 ? (
-      <Carousel
-        showDots={false}
-        arrows={true}
-        responsive={responsive}
-        infinite={true}
-        autoPlay={true}
-        autoPlaySpeed={1000}
-        keyBoardControl={true}
-        transitionDuration={200}
-      >
-        {discount.map((item) => (
-          <Card key={item._id} item={item} />
-        ))}
-      </Carousel>
-    ) : (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        <CardSkeleton />
-        <CardSkeleton />
-        <CardSkeleton />
-        <CardSkeleton />
-      </div>
-    )}
-  </div>
-</div>
-
-
-
-
+          <p className="lg:ml-20 sm:ml-10 ml-8 text-[32px] font-medium my-8">
+            Amazing Discount
+          </p>
+          <div className="w-4/5 mx-auto">
+            {discount && discount.length > 0 ? (
+              <Carousel
+                showDots={false}
+                arrows={true}
+                responsive={responsive}
+                infinite={true}
+                autoPlay={true}
+                autoPlaySpeed={1000}
+                keyBoardControl={true}
+                transitionDuration={200}
+              >
+                {discount.map((item) => (
+                  <Card key={item._id} item={item} />
+                ))}
+              </Carousel>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <CardSkeleton />
+                <CardSkeleton />
+                <CardSkeleton />
+                <CardSkeleton />
+              </div>
+            )}
+          </div>
+        </div>
 
         <p className="lg:ml-20 sm:ml-10 ml-8 text-[32px] font-medium my-8">
-            Top Trending
-          </p>
+          Top Trending
+        </p>
         {images.slice(0, 1).map((ll) => {
           return <SwiperComponent imageList={images.slice(5, 11)} />;
         })}
         <WhyChooseUs />
         <div>
-          <p className="lg:ml-20 sm:ml-10 ml-8 text-[32px] font-medium my-8">New Arrivals</p>
+          <p className="lg:ml-20 sm:ml-10 ml-8 text-[32px] font-medium my-8">
+            New Arrivals
+          </p>
           {newArrivals.length === 0 ? (
             <div className=" lg:flex grid md:grid-cols-2 sm:grid-cols-1 md:ml-[150px] lg:ml-0 sm:ml-[35%] justify-center lg:gap-24 mt-5">
               <CardSkeleton />
@@ -339,6 +321,6 @@ export default function Home() {
         </div>
       </div>
       <Footer />
-    </> 
+    </>
   );
 }
