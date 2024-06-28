@@ -64,7 +64,6 @@ export default function Card(props) {
   return (
     <div className="bg-white rounded-lg flex-col w-40 overflow-hidden">
       <div className="relative">
-
         {imageState.loading && (
           <div className="skeleton z-10 w-60 h-60 rounded-lg"></div>
         )}
@@ -85,7 +84,6 @@ export default function Card(props) {
             style={{ display: imageState.loading ? "none" : "block" }}
           />
         )}
-
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50">
           <div className="flex items-center justify-center">
             <button
@@ -118,35 +116,27 @@ export default function Card(props) {
             </div>
           </div>
         </div>
-
-
-        <div className="flex flex-col p-2">
-          <Link to={`/item/${item._id}`}>
-            <h5 className="text-lg font-bold textColor2 text-center">
-              {item.title}
-            </h5>
-            <CurrencyConverter price={item.price}>
-              {({ localPrice, currency }) => (
-                <div className="flex items-center justify-center mt-2.5">
-                  {item.discount > 0 ? (
-                    <>
-                      <span className="text-sm font-medium line-through text-red-500" >
-                        {localPrice} {currency}
-                      </span>
-                      <p className="text-sm font-medium ml-2" style={{ color: "#A68877" }}>
-                        {`${(localPrice - localPrice * (item.discount / 100)).toFixed(2)} ${currency}`}
-                      </p>
-                    </>
-                  ) : (
-                    <span className="text-sm font-medium" style={{ color: "#A68877" }}>
-
-
+      </div>
+      <div className="flex flex-col p-2">
+        <Link to={`/item/${item._id}`}>
+          <h5 className="text-lg font-bold textColor2 text-center">
+            {item.title}
+          </h5>
+          <CurrencyConverter price={item.price}>
+            {({ localPrice, currency }) => (
+              <div className="flex items-center justify-center mt-2.5">
+                {item.discount > 0 ? (
+                  <>
+                    <span className="text-sm font-medium line-through text-red-500">
                       {localPrice} {currency}
                     </span>
-                    <p className="text-sm font-medium ml-2 text-red-500">
+                    <p
+                      className="text-sm font-medium ml-2"
+                      style={{ color: "#A68877" }}
+                    >
                       {`${(
-                        localPrice - localPrice * (item?.discount / 100)
-
+                        localPrice -
+                        localPrice * (item.discount / 100)
                       ).toFixed(2)} ${currency}`}
                     </p>
                   </>
@@ -161,10 +151,10 @@ export default function Card(props) {
               </div>
             )}
           </CurrencyConverter>
-          {item?.discount > 0 && (
-            <div className="text-center text-green-500 font-bold">
-              {item?.discount}% OFF
 
+          {item.discount > 0 && (
+            <div className="text-center text-green-500 font-bold">
+              {item.discount}% OFF
             </div>
           )}
         </Link>
