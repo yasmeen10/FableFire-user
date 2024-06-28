@@ -90,7 +90,7 @@ export default function Review() {
   return (
     <div className="block">
       <form onSubmit={formik.handleSubmit}>
-        <div className="mb-4 bg-button max-w-full sm:w-96">
+        <div className="mb-4 max-w-full sm:w-96">
           <input
             type="text"
             name="review"

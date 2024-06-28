@@ -5,6 +5,7 @@ import EditSVG from "./SVG/EditSVG";
 import TrashSVG from "./SVG/TrashSVG";
 import { UsedItemContext } from "../context/UsedItemContext";
 import { Link, useNavigate } from "react-router-dom";
+import CurrencyConverter from "./CurrencyConverter";
 
 export default function UsedItemData(props) {
   const { currUserUsedItems, handleRemoveUsedItem } =
@@ -44,10 +45,19 @@ export default function UsedItemData(props) {
               <h1 className="font-medium text-xl capitalize">
                 {usedItem?.title}
               </h1>
-              <span className="font-medium text-xl">{usedItem?.price}$</span>
+              {
+                <CurrencyConverter price={usedItem?.price}>
+                  {({ localPrice, currency }) => (
+                    <span className="font-medium text-xl">
+                      {localPrice}
+                      {currency}
+                    </span>
+                  )}
+                </CurrencyConverter>
+              }
             </div>
-            <p className="font-normal text-base my-4">
-              {usedItem?.description}
+            <p className="capitalize  font-normal text-base my-4">
+              {usedItem?.message}
             </p>
             <span className="font-medium text-base">
               {usedItem?.dateOfOrder.split("T")[0]}
@@ -56,7 +66,7 @@ export default function UsedItemData(props) {
         </div>
         <div>
           <div className="bg-landing border border-transparent rounded-lg p-5">
-            <div className="flex gap-4">
+            <div className="flex items-center gap-4">
               <div>
                 <img
                   src={usedItem?.user.images[0]}
@@ -65,16 +75,13 @@ export default function UsedItemData(props) {
               </div>
               <div className="flex flex-col">
                 <span className="capitalize font-medium text-base text-textcolor2">
-                  {usedItem?.user.firstName}
+                  {usedItem?.user?.firstName}
                 </span>
                 <span className="capitalize font-medium text-textcolor1 text-sm">
                   {usedItem?.address}
                 </span>
               </div>
             </div>
-            <p className="capitalize text-textcolor1 font-medium text-base mt-3">
-              {usedItem?.message}
-            </p>
             {isOwned && (
               <div className="flex items-center justify-end gap-4 mt-3">
                 <button>

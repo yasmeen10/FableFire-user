@@ -163,18 +163,6 @@ export default function ItemDetails() {
                   >
                     {item.title}
                   </h1>
-                  <div className="flex items-center">
-                    <ReactStars
-                      count={5}
-                      value={Number(ratings)}
-                      size={24}
-                      isHalf={true}
-                      emptyIcon={<i className="far fa-star"></i>}
-                      halfIcon={<i className="fa fa-star-half-alt"></i>}
-                      fullIcon={<i className="fa fa-star"></i>}
-                      activeColor="#ffd700"
-                    />
-                  </div>
                 </div>
                 <div className="flex items-center justify-between mb-6">
                   <h2
@@ -198,10 +186,13 @@ export default function ItemDetails() {
                     )}
                   </CurrencyConverter>
                 </div>
-                <div className="mb-6 text-base font-medium text-placeholder">
-                  <span>Count In Stock:</span>
-                  <span className="ml-1">{item?.countInStock}</span>
-                </div>
+                {item?.countInStock < 6 ? (
+                  <div className="mb-6 text-base font-medium text-placeholder">
+                    <span>Count In Stock:</span>
+                    <span className="ml-1">{item?.countInStock}</span>
+                  </div>
+                ) : null}
+
                 <p
                   className="textcolor2 mb-6 italic text-base capitalize"
                   style={{ fontFamily: "Roboto Flex, sans-serif" }}

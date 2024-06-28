@@ -29,10 +29,9 @@ export default function UsedItemForm() {
     phoneNumber: authUser?.phoneNumber || "",
     message: "",
     title: "",
-    price: "",
+    price: 0,
     category: "",
     itemType: "",
-    description: "",
   });
 
   const validationSchema = Yup.object().shape({
@@ -41,12 +40,11 @@ export default function UsedItemForm() {
     phoneNumber: Yup.string()
       .matches(phoneNumberRegex, "Invalid phone number")
       .required("Phone number is required"),
-    message: Yup.string().required("Message is required"),
+    message: Yup.string(),
     title: Yup.string().required("Title is required"),
-    price: Yup.number().required("Price is required"),
-    category: Yup.string().required("Category is required"),
+    price: Yup.number(),
+    category: Yup.string(),
     itemType: Yup.string().required("Item Type is required"),
-    description: Yup.string().required("Description is required"),
     images: Yup.array().min(1, "At least one image is required"),
   });
 
@@ -79,7 +77,6 @@ export default function UsedItemForm() {
           price: response.data.data.usedItem.price || 0,
           category: response.data.data.usedItem.category._id || "",
           itemType: response.data.data.usedItem.itemType._id || "",
-          description: response.data.data.usedItem.description || "",
         });
         setImagePreviews(response.data.data.usedItem.images || [ImageIcon]);
       } catch (error) {
@@ -317,22 +314,6 @@ export default function UsedItemForm() {
                       </div>
                     ) : null}
                   </div>
-                </div>
-                <div>
-                  <Field
-                    name="description"
-                    as="textarea"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    value={formik.values.description}
-                    placeholder="Description"
-                    className="border border-landing rounded-lg w-full mt-6 p-2 focus:outline-none focus:ring-2 focus:ring-landing focus:ring-inset placeholder:text-placeholder placeholder:text-base placeholder:font-medium"
-                  />
-                  {formik.touched.description && formik.errors.description ? (
-                    <div className="text-sm text-red-500 mt-2">
-                      {formik.errors.description}
-                    </div>
-                  ) : null}
                 </div>
                 <div className="block w-full p-6 mt-6 text-center border-[2px] border-button border-dashed rounded">
                   <div className="flex space-x-2 justify-center">

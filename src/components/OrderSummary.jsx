@@ -2,6 +2,7 @@ import { useContext, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 import { OrderContext } from "../context/OrderContext";
+import CurrencyConverter from "./CurrencyConverter";
 
 export default function OrderSummary(props) {
   const { button, onClick, to } = props;
@@ -53,13 +54,25 @@ export default function OrderSummary(props) {
           className="text-base flex items-center justify-between border-b border-b-gray2 py-3 mt-5 capitalize"
         >
           <span>{item?.item?.title}</span>
-          <span>${item?.item?.price * item?.quantity}</span>
+          <CurrencyConverter price={item?.item?.price * item?.quantity}>
+            {({ localPrice, currency }) => (
+              <span>
+                {localPrice} {currency}
+              </span>
+            )}
+          </CurrencyConverter>
         </div>
       ))}
 
       <div className="text-base py-3 flex items-center justify-between">
         <span>Total</span>
-        <span>${totalAmount}</span>
+        <CurrencyConverter price={totalAmount}>
+          {({ localPrice, currency }) => (
+            <span>
+              {localPrice} {currency}
+            </span>
+          )}
+        </CurrencyConverter>
       </div>
       <button
         className={`bg-button border border-transparent rounded mt-5 py-3 font-medium text-white text-base transition-all ${

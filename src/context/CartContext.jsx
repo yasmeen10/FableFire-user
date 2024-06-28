@@ -83,7 +83,7 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const handleAddTocart = async (item) => {
+  const handleAddToCart = async (item) => {
     try {
       await axiosInstance.post("http://localhost:3005/api/v1/shoppingItem/", {
         item: item._id,
@@ -107,7 +107,7 @@ export const CartProvider = ({ children }) => {
         handleIncrementQuantity,
         handleDecrementQuantity,
         handleRemoveItem,
-        handleAddTocart,
+        handleAddToCart,
       }}
     >
       {children}
