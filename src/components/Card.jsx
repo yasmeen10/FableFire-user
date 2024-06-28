@@ -6,23 +6,21 @@ import CurrencyConverter from "./CurrencyConverter";
 
 export default function Card(props) {
   const { item } = props;
-  const { handleRemoveItem, handleAddTocart, shoppingItemData } =
-    useContext(CartContext);
+  const { handleRemoveItem, handleAddToCart, shoppingItemData } = useContext(CartContext);
   const { wishlist, toggleWishlistItem } = useContext(WishlistContext);
 
   const [isCartFilled, setIsCartFilled] = useState(false);
 
   useEffect(() => {
-    const index = shoppingItemData.findIndex(
-      (cartItem) => cartItem.item && cartItem.item._id === item._id
-    );
-
-    if (index !== -1) {
-      setIsCartFilled(true);
+    if (item?._id) {
+      const index = shoppingItemData.findIndex(
+        (cartItem) => cartItem.item && cartItem.item._id === item._id
+      );
+      setIsCartFilled(index !== -1);
     }
   }, [shoppingItemData, item?._id]);
 
-  const handletoggleCartIcon = async () => {
+  const handleToggleCartIcon = async () => {
     if (isCartFilled) {
       const index = shoppingItemData.findIndex(
         (cartItem) => cartItem.item && cartItem.item._id === item._id
@@ -32,7 +30,7 @@ export default function Card(props) {
         await handleRemoveItem(shoppingItemData[index]._id);
       }
     } else {
-      await handleAddTocart(item);
+      await handleAddToCart(item);
       setIsCartFilled(true);
     }
   };
@@ -53,10 +51,8 @@ export default function Card(props) {
     );
   }
 
-  const discountedPrice = item.price - (item.price * (item.discount / 100));
-
   return (
-    <div className="flex items-center justify-center p-2 relative">
+   
       <div className="bg-white rounded-lg flex-col w-40 overflow-hidden">
         <div className="relative">
           <img
@@ -73,7 +69,7 @@ export default function Card(props) {
                     : "cursor-pointer"
                 }`}
                 onClick={
-                  item.countInStock > 0 ? handletoggleCartIcon : undefined
+                  item.countInStock > 0 ? handleToggleCartIcon : undefined
                 }
                 disabled={item.countInStock === 0}
               >
@@ -104,39 +100,35 @@ export default function Card(props) {
             <h5 className="text-lg font-bold textColor2 text-center">
               {item.title}
             </h5>
-
             <CurrencyConverter price={item.price}>
               {({ localPrice, currency }) => (
-                <div
-                  className="flex items-center justify-center mt-2.5"
-                 
-                >
-                 {item.discount > 0 ? (
-                <>
-                  <span  className="text-sm font-medium" style={{ color: "#A68877" }} >
-                    {localPrice} {currency}
-                  </span>
-                   <p className="text-sm font-medium ml-2 text-red-500" style={{ color: "#A68877" }}>
-                    {discountedPrice.toFixed(2) + "$"}
-                  </p>
-                </>
-                ) :
-                  <span  className="text-sm font-medium" style={{ color: "#A68877" }} >
-                    {localPrice} {currency}
-                  </span>
+                <div className="flex items-center justify-center mt-2.5">
+                  {item.discount > 0 ? (
+                    <>
+                      <span className="text-sm font-medium" style={{ color: "#A68877" }}>
+                        {localPrice} {currency}
+                      </span>
+                      <p className="text-sm font-medium ml-2 text-red-500">
+                        {`${(localPrice - localPrice * (item.discount / 100)).toFixed(2)} ${currency}`}
+                      </p>
+                    </>
+                  ) : (
+                    <span className="text-sm font-medium" style={{ color: "#A68877" }}>
+                      {localPrice} {currency}
+                    </span>
                   )}
                 </div>
-                 {item.discount > 0 && (
-              <div className="text-center text-green-500 font-bold">
-                {item.discount}% OFF
-              </div>
-                
               )}
             </CurrencyConverter>
 
+            {item.discount > 0 && (
+              <div className="text-center text-green-500 font-bold">
+                {item.discount}% OFF
+              </div>
+            )}
           </Link>
         </div>
       </div>
-    </div>
+   
   );
 }

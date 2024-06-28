@@ -14,7 +14,7 @@ import Card from "../../components/Card";
 import Authors from "../../components/Authors";
 import SVG from "../../components/SVG/SVG";
 import SVGG from "../../components/SVG/SVGG";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../../interceptor";
 import CardSkeleton from "../../components/CardSkeleton";
 import { toast } from "react-toastify";
@@ -23,7 +23,6 @@ import CategorySkeleton from "../../components/CategorySkeleton";
 import SwiperComponent from "../../components/SwiperComponent";
 
 export default function Home() {
-  
   const [categoryList, setCategoryList] = useState([]);
   const [newArrivals, setNewArrivals] = useState([]);
   const [author, setAuthor] = useState(null);
@@ -31,7 +30,6 @@ export default function Home() {
   const [book, setBook] = useState(null);
   const [discount, setDiscount] = useState(null);
   const [images, setImages] = useState([]);
-
 
   const navigate = useNavigate();
 
@@ -41,8 +39,7 @@ export default function Home() {
         const { data } = await axiosInstance.get(
           "http://localhost:3005/api/v1/item"
         );
-       
-        
+
         setImages(data.data.results);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -107,9 +104,8 @@ export default function Home() {
         console.error("Error:", response.data);
       }
     } catch (error) {
-
       console.error("Error fetching categories:", error);
-    }finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -119,7 +115,9 @@ export default function Home() {
         "http://localhost:3005/api/v1/item"
       );
       if (response.data && Array.isArray(response.data.data.results)) {
-        const discountedItems = response.data.data.results.filter(item => item.discount > 0);
+        const discountedItems = response.data.data.results.filter(
+          (item) => item.discount > 0
+        );
         setDiscount(discountedItems);
       } else {
         console.error("Error:", response.data);
@@ -140,12 +138,7 @@ export default function Home() {
         console.log("Error:", response.data);
       }
     } catch (error) {
-      
-
-
       toast.error(error.response.data.message);
-
-
     }
   };
   const handleCategoryClick = (categoryId) => {
@@ -171,7 +164,6 @@ export default function Home() {
     },
   };
 
-  
   return (
     <>
       <Navbar />
@@ -207,72 +199,81 @@ export default function Home() {
               Discover the latest in literary trends with an array of new and
               captivating books hitting the A.
             </p>
-            <button
-              type="submit"
-              className=" mt-3 text-white bg-[#A68877] hover:bg-[#B99885] focus:ring-4 focus:outline-none font-medium rounded-md text-sm text-center w-[100px] h-[30px]"
-            >
-              Buy Now
-            </button>
+            <Link to="/shop">
+              <button
+                type="submit"
+                className=" mt-3 text-white bg-[#A68877] hover:bg-[#B99885] focus:ring-4 focus:outline-none font-medium rounded-md text-sm text-center w-[100px] h-[30px]"
+              >
+                Buy Now
+              </button>
+            </Link>
           </div>
         </div>
-        <div className="max-w-4xl">
+
+        <div className="w-full">
           <p className="text-[32px] font-medium mb-4 ml-24 mt-8">Categories</p>
           <Carousel responsive={responsive}>
             {loading ? (
-               <div className="flex flex-row">
-               <CategorySkeleton />
-               <CategorySkeleton />
-               <CategorySkeleton />
-               <CategorySkeleton />
-               <CategorySkeleton />
-             </div>
+              <div className="flex flex-row">
+                <CategorySkeleton />
+                <CategorySkeleton />
+                <CategorySkeleton />
+                <CategorySkeleton />
+                <CategorySkeleton />
+              </div>
             ) : (
-              categoryList.map((category) => (
-                <div
-                  key={category._id}
-                  className="h-32 w-32 p-4 m-10 ml-24 bg-[#F6F6F7] cursor-pointer flex flex-col items-center justify-center"
-                  onClick={() => handleCategoryClick(category._id)}
-                >
-                  <img
-                    src={category.images[0]}
-                    alt={category.title}
-                    className="h-10 w-10 object-cover"
-                  />
-                  <p className="font-medium mt-4 text-[#210F04] capitalize">
-                    {category.title}
-                  </p>
-                  <p className="font-medium text-[#735F39]">Shop Now</p>
-                </div>
-              ))
+              <div className=" flex w-screen items-center m-4 px-12 ">
+
+               { categoryList.map((category) => (
+                  <div 
+                    key={category._id}
+                    className="h-32 bg-[#F6F6F7] w-40 p-4 m-auto  cursor-pointer flex flex-col items-center justify-center"
+                    onClick={() => handleCategoryClick(category._id)}
+                  >
+                    <img
+                      src={category.images[0]}
+                      alt={category.title}
+                      className="h-10 w-10 object-cover"
+                    />
+                    <p className="font-medium mt-4 text-[#210F04] capitalize">
+                      {category.title}
+                    </p>
+                    <p className="font-medium text-[#735F39]">Shop Now</p>
+                  </div>
+                ))}
+              </div>
             )}
           </Carousel>
         </div>
-       
-       {
-        images.slice(30,31).map((ll)=>{
-          return  <SwiperComponent imageList= {images.slice(30,38)}/>
-         
-        })
-       }
-        
-        <div>
-          <p className="text-[32px] font-medium ml-24 mt-8">New Arrivals</p>
-          {newArrivals.length === 0 ? (
-            <div className=" lg:flex grid md:grid-cols-2 sm:grid-cols-1 md:ml-[150px] lg:ml-0 sm:ml-[35%] justify-center lg:gap-24 mt-5">
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-            </div>
-          ) : (
-            <div className=" lg:flex grid md:grid-cols-2 sm:grid-cols-1 md:ml-[150px] lg:ml-0 sm:ml-[35%] justify-center lg:gap-24 mt-5">
-              {newArrivals.map((item) => (
+
+        <p className="text-[32px] font-medium ml-24 mt-8 mb-8">
+          Amazing Discounts
+        </p>
+        <div className="w-4/5 mx-auto">
+          {discount && discount.length > 0 ? (
+            <Carousel
+              showDots={false}
+              arrows={true}
+              responsive={responsive}
+              infinite={true}
+              autoPlay={true}
+              autoPlaySpeed={1000}
+              keyBoardControl={true}
+              transitionDuration={200}
+            >
+              {discount.map((item) => (
                 <Card key={item._id} item={item} />
               ))}
+            </Carousel>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
             </div>
           )}
         </div>
-
         <div className="  md:w-full lg:w-full h-[530px] lg:h-[440px]  bg-[#D6CCC2] mt-[90px]  lg:mt-[90px]  md:flex lg:flex">
           <div className=" w-6 flex items-center justify-center  md:ml-10 lg:ml-10">
             <p className=" rotate-0 md:rotate-0  lg:-rotate-90 sm:mb-[300px] md:mb-[430px] md:ml-[400px] lg:mb-4 ml-[150px] lg:ml-[300px] font-thin text-[#210F04] whitespace-nowrap text-[24px] tracking-widest">
@@ -296,7 +297,7 @@ export default function Home() {
               <div>
                 <img
                   className="ml-[170px] mt-[100px]  rounded-2xl h-48 sm:mt-[150px] sm:ml-[300px] md:mt-[160px] md:ml-[330px] lg:mt-[160px] lg:ml-[330px]  relative sm: sm:h-[150px] lg:h-[200px] md:h-[200px]"
-                  src={book ? book.images[0] : 'default-image-url'} 
+                  src={book ? book.images[0] : "default-image-url"}
                 />
               </div>
             </div>
@@ -321,33 +322,31 @@ export default function Home() {
           </div>
         </div>
 
-      <p className="text-[32px] font-medium ml-24 mt-8 mb-8">Amazing Discounts</p>
-      <div className="w-4/5 mx-auto">
-      {discount && discount.length > 0 ? (
-        <Carousel
-          showDots={false}
-          arrows={true}
-          responsive={responsive}
-          infinite={true}
-          autoPlay={true}
-          autoPlaySpeed={1000}
-          keyBoardControl={true}
-          transitionDuration={200}
-        >
-          {discount.map((item) => (
-            <Card key={item._id} item={item} />
-          ))}
-        </Carousel>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          <CardSkeleton />
-          <CardSkeleton />
-          <CardSkeleton />
-          <CardSkeleton />
+        {images.slice(0, 1).map((ll) => {
+          return <SwiperComponent imageList={images.slice(10, 16)} />;
+        })}
+        <WhyChooseUs />
+        <div>
+          <p className="text-[32px] font-medium ml-24 mt-8">New Arrivals</p>
+          {newArrivals.length === 0 ? (
+            <div className=" lg:flex grid md:grid-cols-2 sm:grid-cols-1 md:ml-[150px] lg:ml-0 sm:ml-[35%] justify-center lg:gap-24 mt-5">
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+              <CardSkeleton />
+            </div>
+          ) : (
+            <div className=" lg:flex grid md:grid-cols-2 sm:grid-cols-1 md:ml-[150px] lg:ml-0 sm:ml-[35%] justify-center lg:gap-24 mt-5">
+              {newArrivals.map((item) => (
+                <Card key={item._id} item={item} />
+              ))}
+            </div>
+          )}
         </div>
-      )}
-    </div>
-    <WhyChooseUs/>
+
+        
+
+       
       </div>
       <Footer />
     </>
