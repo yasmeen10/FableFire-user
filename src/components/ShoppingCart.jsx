@@ -1,12 +1,15 @@
 import { useContext, useState } from "react";
 import CancelArrow from "./SVG/CancelArrow";
 import { CartContext } from "../context/CartContext";
+import CurrencyConverter from "./CurrencyConverter";
 import fallbackImage from "../../public/imgError.png";
 
 export default function ShoppingCart(props) {
   const { shoppingItem } = props;
   const { handleIncrementQuantity, handleDecrementQuantity, handleRemoveItem } =
     useContext(CartContext);
+  const calculateDiscountPrice = (price, discount) => {
+    return price - (price * discount) / 100;
   const [imageState, setImageState] = useState({ loading: true, error: false });
 
   const handleImageLoad = () => {
@@ -54,7 +57,18 @@ export default function ShoppingCart(props) {
           )}
           <div className="flex items-center justify-between ml-2 w-4/5">
             <p className="w-36">{shoppingItem?.item?.title}</p>
-            <span>${shoppingItem?.item?.price}</span>
+            <CurrencyConverter
+              price={calculateDiscountPrice(
+                shoppingItem?.item?.price,
+                shoppingItem?.item?.discount
+              )}
+            >
+              {({ localPrice, currency }) => (
+                <span>
+                  {localPrice} {currency}
+                </span>
+              )}
+            </CurrencyConverter>
             <div className="w-20 border border-landing rounded-lg flex justify-around items-center">
               <button
                 onClick={() => handleDecrementQuantity(shoppingItem?._id)}
@@ -81,7 +95,20 @@ export default function ShoppingCart(props) {
                 +
               </button>
             </div>
-            <span>${shoppingItem?.item?.price * shoppingItem?.quantity}</span>
+            <CurrencyConverter
+              price={
+                calculateDiscountPrice(
+                  shoppingItem?.item?.price,
+                  shoppingItem?.item?.discount
+                ) * shoppingItem?.quantity
+              }
+            >
+              {({ localPrice, currency }) => (
+                <span>
+                  {localPrice} {currency}
+                </span>
+              )}
+            </CurrencyConverter>
             <button
               onClick={() => {
                 handleRemoveItem(shoppingItem?._id);

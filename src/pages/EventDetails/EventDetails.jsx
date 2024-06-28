@@ -50,6 +50,13 @@ export default function EventDetails() {
       handleReverseTicket(eventId);
     }
   };
+
+  const isDatePassed = (date) => {
+    const now = new Date();
+    const targetDate = new Date(date);
+    return targetDate < now;
+  };
+
   return (
     <>
       <Navbar />
@@ -69,9 +76,16 @@ export default function EventDetails() {
         <div className="px-4 sm:px-8 lg:px-36 mt-16">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-4 md:px-14">
             <div className="col-span-2">
-              <h1 className="text-textcolor2 font-medium text-4xl capitalize">
-                Welcome To {event?.name}
-              </h1>
+              <div className="flex items-center">
+                <h1 className="text-textcolor2 font-medium text-4xl capitalize">
+                  Welcome To {event?.name}
+                </h1>
+                {isDatePassed(event?.date) ? (
+                  <span className="block text-red-500 capitalize font-medium mt-2 ml-3">
+                    closed
+                  </span>
+                ) : null}
+              </div>
               <p className="text-base text-placeholder font-normal capitalize my-4">
                 {event?.description}
               </p>
@@ -98,7 +112,7 @@ export default function EventDetails() {
                 </div>
               </div>
               <div className="w-full md:w-1/4">
-                {!authUser?.address || !authUser.phoneNumber ? (
+                {isLoggedIn && (!authUser.address || !authUser.phoneNumber) ? (
                   <Popup
                     trigger={
                       <button className="border border-transparent rounded-lg bg-button text-white font-medium text-base py-2 px-7 w-full">
@@ -123,7 +137,7 @@ export default function EventDetails() {
                 ) : (
                   <button
                     onClick={() => handleGetNowClick(event._id)}
-                    className="border border-transparent rounded-lg bg-button text-white font-medium text-base py-2 px-7 w-full disabled:opacity-50 disabledcursor-not-allowed"
+                    className="border border-transparent rounded-lg bg-button text-white font-medium text-base py-2 px-7 mt-2 w-full disabled:opacity-50 disabledcursor-not-allowed"
                     disabled={
                       isEventRegistered(event._id) || event.numOfTickets === 0
                     }

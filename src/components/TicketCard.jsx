@@ -67,11 +67,11 @@ export default function TicketCard(props) {
           </div>
           <div className="flex items-center justify-between">
             <div className="">
-              <h1 className="text-textcolor2 font-medium text-5xl capitalize">
+              <h1 className="text-textcolor2 font-medium text-3xl capitalize">
                 {ticket?.event?.name}
               </h1>
             </div>
-            <div className="w-2/5 flex flex-col">
+            <div className="flex flex-col">
               <div>
                 <span className="text-base font-medium text-white block">
                   Name
@@ -92,7 +92,7 @@ export default function TicketCard(props) {
                 <span className="text-base font-medium block text-white">
                   Location
                 </span>
-                <span className="text-base font-medium block text-textcolor2 capitalize">
+                <span className="text-base font-medium block text-textcolor2 capitalize t">
                   {ticket?.event?.location}
                 </span>
               </div>

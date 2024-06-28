@@ -157,7 +157,7 @@ export default function Home() {
   const responsive = {
     superLargeDesktop: {
       breakpoint: { max: 4000, min: 3000 },
-      items: 5,
+      items: 3,
     },
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -231,13 +231,18 @@ export default function Home() {
                 <CategorySkeleton />
               </div>
             ) : (
-              <div className=" flex w-screen items-center m-4 px-12 ">
-                {categoryList.map((category) => (
-                  <div
-                    key={category._id}
-                    className="h-32 bg-[#F6F6F7] w-40 p-4 m-auto  cursor-pointer flex flex-col items-center justify-center"
-                    onClick={() => handleCategoryClick(category._id)}
-                  >
+              <div className="w-screen items-center m-4 px-12 ">
+                <Carousel
+                  showDots={false}
+                  arrows={true}
+                  responsive={responsive}
+                >
+                  {categoryList.map((category) => (
+                    <div
+                      key={category._id}
+                      className="h-32 bg-[#F6F6F7] w-40 p-4 m-auto  cursor-pointer flex flex-col items-center justify-center"
+                      onClick={() => handleCategoryClick(category._id)}
+                    >         
                     {imageState.loading && (
                       <div className="skeleton z-10 h-10 w-10 rounded-lg"></div>
                     )}
@@ -249,10 +254,13 @@ export default function Home() {
                       />
                     )}
                     {!imageState.error && (
-                      <img
-                        src={category.images[0]}
-                        alt={category.title}
-                        className="h-10 w-10 object-cover"
+                      <p className="font-medium mt-4 text-[#210F04] capitalize">
+                        {category.title}
+                      </p>
+                      <p className="font-medium text-[#735F39]">Shop Now</p>
+                    </div>
+                  ))}
+                </Carousel>
                         onLoad={handleImageLoad}
                         onError={handleImageError}
                         style={{

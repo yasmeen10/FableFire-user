@@ -22,11 +22,11 @@ export default function Card(props) {
     setImageState({ loading: false, error: true });
   };
   useEffect(() => {
-    if (item?._id) {
-      const index = shoppingItemData.findIndex(
-        (cartItem) => cartItem.item && cartItem.item._id === item._id
-      );
-      setIsCartFilled(index !== -1);
+    const index = shoppingItemData.findIndex(
+      (cartItem) => cartItem.item && cartItem.item._id === item._id
+    );
+    if (index !== -1) {
+      setIsCartFilled(true);
     }
   }, [shoppingItemData, item?._id]);
 
@@ -64,6 +64,7 @@ export default function Card(props) {
   return (
     <div className="bg-white rounded-lg flex-col w-40 overflow-hidden">
       <div className="relative">
+
         {imageState.loading && (
           <div className="skeleton z-10 w-60 h-60 rounded-lg"></div>
         )}
@@ -84,6 +85,7 @@ export default function Card(props) {
             style={{ display: imageState.loading ? "none" : "block" }}
           />
         )}
+
         <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50">
           <div className="flex items-center justify-center">
             <button
@@ -117,6 +119,7 @@ export default function Card(props) {
           </div>
         </div>
 
+
         <div className="flex flex-col p-2">
           <Link to={`/item/${item._id}`}>
             <h5 className="text-lg font-bold textColor2 text-center">
@@ -137,12 +140,13 @@ export default function Card(props) {
                   ) : (
                     <span className="text-sm font-medium" style={{ color: "#A68877" }}>
 
+
                       {localPrice} {currency}
                     </span>
                     <p className="text-sm font-medium ml-2 text-red-500">
                       {`${(
-                        localPrice -
-                        localPrice * (item.discount / 100)
+                        localPrice - localPrice * (item?.discount / 100)
+
                       ).toFixed(2)} ${currency}`}
                     </p>
                   </>
@@ -157,10 +161,10 @@ export default function Card(props) {
               </div>
             )}
           </CurrencyConverter>
-
-          {item.discount > 0 && (
+          {item?.discount > 0 && (
             <div className="text-center text-green-500 font-bold">
-              {item.discount}% OFF
+              {item?.discount}% OFF
+
             </div>
           )}
         </Link>

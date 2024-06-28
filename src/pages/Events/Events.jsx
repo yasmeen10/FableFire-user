@@ -9,7 +9,6 @@ import Popup from "reactjs-popup";
 import EventForm from "../../components/EventForm";
 import { useAuth } from "../../context/AuthContext";
 import { EventContext } from "../../context/EventContext";
-import QRCodeCard from "../../components/QRCodeCard";
 import { toast } from "react-toastify";
 import fallbackImage from "../../../public/imgError.png";
 
@@ -54,50 +53,51 @@ export default function Events() {
   return (
     <>
       <Navbar />
-      <div>
-        <img src={eventsImage} alt="Events" />
+      <div className="relative">
+        <img
+          src={eventsImage}
+          alt="Events"
+          className="w-full h-60 object-cover"
+        />
       </div>
-      <div>
-        <div className="px-4 sm:px-8 lg:px-36 mt-9">
-          <div className="mt-20 my-14">
-            <h1 className="text-textcolor2 font-medium text-4xl text-center mb-2">
+      <div className="bg-gray-50 py-12">
+        <div className="container mx-auto px-4 sm:px-8 lg:px-36">
+          <div className="text-center my-14">
+            <h1 className="text-textcolor2 font-semibold text-4xl mb-4">
               Events
             </h1>
-            <p className="capitalize text-placeholder font-medium text-sm text-center w-96 mx-auto">
+            <p className="text-placeholder font-medium text-sm max-w-lg mx-auto">
               Today, what started as a small conference has turned into the
               unmissable rendez-vous for product people.
             </p>
           </div>
           {events.length === 0 ? (
             <div>
-              <div className="border border-gray1 rounded-lg flex gap-3 flex-col md:flex-row items-center p-4 mb-9">
-                <div className="w-1/2 skeleton h-16"></div>
-                <div className="w-1/2 skeleton h-16"></div>
-              </div>
-              <div className="border border-gray1 rounded-lg flex gap-3 flex-col md:flex-row items-center p-4 mb-9">
-                <div className="w-1/2 skeleton h-16"></div>
-                <div className="w-1/2 skeleton h-16"></div>
-              </div>
-              <div className="border border-gray1 rounded-lg flex gap-3 flex-col md:flex-row items-center p-4 mb-9">
-                <div className="w-1/2 skeleton h-16"></div>
-                <div className="w-1/2 skeleton h-16"></div>
-              </div>
-              <div className="border border-gray1 rounded-lg flex gap-3 flex-col md:flex-row items-center p-4 mb-9">
-                <div className="w-1/2 skeleton h-16"></div>
-                <div className="w-1/2 skeleton h-16"></div>
-              </div>
+              {Array(4)
+                .fill()
+                .map((_, index) => (
+                  <div
+                    className="border border-gray-300 rounded-lg flex gap-3 flex-col md:flex-row items-center p-4 mb-9 animate-pulse"
+                    key={index}
+                  >
+                    <div className="w-1/2 h-16 bg-gray-300"></div>
+                    <div className="w-1/2 h-16 bg-gray-300"></div>
+                  </div>
+                ))}
             </div>
           ) : (
             events.map((event) => (
               <div
-                className="border border-gray1 rounded-lg grid grid-cols-3 gap-10 p-5 mb-9"
-                key={event._id}
+                key={event.id}
+                className="border border-gray-300 rounded-lg p-5 mb-9 bg-white shadow-sm hover:shadow-lg flex flex-col md:flex-row justify-between items-center transition-shadow duration-200"
               >
                 <Link
                   to={`/events/${event._id}`}
-                  className="col-span-2 flex items-center"
+                  className="flex flex-col md:flex-row items-center w-full md:w-3/4"
                 >
-                  {imageState.loading && (
+
+                  <div className="flex-shrink-0">
+                {imageState.loading && (
                     <div className="skeleton z-10 mr-4  w-28 h-28  rounded-lg"></div>
                   )}
                   {!imageState.loading && imageState.error && (
@@ -117,32 +117,29 @@ export default function Events() {
                       className="w-28 h-28 object-cover border border-transparent rounded-lg mr-4"
                     />
                   )}
-                  <div className="flex items-center justify-between w-3/4">
-                    <div>
-                      <h1 className="text-textcolor2 font-medium text-base capitalize">
-                        {event.name}
-                      </h1>
-                      <p className="font-normal text-placeholder text-sm my-1 capitalize">
-                        {event.description}
-                      </p>
-                    </div>
-                    <span className="text-placeholder text-sm">
-                      {event.date.split("T")[0]}
+                  </div>
+                  <div className="flex-1 text-center md:text-left">
+                    <h1 className="text-textcolor2 font-semibold text-base capitalize mb-2">
+                      {event?.name}
+                    </h1>
+                    <span className="text-placeholder text-sm mb-2 block">
+                      {event?.date.split("T")[0]}
+
                     </span>
-                    <div className="flex items-center gap-2 mt-2">
+                    <div className="flex justify-center md:justify-start items-center">
                       <LocationSVG />
-                      <p className="text-textcolor2 font-medium text-sm capitalize">
-                        {event.location}
+                      <p className="text-textcolor2 font-medium text-sm capitalize ml-2">
+                        {event?.location}
                       </p>
                     </div>
                   </div>
                 </Link>
-                <div className="flex justify-end items-center w-full ">
+                <div className="w-full md:w-auto mt-4 md:mt-0 flex justify-center md:justify-end">
                   {isLoggedIn &&
                   (!authUser.address || !authUser.phoneNumber) ? (
                     <Popup
                       trigger={
-                        <button className="border border-transparent rounded-lg bg-button text-white font-medium text-base py-2 px-7 w-full">
+                        <button className="border border-transparent rounded-lg bg-button text-white font-medium text-base py-2 px-7 w-full hover:bg-button-dark transition-colors duration-200">
                           Get Now
                         </button>
                       }
@@ -164,7 +161,7 @@ export default function Events() {
                   ) : (
                     <button
                       onClick={() => handleGetNowClick(event._id)}
-                      className="border border-transparent rounded-lg bg-button text-white font-medium text-base py-2 px-7 w-1/2 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="border border-transparent rounded-lg bg-button text-white font-medium text-base py-2 px-7 w-full hover:bg-button-dark transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       disabled={
                         isEventRegistered(event._id) || event.numOfTickets === 0
                       }

@@ -4,6 +4,7 @@ import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import { OrderContext, OrderProvider } from "../../context/OrderContext";
 import { useLocation } from "react-router-dom";
+import CurrencyConverter from "../../components/CurrencyConverter";
 
 export default function OrderConfirmation() {
   const { orderDetails } = useContext(OrderContext);
@@ -85,9 +86,13 @@ export default function OrderConfirmation() {
                   {!orderDetails.order ? (
                     <span className="skeleton h-6 w-1/2 mx-auto mt-1 rounded-md block"></span>
                   ) : (
-                    <span className="block text-xl font-normal text-textcolor2">
-                      ${orderDetails?.order?.totalPrice}
-                    </span>
+                    <CurrencyConverter price={orderDetails?.order?.totalPrice}>
+                      {({ localPrice, currency }) => (
+                        <span className="block text-xl font-normal text-textcolor2">
+                          {localPrice} {currency}
+                        </span>
+                      )}
+                    </CurrencyConverter>
                   )}
                 </td>
               </tr>
@@ -119,9 +124,13 @@ export default function OrderConfirmation() {
                     Quantity:${item?.quantity}
                   </span>
                 </div>
-                <span className="text-textcolor2 font-medium text-base">
-                  ${item.item.price * item?.quantity}
-                </span>
+                <CurrencyConverter price={item?.item?.price * item?.quantity}>
+                  {({ localPrice, currency }) => (
+                    <span className="text-textcolor2 font-medium text-base">
+                      {localPrice} {currency}
+                    </span>
+                  )}
+                </CurrencyConverter>
               </div>
             </div>
           ))

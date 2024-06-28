@@ -4,6 +4,7 @@ import EditSVG from "./SVG/EditSVG";
 import TrashSVG from "./SVG/TrashSVG";
 import { UsedItemContext } from "../context/UsedItemContext";
 import { Link } from "react-router-dom";
+import CurrencyConverter from "./CurrencyConverter";
 import fallbackImage from "../../public/imgError.png";
 
 export default function UsedItemCard(props) {
@@ -76,12 +77,18 @@ export default function UsedItemCard(props) {
           <Link to={`/usedItemDetails/${item._id}`}>
             <div className="my-10">
               <div className="flex items-center justify-between my-1">
-                <span className="block font-medium text-base text-textcolor2 capitalize ">
+                <span className="block font-medium w-3/4 text-base text-textcolor2 capitalize ">
                   {item?.title}
                 </span>
-                <span className="block font-medium text-base text-textcolor2 capitalize">
-                  {item?.price}$
-                </span>
+                {
+                  <CurrencyConverter price={item.price}>
+                    {({ localPrice, currency }) => (
+                      <span className="block font-medium text-base text-textcolor2 capitalize">
+                        {localPrice} {currency}
+                      </span>
+                    )}
+                  </CurrencyConverter>
+                }
               </div>
               <div className="flex items-center justify-between my-1">
                 <span className="block font-medium text-base text-textcolor2 capitalize">
