@@ -105,10 +105,10 @@ export default function Card(props) {
                 <div className="flex items-center justify-center mt-2.5">
                   {item.discount > 0 ? (
                     <>
-                      <span className="text-sm font-medium" style={{ color: "#A68877" }}>
+                      <span className="text-sm font-medium line-through text-red-500" >
                         {localPrice} {currency}
                       </span>
-                      <p className="text-sm font-medium ml-2 text-red-500">
+                      <p className="text-sm font-medium ml-2" style={{ color: "#A68877" }}>
                         {`${(localPrice - localPrice * (item.discount / 100)).toFixed(2)} ${currency}`}
                       </p>
                     </>
