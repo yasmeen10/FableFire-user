@@ -144,18 +144,21 @@
   }
 
   .carousel_____image {
-    width: 35vw;
-    height: 30vh; 
+    width: 50vw;
+    /* height: 30vh;  */
   }
 
   .carousel_____image-overlay {
-    width: 35vw; 
-    height: 30vh; 
+    width: 50vw; 
+    /* height: 30vh;  */
   }
 
   .carousel_____image-container-wrapper {
-    width: 35vw; 
-    height: 30vh; 
+    width: 50vw; 
+    /* height: 30vh;  */
+  }
+  .carousel_____container{
+    width: 70vw;
   }
   
 }

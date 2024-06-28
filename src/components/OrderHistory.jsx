@@ -4,25 +4,32 @@ import DetailsSVG from "./SVG/DetailsSVG";
 import { useNavigate } from "react-router-dom";
 import OrderProfileSkeleton from "./OrderProfileSkeleton";
 import OrderProfileSVG from "./SVG/OrderProfileSVG";
+import fallbackImage from "../../public/imgError.png";
 
 export default function OrderHistory() {
   const [order, setOrder] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [imageState, setImageState] = useState({ loading: true, error: false });
+
+  const handleImageLoad = () => {
+    setImageState({ loading: false, error: false });
+  };
+
+  const handleImageError = () => {
+    setImageState({ loading: false, error: true });
+  };
   useEffect(() => {
     async function fetchData() {
-      try{
-
+      try {
         setIsLoading(true);
         const { data } = await axiosInstance.get(
           "http://localhost:3005/api/v1/order/"
         );
-       
-        
-        setIsLoading(false)
+
+        setIsLoading(false);
         setOrder(data.data);
-      
-      }catch(error){
+      } catch (error) {
         console.log(error);
       }
     }
@@ -45,11 +52,10 @@ export default function OrderHistory() {
       </>
     );
   }
-  
+
   return (
     <>
-  
-  {order.length === 0 ? (
+      {order.length === 0 ? (
         <div className="flex flex-col items-center justify-center mt-20">
           <OrderProfileSVG className="w-12 h-12 mb-4" />
           <h1 className="text-textcolor1 text-4xl text-center">
@@ -89,13 +95,32 @@ export default function OrderHistory() {
                       scope="row"
                       className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                     >
-                      <img
-                        className="h-44 w-44 inline px-3 object-cover"
-                        src={ordData?.orderItem.item.images[0]}
-                        alt=""
-                      />
+                      {imageState.loading && (
+                        <div className="skeleton z-10 h-44 w-44 rounded-lg"></div>
+                      )}
+                      {!imageState.loading && imageState.error && (
+                        <img
+                          src={fallbackImage}
+                          alt="Fallback"
+                          className="rounded-lg shadow-md relative z-10 w-44 h-44"
+                        />
+                      )}
+                      {!imageState.error && (
+                        <img
+                          className="h-44 w-44 inline px-3 object-cover"
+                          src={ordData?.orderItem.item.images[0]}
+                          alt=""
+                          onLoad={handleImageLoad}
+                          onError={handleImageError}
+                          style={{
+                            display: imageState.loading ? "none" : "block",
+                          }}
+                        />
+                      )}
                     </th>
-                    <td className="px-6 py-4">{ordData?.orderItem.item.title}</td>
+                    <td className="px-6 py-4">
+                      {ordData?.orderItem.item.title}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -103,8 +128,6 @@ export default function OrderHistory() {
           </div>
         ))
       )}
-       
-    
     </>
   );
 }

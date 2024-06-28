@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import EmailSVG from "./SVG/EmailSVG";
 import PhoneSVG from "./SVG/PhoneSVG";
 import EditSVG from "./SVG/EditSVG";
@@ -6,12 +6,22 @@ import TrashSVG from "./SVG/TrashSVG";
 import { UsedItemContext } from "../context/UsedItemContext";
 import { Link, useNavigate } from "react-router-dom";
 import CurrencyConverter from "./CurrencyConverter";
+import fallbackImage from "../../public/imgError.png";
 
 export default function UsedItemData(props) {
   const { currUserUsedItems, handleRemoveUsedItem } =
     useContext(UsedItemContext);
   const { usedItem } = props;
   const navigate = useNavigate();
+  const [imageState, setImageState] = useState({ loading: true, error: false });
+
+  const handleImageLoad = () => {
+    setImageState({ loading: false, error: false });
+  };
+
+  const handleImageError = () => {
+    setImageState({ loading: false, error: true });
+  };
 
   let isOwned = false;
 
@@ -34,11 +44,26 @@ export default function UsedItemData(props) {
       <div className=" grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
         <div className="col-span-1 md:col-span-2 lg:col-span-2 border border-transparent rounded-lg relative">
           <div>
-            <img
-              src={usedItem?.images[0]}
-              alt=""
-              className="h-96 object-cover w-full rounded-lg"
-            />
+            {imageState.loading && (
+              <div className="skeleton z-10 h-96 w-full rounded-lg"></div>
+            )}
+            {!imageState.loading && imageState.error && (
+              <img
+                src={fallbackImage}
+                alt="Fallback"
+                className="rounded-lg shadow-md relative z-10 w-full h-96"
+              />
+            )}
+            {!imageState.error && (
+              <img
+                src={usedItem?.images[0]}
+                alt=""
+                className="h-96 object-cover w-full rounded-lg"
+                onLoad={handleImageLoad}
+                onError={handleImageError}
+                style={{ display: imageState.loading ? "none" : "block" }}
+              />
+            )}
           </div>
           <div className="absolute left-0 bottom-0 w-full px-9 py-3 text-white bg-black bg-opacity-20 backdrop-blur-2xl border border-transparent rounded-b-lg">
             <div className="flex justify-between items-center">

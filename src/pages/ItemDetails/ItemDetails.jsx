@@ -11,6 +11,7 @@ import Rating from "./Rating";
 import { toast } from "react-toastify";
 import CurrencyConverter from "../../components/CurrencyConverter";
 import ReactStars from "react-rating-stars-component";
+import fallbackImage from "../../../public/imgError.png";
 
 export default function ItemDetails() {
   const { handleRemoveItem, handleAddTocart, shoppingItemData } =
@@ -24,7 +25,15 @@ export default function ItemDetails() {
   const [isHeartClicked, setIsHeartClicked] = useState(false);
   const [error, setError] = useState(null);
   const [ratings, setRatings] = useState(0); // Initializing ratings as a number
+  const [imageState, setImageState] = useState({ loading: true, error: false });
 
+  const handleImageLoad = () => {
+    setImageState({ loading: false, error: false });
+  };
+
+  const handleImageError = () => {
+    setImageState({ loading: false, error: true });
+  };
   useEffect(() => {
     const index = shoppingItemData.findIndex(
       (cartItem) => cartItem.item && cartItem.item._id === item?._id
@@ -149,11 +158,26 @@ export default function ItemDetails() {
                   className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full mr-6"
                   style={{ background: "#E1DDDD" }}
                 ></div>
-                <img
-                  src={item.images[0]}
-                  alt={item.title}
-                  className="rounded-lg shadow-md relative z-10 w-96 h-96"
-                />
+                {imageState.loading && (
+                  <div className="skeleton z-10 h-96 w-96 rounded-lg"></div>
+                )}
+                {!imageState.loading && imageState.error && (
+                  <img
+                    src={fallbackImage}
+                    alt="Fallback"
+                    className="rounded-lg shadow-md relative z-10 w-96 h-96"
+                  />
+                )}
+                {!imageState.error && (
+                  <img
+                    src={item.images[0]}
+                    alt={item.title}
+                    className="rounded-lg shadow-md relative z-10 w-96 h-96"
+                    onLoad={handleImageLoad}
+                    onError={handleImageError}
+                    style={{ display: imageState.loading ? "none" : "block" }}
+                  />
+                )}
               </div>
               <div className="md:w-2/3 md:pl-6 mt-6 md:mt-0">
                 <div className="flex items-center justify-between mb-6">
@@ -174,17 +198,25 @@ export default function ItemDetails() {
                   </h2>
 
                   <CurrencyConverter price={item.price}>
-                    {({ localPrice, currency }) => (
-                      <div
-                        className="text-[20px] font-semibold"
-                        style={{ color: "#A68877" }}
-                      >
-                        <span>
-                          {localPrice} {currency}
-                        </span>
-                      </div>
-                    )}
-                  </CurrencyConverter>
+              {({ localPrice, currency }) => (
+                <div className="flex items-center justify-center mt-2.5">
+                  {item.discount > 0 ? (
+                    <>
+                      <span className="text-sm font-medium line-through text-red-500" >
+                        {localPrice} {currency}
+                      </span>
+                      <p className="text-sm font-medium ml-2" style={{ color: "#A68877" }}>
+                        {`${(localPrice - localPrice * (item.discount / 100)).toFixed(2)} ${currency}`}
+                      </p>
+                    </>
+                  ) : (
+                    <span className="text-sm font-medium" style={{ color: "#A68877" }}>
+                      {localPrice} {currency}
+                    </span>
+                  )}
+                </div>
+              )}
+            </CurrencyConverter>
                 </div>
                 {item?.countInStock < 6 ? (
                   <div className="mb-6 text-base font-medium text-placeholder">

@@ -48,6 +48,7 @@ export function AuthProvider(props) {
           fetchData();
           toast.success("Sign In Successfully");
           navigate("/");
+         
         }
       } catch (error) {
         toast.error(error.response.data.message);
@@ -67,8 +68,11 @@ export function AuthProvider(props) {
     } catch (error) {
       if (error.response.status == 401) {
         console.log(error.response.data.message);
-        return;
+        console.log("eee" , error);
+       return;
+       
       }
+      
       toast.error(error.response.data.message);
     }
   };

@@ -5,12 +5,23 @@ import TrashSVG from "./SVG/TrashSVG";
 import { UsedItemContext } from "../context/UsedItemContext";
 import { Link } from "react-router-dom";
 import CurrencyConverter from "./CurrencyConverter";
+import fallbackImage from "../../public/imgError.png";
 
 export default function UsedItemCard(props) {
   const { currUserUsedItems, handleRemoveUsedItem } =
     useContext(UsedItemContext);
   const { item } = props;
   let isOwned = false;
+
+  const [imageState, setImageState] = useState({ loading: true, error: false });
+
+  const handleImageLoad = () => {
+    setImageState({ loading: false, error: false });
+  };
+
+  const handleImageError = () => {
+    setImageState({ loading: false, error: true });
+  };
 
   const isItemInArray = (item, array) => {
     return array.some((arrayItem) => arrayItem?._id === item?._id);
@@ -20,17 +31,31 @@ export default function UsedItemCard(props) {
   if (isCurrentUserItem) {
     isOwned = true;
   }
-  console.log(item.user);
 
   return (
     <div className="w-full h-full border border-gray1 rounded-lg p-3 relative">
       {item?.images && (
         <div>
           <div className="relative">
-            <img
-              src={item?.images[0]}
-              className="w-full h-64 object-fill border rounded-lg"
-            />
+            {imageState.loading && (
+              <div className="skeleton z-10 h-64 w-full rounded-lg"></div>
+            )}
+            {!imageState.loading && imageState.error && (
+              <img
+                src={fallbackImage}
+                alt="Fallback"
+                className="rounded-lg shadow-md relative z-10 w-full h-64"
+              />
+            )}
+            {!imageState.error && (
+              <img
+                src={item?.images[0]}
+                className="w-full h-64 object-fill border rounded-lg"
+                onLoad={handleImageLoad}
+                onError={handleImageError}
+                style={{ display: imageState.loading ? "none" : "block" }}
+              />
+            )}
             {isOwned && (
               <div className="absolute left-0 top-0 w-full h-full border rounded-lg bg-black bg-opacity-65 opacity-0 transition-opacity duration-300 hover:opacity-100">
                 <ul className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center items-center gap-5">

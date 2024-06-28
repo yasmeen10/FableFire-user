@@ -10,6 +10,7 @@ import EventForm from "../../components/EventForm";
 import { useAuth } from "../../context/AuthContext";
 import { EventContext } from "../../context/EventContext";
 import { toast } from "react-toastify";
+import fallbackImage from "../../../public/imgError.png";
 
 export default function Events() {
   const [events, setEvents] = useState([]);
@@ -17,7 +18,15 @@ export default function Events() {
   const { userEvents, handleReverseTicket } = useContext(EventContext);
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
+  const [imageState, setImageState] = useState({ loading: true, error: false });
 
+  const handleImageLoad = () => {
+    setImageState({ loading: false, error: false });
+  };
+
+  const handleImageError = () => {
+    setImageState({ loading: false, error: true });
+  };
   useEffect(() => {
     async function fetchEvents() {
       const { data } = await axiosInstance.get(
@@ -86,12 +95,28 @@ export default function Events() {
                   to={`/events/${event._id}`}
                   className="flex flex-col md:flex-row items-center w-full md:w-3/4"
                 >
+
                   <div className="flex-shrink-0">
+                {imageState.loading && (
+                    <div className="skeleton z-10 mr-4  w-28 h-28  rounded-lg"></div>
+                  )}
+                  {!imageState.loading && imageState.error && (
                     <img
-                      src={event?.images[0]}
-                      alt={event?.name}
-                      className="w-full md:w-28 h-28 object-cover border border-gray-300 rounded-lg mb-4 md:mb-0 md:mr-4"
+                      src={fallbackImage}
+                      alt="Fallback"
+                      className="rounded-lg shadow-md relative z-10 w-28 h-28 "
                     />
+                  )}
+                  {!imageState.error && (
+                    <img
+                      src={event.images[0]}
+                      alt={event.name}
+                      onLoad={handleImageLoad}
+                      onError={handleImageError}
+                      style={{ display: imageState.loading ? "none" : "block" }}
+                      className="w-28 h-28 object-cover border border-transparent rounded-lg mr-4"
+                    />
+                  )}
                   </div>
                   <div className="flex-1 text-center md:text-left">
                     <h1 className="text-textcolor2 font-semibold text-base capitalize mb-2">
@@ -99,6 +124,7 @@ export default function Events() {
                     </h1>
                     <span className="text-placeholder text-sm mb-2 block">
                       {event?.date.split("T")[0]}
+
                     </span>
                     <div className="flex justify-center md:justify-start items-center">
                       <LocationSVG />

@@ -25,7 +25,12 @@ export default function UserProfile() {
   const handleLogOut = async () => {
     setIsLoggedIn(false);
     setAuthUser(null);
-    await localStorage.removeItem("token");
+     localStorage.removeItem("token");
+     localStorage.removeItem("paymentMethod")
+     localStorage.removeItem("ticketId")
+     localStorage.removeItem("orderDetailsId")
+     localStorage.removeItem("orderId")
+
     navigate("/");
   };
 
