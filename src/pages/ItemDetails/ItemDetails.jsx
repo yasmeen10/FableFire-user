@@ -210,17 +210,25 @@ export default function ItemDetails() {
                   </h2>
 
                   <CurrencyConverter price={item.price}>
-                    {({ localPrice, currency }) => (
-                      <div
-                        className="text-[20px] font-semibold"
-                        style={{ color: "#A68877" }}
-                      >
-                        <span>
-                          {localPrice} {currency}
-                        </span>
-                      </div>
-                    )}
-                  </CurrencyConverter>
+              {({ localPrice, currency }) => (
+                <div className="flex items-center justify-center mt-2.5">
+                  {item.discount > 0 ? (
+                    <>
+                      <span className="text-sm font-medium line-through text-red-500" >
+                        {localPrice} {currency}
+                      </span>
+                      <p className="text-sm font-medium ml-2" style={{ color: "#A68877" }}>
+                        {`${(localPrice - localPrice * (item.discount / 100)).toFixed(2)} ${currency}`}
+                      </p>
+                    </>
+                  ) : (
+                    <span className="text-sm font-medium" style={{ color: "#A68877" }}>
+                      {localPrice} {currency}
+                    </span>
+                  )}
+                </div>
+              )}
+            </CurrencyConverter>
                 </div>
                 <div className="mb-6 text-base font-medium text-placeholder">
                   <span>Count In Stock:</span>

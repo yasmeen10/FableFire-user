@@ -12,7 +12,7 @@ export default function Navbar() {
   const { authUser, isLoggedIn } = useAuth();
   const { shoppingItemData } = useContext(CartContext);
   const location = useLocation();
-  console.log(shoppingItemData);
+  // console.log(shoppingItemData);
 
   useEffect(() => {
     setActiveLink(location.pathname);
@@ -29,7 +29,7 @@ export default function Navbar() {
 
   return (
     <div  >
-      <nav className="bg-white dark:bg-gray-900 h-[80px] w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+      <nav className="bg-white dark:bg-gray-900 w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
         <div className=" flex items-center justify-around  mx-auto p-4 relative">
           <a
             href="#"
@@ -37,7 +37,7 @@ export default function Navbar() {
           >
             <img src={fablefire} className="h-12" alt="Logo" />
           </a>
-          <div className="flex space-x-3 items-center md:order-2">
+          <div className="flex space-x-2 items-center md:order-2">
             {isLoggedIn ? (
               <Link to="/profile" className="px-4 py-2 text-center">
                 <div className="flex items-center justify-between gap-4 px-2">
@@ -133,6 +133,28 @@ export default function Navbar() {
                   </li>
                   <li>
                     <Link
+                      to="/blog"
+                      className={`block px-4 py-2 text-gray-800 hover:bg-gray-100 ${
+                        activeLink === "/blog" ? "text-[#BFAE9F]" : ""
+                      }`}
+                      onClick={() => handleSetActiveLink("/blog")}
+                    >
+                      BLOG
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/events"
+                      className={`block px-4 py-2 text-gray-800 hover:bg-gray-100 ${
+                        activeLink === "/events" ? "text-[#BFAE9F]" : ""
+                      }`}
+                      onClick={() => handleSetActiveLink("/events")}
+                    >
+                      EVENTS
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       to="/about"
                       className={`block px-4 py-2 text-gray-800 hover:bg-gray-100 ${
                         activeLink === "/about" ? "text-[#BFAE9F]" : ""
@@ -214,7 +236,7 @@ export default function Navbar() {
                   } md:dark:text-[#BFAE9F]`}
                   onClick={() => handleSetActiveLink("/events")}
                 >
-                  Events
+                  EVENTS
                 </Link>
               </li>
               <li>

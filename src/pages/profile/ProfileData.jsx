@@ -7,14 +7,16 @@ import PasswordSVG from "../../components/SVG/PasswordSVG";
 import * as Yup from "yup";
 import { useAuth } from "../../context/AuthContext";
 import ProfileSkelton from "../../components/ProfileSkelton";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfileData() {
   const [profile, setProfile] = useState({});
   const [profileImageUrl, setProfileImageUrl] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
-  const { setAuthUser } = useAuth();
+  const { setAuthUser, setIsLoggedIn } = useAuth();
 
   useEffect(() => {
     async function fetchData() {
@@ -30,8 +32,18 @@ export default function ProfileData() {
         setAuthUser(profileData);
         setProfileImageUrl(profileData.images[0]);
       } catch (error) {
-        toast.error(error.response.data.message);
+        if (error.response.status == 401) setAuthUser(null);
+        setIsLoggedIn(false);
+        localStorage.removeItem("token");
+        localStorage.removeItem("paymentMethod");
+        localStorage.removeItem("ticketId");
+        localStorage.removeItem("orderDetailsId");
+        localStorage.removeItem("orderId");
+        navigate("/");
+
+        return;
       }
+      toast.error(error.response.data.message);
     }
     fetchData();
   }, []);

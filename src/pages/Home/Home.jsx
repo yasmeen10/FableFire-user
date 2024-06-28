@@ -220,7 +220,7 @@ export default function Home() {
         </div>
 
         <div className="w-full">
-          <p className="text-[32px] font-medium mb-4 ml-24 mt-8">Categories</p>
+          <p className="lg:ml-20 sm:ml-10 ml-8 text-[32px] font-medium my-8">Categories</p>
           <Carousel responsive={responsive}>
             {loading ? (
               <div className="flex flex-row">
@@ -271,88 +271,49 @@ export default function Home() {
           </Carousel>
         </div>
 
-        <p className="text-[32px] font-medium ml-24 mt-8 mb-8">
-          Amazing Discounts
-        </p>
-        <div className="w-4/5 mx-auto">
-          {discount && discount.length > 0 ? (
-            <Carousel
-              showDots={false}
-              arrows={true}
-              responsive={responsive}
-              infinite={true}
-              autoPlay={true}
-              autoPlaySpeed={2000}
-              keyBoardControl={true}
-              transitionDuration={200}
-            >
-              {discount.map((item) => (
-                <Card key={item._id} item={item} />
-              ))}
-            </Carousel>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-              <CardSkeleton />
-            </div>
-          )}
-        </div>
-        <div className="  md:w-full lg:w-full h-[530px] lg:h-[440px]  bg-[#D6CCC2] mt-[90px]  lg:mt-[90px]  md:flex lg:flex">
-          <div className=" w-6 flex items-center justify-center  md:ml-10 lg:ml-10">
-            <p className=" rotate-0 md:rotate-0  lg:-rotate-90 sm:mb-[300px] md:mb-[430px] md:ml-[400px] lg:mb-4 ml-[150px] lg:ml-[300px] font-thin text-[#210F04] whitespace-nowrap text-[24px] tracking-widest">
-              Top Author
-            </p>
-          </div>
 
-          <div className="flex lg:mt-[0px] md:mt-[50px]">
-            <div>
-              {author && author.images && author.images[0] ? (
-                <img
-                  className="  rounded-2xl h-64 w-48 ml-[30px] mt-[20px] absolute sm:h-[200px] lg:ml-[200px] lg:mt-[80px] md:mt-[80px] md:ml-[200px] lg:h-[250px] md:h-[250px] object-cover"
-                  src={author.images[0]}
-                  alt={author.name}
-                />
-              ) : (
-                <p>Loading author image...</p>
-              )}
-            </div>
-            <div className=" ">
-              <div>
-                <img
-                  className="ml-[170px] mt-[100px]  rounded-2xl h-48 sm:mt-[150px] sm:ml-[300px] md:mt-[160px] md:ml-[330px] lg:mt-[160px] lg:ml-[330px]  relative sm: sm:h-[150px] lg:h-[200px] md:h-[200px]"
-                  src={book ? book.images[0] : "default-image-url"}
-                />
-              </div>
-            </div>
-          </div>
+        <div className="">
+  <p className="lg:ml-20 sm:ml-10 ml-8 text-[32px] font-medium my-8">Amazing Discount</p>
+  <div className="w-4/5 mx-auto">
+    {discount && discount.length > 0 ? (
+      <Carousel
+        showDots={false}
+        arrows={true}
+        responsive={responsive}
+        infinite={true}
+        autoPlay={true}
+        autoPlaySpeed={1000}
+        keyBoardControl={true}
+        transitionDuration={200}
+      >
+        {discount.map((item) => (
+          <Card key={item._id} item={item} />
+        ))}
+      </Carousel>
+    ) : (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+        <CardSkeleton />
+      </div>
+    )}
+  </div>
+</div>
 
-          <div
-            className="ml-[30px] mt-[20px] lg:mt-[130px] md:mt-[200px] lg:ml-10 md:ml-10 sm:mt-[100px] sm:ml-[80px] sm:mr-8"
-            style={{ fontFamily: "Roboto Flex, sans-serif" }}
-          >
-            {author ? (
-              <>
-                <p className="text-[#210F04] lg:first-line:text-[28px] sm:text-[20px] font-light">
-                  {author.name}
-                </p>
-                <p className="text-[#210F04] w-[400px] lg:text-[20px] sm:text-[16px] font-light italic mt-2">
-                  {author.description}
-                </p>
-              </>
-            ) : (
-              <p>Loading author details...</p>
-            )}
-          </div>
-        </div>
 
+
+
+
+        <p className="lg:ml-20 sm:ml-10 ml-8 text-[32px] font-medium my-8">
+            Top Trending
+          </p>
         {images.slice(0, 1).map((ll) => {
-          return <SwiperComponent imageList={images.slice(10, 16)} />;
+          return <SwiperComponent imageList={images.slice(5, 11)} />;
         })}
         <WhyChooseUs />
         <div>
-          <p className="text-[32px] font-medium ml-24 mt-8">New Arrivals</p>
+          <p className="lg:ml-20 sm:ml-10 ml-8 text-[32px] font-medium my-8">New Arrivals</p>
           {newArrivals.length === 0 ? (
             <div className=" lg:flex grid md:grid-cols-2 sm:grid-cols-1 md:ml-[150px] lg:ml-0 sm:ml-[35%] justify-center lg:gap-24 mt-5">
               <CardSkeleton />
@@ -370,6 +331,6 @@ export default function Home() {
         </div>
       </div>
       <Footer />
-    </>
+    </> 
   );
 }

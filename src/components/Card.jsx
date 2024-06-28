@@ -116,21 +116,27 @@ export default function Card(props) {
             </div>
           </div>
         </div>
-      </div>
-      <div className="flex flex-col p-2">
-        <Link to={`/item/${item._id}`}>
-          <h5 className="text-lg font-bold textColor2 text-center">
-            {item.title}
-          </h5>
-          <CurrencyConverter price={item.price}>
-            {({ localPrice, currency }) => (
-              <div className="flex items-center justify-center mt-2.5">
-                {item.discount > 0 ? (
-                  <>
-                    <span
-                      className="text-sm font-medium"
-                      style={{ color: "#A68877" }}
-                    >
+
+        <div className="flex flex-col p-2">
+          <Link to={`/item/${item._id}`}>
+            <h5 className="text-lg font-bold textColor2 text-center">
+              {item.title}
+            </h5>
+            <CurrencyConverter price={item.price}>
+              {({ localPrice, currency }) => (
+                <div className="flex items-center justify-center mt-2.5">
+                  {item.discount > 0 ? (
+                    <>
+                      <span className="text-sm font-medium line-through text-red-500" >
+                        {localPrice} {currency}
+                      </span>
+                      <p className="text-sm font-medium ml-2" style={{ color: "#A68877" }}>
+                        {`${(localPrice - localPrice * (item.discount / 100)).toFixed(2)} ${currency}`}
+                      </p>
+                    </>
+                  ) : (
+                    <span className="text-sm font-medium" style={{ color: "#A68877" }}>
+
                       {localPrice} {currency}
                     </span>
                     <p className="text-sm font-medium ml-2 text-red-500">
