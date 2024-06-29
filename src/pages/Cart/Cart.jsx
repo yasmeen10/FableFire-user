@@ -20,7 +20,7 @@ export default function Cart() {
     fetchShoppingItemData();
   }, [setShoppingItemData]);
   const handleClick = () => {};
-  console.log(shoppingItemData);
+ 
   return (
     <>
       <Navbar />

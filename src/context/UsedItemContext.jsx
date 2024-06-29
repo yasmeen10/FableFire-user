@@ -3,15 +3,16 @@ import axiosInstance from "../../interceptor";
 import { useAuth } from "./AuthContext";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
+ 
 export const UsedItemContext = createContext();
-
+ 
 export const UsedItemProvider = ({ children }) => {
   const [usedItems, setUsedItems] = useState([]);
   const [currUserUsedItems, setCurrUserUsedItems] = useState([]);
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
-
+  const [isloading, setIsLoading] = useState(false);
+ 
   useEffect(() => {
     async function fetchUsedItemsData() {
       try {
@@ -20,11 +21,11 @@ export const UsedItemProvider = ({ children }) => {
         );
         setUsedItems(data.data.results);
       } catch (error) {
-        console.log(error);
+       
         toast.error(error.response.data.message);
       }
     }
-
+ 
     async function getCurrentUserUsedItems() {
       try {
         const { data } = await axiosInstance.get(
@@ -32,19 +33,20 @@ export const UsedItemProvider = ({ children }) => {
         );
         setCurrUserUsedItems(data.data);
       } catch (error) {
-        console.log(error);
+       
         toast.error(error.response.data.message);
       }
     }
-
+ 
     fetchUsedItemsData();
     if (isLoggedIn) {
       getCurrentUserUsedItems();
     }
-  }, [isLoggedIn, setUsedItems]);
-
+  }, [isLoggedIn, setUsedItems, setCurrUserUsedItems]);
+ 
   const handleRemoveUsedItem = async (item) => {
     try {
+      setIsLoading(true);
       const filteredItems = usedItems.filter((i) => i._id !== item._id);
       setUsedItems(filteredItems);
       const response = await axiosInstance.delete(
@@ -54,32 +56,39 @@ export const UsedItemProvider = ({ children }) => {
         toast.success("Deleted Successfully");
       }
     } catch (error) {
-      console.log(error);
+      
       toast.error(error.response.data.message);
     }
+    setIsLoading(false);
   };
-
+ 
   const handleAddNewUsedItem = async (item) => {
+    setIsLoading(true);
     try {
       const response = await axiosInstance.post(
         "http://localhost:3005/api/v1/usedItem/",
         item
       );
       const items = [...usedItems];
-      items.unshift(response.data.data);
+      items.push(response.data.data);
       setUsedItems(items);
+      const userItems = [...currUserUsedItems];
+      userItems.push(response.data.data);
+      setCurrUserUsedItems(userItems);
       if (response.status === 200) {
         toast.success("Added Successfully");
         navigate("/blog");
       }
     } catch (error) {
-      console.log(error);
+     
       toast.error(error.response.data.message);
     }
+    setIsLoading(false);
   };
-
+ 
   const handleEditUsedItem = async (id, item) => {
     try {
+      setIsLoading(true);
       const response = await axiosInstance.patch(
         `http://localhost:3005/api/v1/usedItem/${id}`,
         item,
@@ -99,11 +108,12 @@ export const UsedItemProvider = ({ children }) => {
         navigate("/blog");
       }
     } catch (error) {
-      console.log(error);
+     
       toast.error(error.response.data.message);
     }
+    setIsLoading(false);
   };
-
+ 
   return (
     <UsedItemContext.Provider
       value={{
@@ -112,9 +122,11 @@ export const UsedItemProvider = ({ children }) => {
         handleRemoveUsedItem,
         handleAddNewUsedItem,
         handleEditUsedItem,
+        isloading,
       }}
     >
       {children}
     </UsedItemContext.Provider>
   );
 };
+ 

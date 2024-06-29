@@ -17,6 +17,7 @@ export default function Shop() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pages, setPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const [notFound, setNotFound] = useState(false); // Add notFound state
 
   useEffect(() => {
     setSelectedCategory(categoryId || "all");
@@ -36,10 +37,10 @@ export default function Shop() {
     initialValues: {
       search: "",
     },
-    onSubmit: async (values , { resetForm }) => {
+    onSubmit: async (values, { resetForm }) => {
       setSearchQuery(values.search);
       setCurrentPage(1);
-      resetForm()
+      resetForm();
     },
   });
 
@@ -50,8 +51,9 @@ export default function Shop() {
       );
       setItems(response.data.data.results);
       setPages(response.data.data.numOfPages);
+      setNotFound(false); // Reset notFound state
     } catch (error) {
-      console.error("Error fetching items:", error);
+     
       toast.error("Error fetching items");
     }
   };
@@ -62,20 +64,25 @@ export default function Shop() {
         `http://localhost:3005/api/v1/item/search/${key}?page=${page}&limit=${limit}`
       );
       const data = response.data.data;
-      setItems(data.itemsByTitle.length ? data.itemsByTitle : data.itemsByAuthor);
+      const searchResults = data.itemsByTitle.length ? data.itemsByTitle : data.itemsByAuthor;
+      setItems(searchResults);
       setPages(data.numOfPages);
+      setNotFound(searchResults.length === 0); // Set notFound based on search results
     } catch (error) {
-      console.error("Error fetching search results:", error);
+      if (error.response.status === 404) {
+        setItems([]);
+        setPages(1);
+        setNotFound(true); // Set notFound state
+        return;
+      }
       toast.error("Error fetching search results");
     }
   };
 
   const handleCategoryChange = useCallback((categoryId) => {
     setSelectedCategory(categoryId);
-
     setCurrentPage(1);
     setSearchQuery(""); // Clear search query when category changes
-
   }, []);
 
   return (
@@ -134,6 +141,8 @@ export default function Shop() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 px-28 mx-auto">
             {Array.isArray(items) && items.length > 0 ? (
               items.map((item) => <Card key={item._id} item={item} />)
+            ) : notFound ? (
+              <p className="col-span-full text-center text-red-500">Item Not Found</p>
             ) : (
               <>
                 <CardSkeleton />

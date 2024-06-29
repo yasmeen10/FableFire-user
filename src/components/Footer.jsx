@@ -5,7 +5,7 @@ import fablefire from "../assets/FableFire-logo.png";
 export default function Footer() {
   return (
     <div>
-      <div className="w-full lg:h-[250px] md:h-[420px] sm:h-[600px] bg-[#D6CCC2] mt-32 ">
+      <div className="w-full lg:h-[250px] md:h-[420px] sm:h-[600px] bg-[#D6CCC2] mt-32 py-6">
         <div className="grid lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 ml-[px]">
           <div>
             <img className="w-[174px] h-[53px] ml-24 " src={fablefire} />

@@ -4,7 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 
 export default function SignIn() {
   const { formik, loading } = useAuth();
-  console.log(loading);
+ 
 
   return (
     <>

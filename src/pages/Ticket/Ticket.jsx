@@ -7,14 +7,13 @@ import TicketCard from "../../components/TicketCard";
 
 export default function Ticket() {
   const { ticketId } = useContext(EventContext);
-  console.log(ticketId);
+
   const [ticket, setTicket] = useState(null);
   useEffect(() => {
     async function fetchTicketData() {
       const { data } = await axiosInstance.get(
         `http://localhost:3005/api/v1/ticket/${ticketId}`
       );
-      console.log(data.data);
       setTicket(data.data);
     }
     fetchTicketData();

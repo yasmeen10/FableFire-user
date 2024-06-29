@@ -68,6 +68,11 @@ export default function ProfileData() {
             },
           }
         );
+        const res = await axiosInstance.get(
+          "http://localhost:3005/api/v1/user/"
+        );
+
+        setAuthUser(res.data.data);
 
         toast.success("Profile Edited Successfully");
 

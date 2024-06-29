@@ -12,9 +12,9 @@ import { toast } from "react-toastify";
 import CurrencyConverter from "../../components/CurrencyConverter";
 import ReactStars from "react-rating-stars-component";
 import fallbackImage from "../../../public/imgError.png";
-
+ 
 export default function ItemDetails() {
-  const { handleRemoveItem, handleAddTocart, shoppingItemData } =
+  const { handleRemoveItem, handleAddToCart, shoppingItemData } =
     useContext(CartContext);
   const { wishlist, toggleWishlistItem } = useContext(WishlistContext);
   const [isCartFilled, setIsCartFilled] = useState(false);
@@ -26,11 +26,11 @@ export default function ItemDetails() {
   const [error, setError] = useState(null);
   const [ratings, setRatings] = useState(0); // Initializing ratings as a number
   const [imageState, setImageState] = useState({ loading: true, error: false });
-
+ 
   const handleImageLoad = () => {
     setImageState({ loading: false, error: false });
   };
-
+ 
   const handleImageError = () => {
     setImageState({ loading: false, error: true });
   };
@@ -38,12 +38,12 @@ export default function ItemDetails() {
     const index = shoppingItemData.findIndex(
       (cartItem) => cartItem.item && cartItem.item._id === item?._id
     );
-
+ 
     if (index !== -1) {
       setIsCartFilled(true);
     }
   }, [shoppingItemData, item]);
-
+ 
   const handletoggleCartIcon = async (item) => {
     if (isCartFilled) {
       const index = shoppingItemData.findIndex(
@@ -54,18 +54,18 @@ export default function ItemDetails() {
         await handleRemoveItem(shoppingItemData[index]._id);
       }
     } else {
-      await handleAddTocart(item);
+      await handleAddToCart(item);
       setIsCartFilled(true);
     }
   };
-
+ 
   useEffect(() => {
     const fetchItem = async () => {
       if (!id) {
         setError("Item ID is undefined");
         return;
       }
-
+ 
       try {
         const response = await axiosInstance.get(
           `http://localhost:3005/api/v1/item/${id}`
@@ -82,10 +82,10 @@ export default function ItemDetails() {
         setError("Error fetching item. Please try again later.");
       }
     };
-
+ 
     fetchItem();
   }, [id]);
-
+ 
   useEffect(() => {
     if (wishlist.some((wishlistItem) => wishlistItem._id === id)) {
       setIsHeartClicked(true);
@@ -93,12 +93,12 @@ export default function ItemDetails() {
       setIsHeartClicked(false);
     }
   }, [wishlist, id]);
-
+ 
   const handleHeartClick = () => {
     toggleWishlistItem(item);
     setIsHeartClicked(!isHeartClicked);
   };
-
+ 
   const fetchRatings = useCallback(async () => {
     try {
       const { data } = await axiosInstance.get(
@@ -106,14 +106,14 @@ export default function ItemDetails() {
       );
       setRatings(data.itemRate);
     } catch (error) {
-      console.error("Error fetching ratings data:", error);
+      toast.error(error.response.data.message);
     }
   }, [id]);
-
+ 
   useEffect(() => {
     fetchRatings();
   }, [ratings]);
-
+ 
   return (
     <>
       <Navbar />
@@ -170,8 +170,8 @@ export default function ItemDetails() {
                 )}
                 {!imageState.error && (
                   <img
-                    src={item.images[0]}
-                    alt={item.title}
+                    src={item?.images[0]}
+                    alt={item?.title}
                     className="rounded-lg shadow-md relative z-10 w-96 h-96"
                     onLoad={handleImageLoad}
                     onError={handleImageError}
@@ -196,27 +196,36 @@ export default function ItemDetails() {
                     <span style={{ color: "#A68877" }}>By</span>{" "}
                     {item.authorId.name}
                   </h2>
-
+ 
                   <CurrencyConverter price={item.price}>
-              {({ localPrice, currency }) => (
-                <div className="flex items-center justify-center mt-2.5">
-                  {item.discount > 0 ? (
-                    <>
-                      <span className="text-sm font-medium line-through text-red-500" >
-                        {localPrice} {currency}
-                      </span>
-                      <p className="text-sm font-medium ml-2" style={{ color: "#A68877" }}>
-                        {`${(localPrice - localPrice * (item.discount / 100)).toFixed(2)} ${currency}`}
-                      </p>
-                    </>
-                  ) : (
-                    <span className="text-sm font-medium" style={{ color: "#A68877" }}>
-                      {localPrice} {currency}
-                    </span>
-                  )}
-                </div>
-              )}
-            </CurrencyConverter>
+                    {({ localPrice, currency }) => (
+                      <div className="flex items-center justify-center mt-2.5">
+                        {item?.discount > 0 ? (
+                          <>
+                            <span className="text-sm font-medium line-through text-red-500">
+                              {localPrice} {currency}
+                            </span>
+                            <p
+                              className="text-sm font-medium ml-2"
+                              style={{ color: "#A68877" }}
+                            >
+                              {`${(
+                                localPrice -
+                                localPrice * (item.discount / 100)
+                              ).toFixed(2)} ${currency}`}
+                            </p>
+                          </>
+                        ) : (
+                          <span
+                            className="text-sm font-medium"
+                            style={{ color: "#A68877" }}
+                          >
+                            {localPrice} {currency}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                  </CurrencyConverter>
                 </div>
                 {item?.countInStock < 6 ? (
                   <div className="mb-6 text-base font-medium text-placeholder">
@@ -224,7 +233,7 @@ export default function ItemDetails() {
                     <span className="ml-1">{item?.countInStock}</span>
                   </div>
                 ) : null}
-
+ 
                 <p
                   className="textcolor2 mb-6 italic text-base capitalize"
                   style={{ fontFamily: "Roboto Flex, sans-serif" }}

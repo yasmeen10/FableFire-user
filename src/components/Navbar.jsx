@@ -12,7 +12,7 @@ export default function Navbar() {
   const { authUser, isLoggedIn } = useAuth();
   const { shoppingItemData } = useContext(CartContext);
   const location = useLocation();
-  // console.log(shoppingItemData);
+  
 
   useEffect(() => {
     setActiveLink(location.pathname);

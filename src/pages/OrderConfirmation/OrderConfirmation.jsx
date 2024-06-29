@@ -13,7 +13,7 @@ export default function OrderConfirmation() {
   if (!orderDetails.order) {
     <div className="className=px-4 mb-14 sm:px-8 lg:px-36"></div>;
   }
-  console.log(paymentMethod);
+ 
   return (
     <>
       <Navbar />

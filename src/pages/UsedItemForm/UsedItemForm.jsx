@@ -17,7 +17,7 @@ export default function UsedItemForm() {
   const [usedItem, setUsedItem] = useState(null);
   const [imagePreviews, setImagePreviews] = useState([ImageIcon]);
   const { authUser } = useAuth();
-  const { handleAddNewUsedItem, handleEditUsedItem } =
+  const { handleAddNewUsedItem, handleEditUsedItem, isloading } =
     useContext(UsedItemContext);
   const { id } = useParams();
   const mood = id ? "edit" : "add";
@@ -80,7 +80,6 @@ export default function UsedItemForm() {
         });
         setImagePreviews(response.data.data.usedItem.images || [ImageIcon]);
       } catch (error) {
-        console.log(error);
         toast.error(error.response.data.message);
       }
     }
@@ -275,7 +274,7 @@ export default function UsedItemForm() {
                       className="border border-landing rounded-lg text-textcolor2 capitalize w-full mt-6 p-2 focus:outline-none focus:ring-2 focus:ring-landing focus:ring-inset placeholder:text-placeholder placeholder:text-base placeholder:font-medium"
                     >
                       <option value="" className="text-placeholder">
-                        Select
+                        Select Item Type
                       </option>
                       {itemTypes.map((option) => (
                         <option key={option._id} value={option._id}>
@@ -300,7 +299,7 @@ export default function UsedItemForm() {
                       className="border border-landing rounded-lg w-full mt-6 capitalize text-textcolor2 p-2 focus:outline-none focus:ring-2 focus:ring-landing focus:ring-inset placeholder:text-placeholder placeholder:text-base placeholder:font-medium"
                     >
                       <option value="" className="text-placeholder">
-                        Select
+                        Select Category
                       </option>
                       {categories.map((category) => (
                         <option key={category._id} value={category._id}>
@@ -351,12 +350,21 @@ export default function UsedItemForm() {
                   <div className="cursor-pointer py-2 px-14 rounded text-textcolor2 font-medium text-lg bg-slate-200">
                     <Link to="/blog">Cancel</Link>
                   </div>
-                  <button
-                    type="submit"
-                    className="bg-button text-white font-medium text-lg py-2 px-14 rounded cursor-pointer"
-                  >
-                    {mood === "add" ? "Create Post" : "Update Post"}
-                  </button>
+                  {isloading ? (
+                    <button
+                      className="bg-button text-white font-medium text-lg py-2 px-14 rounded cursor-pointer"
+                      type="submit"
+                    >
+                      <span className="loading loading-spinner">loading</span>
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="bg-button text-white font-medium text-lg py-2 px-14 rounded cursor-pointer"
+                    >
+                      {mood === "add" ? "Create Post" : "Update Post"}
+                    </button>
+                  )}
                 </div>
               </Form>
             </Formik>

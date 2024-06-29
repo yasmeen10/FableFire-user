@@ -42,7 +42,7 @@ export const CartProvider = ({ children }) => {
         );
       }
     } catch (error) {
-      console.log(error);
+     
       toast.error(error.response.data.message);
     }
   };
@@ -66,7 +66,7 @@ export const CartProvider = ({ children }) => {
         );
       }
     } catch (error) {
-      console.log(error);
+     
       toast.error(error.response.data.message);
     }
   };
