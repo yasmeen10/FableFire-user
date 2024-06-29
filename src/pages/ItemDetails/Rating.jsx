@@ -1,23 +1,28 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axiosInstance from "../../../interceptor";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
 
 export default function Ratings() {
   const [ratings, setRatings] = useState({ itemRate: 0 });
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const ratingChanged = useCallback(async (newRating) => {
-    console.log(newRating);
+  
     try {
       const response = await axiosInstance.post(`http://localhost:3005/api/v1/rating/${id}`, { rate: newRating });
-      console.log(response.data);
+     
       setRatings((prevRatings) => ({
         ...prevRatings,
         itemRate: newRating,
       }));
     } catch (error) {
-      console.error("Error posting new rating:", error);
+      if(error.response.status === 401){
+        navigate("/signIn");
+        return;
+      }
+      toast.error(error.response.data.message);
     }
   }, [id]);
 
@@ -27,7 +32,7 @@ export default function Ratings() {
         const { data } = await axiosInstance.get(`http://localhost:3005/api/v1/rating/${id}`);
         setRatings(data);
       } catch (error) {
-        console.error("Error fetching ratings data:", error);
+        toast.error(error.response.data.message);
       }
     };
 

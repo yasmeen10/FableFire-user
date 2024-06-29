@@ -40,7 +40,7 @@ export default function UsedItemDetails() {
         setUsedItem(data.data.usedItem);
         setSuggestionUsedItems(data.data.suggestionUsedItems);
       } catch (error) {
-        console.log(error);
+        toast.error(error.response.data.message);
       }
     }
     fetchUsedItemsData();

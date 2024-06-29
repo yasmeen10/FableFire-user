@@ -35,7 +35,7 @@ export default function OrderForm(props) {
           phoneNumber: data.data.phoneNumber || "",
         });
       } catch (error) {
-        console.log(error);
+        
         toast.error(error.response.data.message);
       }
     }
@@ -75,7 +75,7 @@ export default function OrderForm(props) {
           navigate("/payment");
         }
       } catch (error) {
-        console.log(error);
+       
         toast.error(error.response.data.message);
       }
     },

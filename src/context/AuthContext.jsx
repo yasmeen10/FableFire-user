@@ -68,7 +68,7 @@ export function AuthProvider(props) {
     } catch (error) {
       if (error.response.status == 401) {
         console.log(error.response.data.message);
-        console.log("eee" , error);
+       
        return;
        
       }

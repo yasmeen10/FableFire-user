@@ -16,7 +16,7 @@ export const EventProvider = ({ children }) => {
       const { data } = await axiosInstance.get(
         "http://localhost:3005/api/v1/ticket/user"
       );
-      console.log(data.data);
+     
       setUserEvents(data.data);
     }
     if (isLoggedIn) {
@@ -25,14 +25,14 @@ export const EventProvider = ({ children }) => {
   }, [isLoggedIn, setUserEvents, ticketId]);
 
   const handleReverseTicket = async (eventId) => {
-    console.log(eventId);
+   
     const response = await axiosInstance.post(
       "http://localhost:3005/api/v1/ticket",
       { user: `${authUser._id}`, event: `${eventId}` }
     );
     if (response.status === 201) {
       navigate("/ticket");
-      console.log(response.data.data._id);
+    
       localStorage.setItem("ticketId", response.data.data._id);
     }
   };

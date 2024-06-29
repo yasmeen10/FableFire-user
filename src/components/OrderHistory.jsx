@@ -30,7 +30,7 @@ export default function OrderHistory() {
         setIsLoading(false);
         setOrder(data.data);
       } catch (error) {
-        console.log(error);
+       
       }
     }
     fetchData();

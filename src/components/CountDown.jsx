@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 export default function CountDown(props) {
   const { date } = props;
-  console.log(date);
+ 
   const targetDate = new Date(date);
 
   const calculateTimeLeft = () => {

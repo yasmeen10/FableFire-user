@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import HomeSVG from "../../components/SVG/Home.SVG";
 import WishListSVG from "../../components/SVG/WishListSVG";
@@ -25,14 +25,15 @@ export default function UserProfile() {
   const handleLogOut = async () => {
     setIsLoggedIn(false);
     setAuthUser(null);
-     localStorage.removeItem("token");
+    await localStorage.removeItem("token");
      localStorage.removeItem("paymentMethod")
      localStorage.removeItem("ticketId")
      localStorage.removeItem("orderDetailsId")
      localStorage.removeItem("orderId")
-
     navigate("/");
   };
+
+  
 
   return (
     <>

@@ -8,6 +8,7 @@ export default function TicketProfile() {
 
   return (
     <>
+     <h2 className="font-semibold text-textcolor2 text-xl py-4">Tickets</h2>
       {userEvents.length === 0 ? (
         <div className="flex flex-col items-center justify-center mt-20">
           <TicketEventSVG className="mb-4" />

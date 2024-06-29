@@ -51,7 +51,7 @@ export default function Home() {
 
         setImages(data.data.results);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        toast.error(error.response.data.message);
       }
     }
 
@@ -110,10 +110,10 @@ export default function Home() {
       if (response.data && Array.isArray(response.data.data.results)) {
         setCategoryList(response.data.data.results);
       } else {
-        console.error("Error:", response.data);
+        toast.error(error.response.data.message);
       }
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      toast.error(error.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -129,10 +129,10 @@ export default function Home() {
         );
         setDiscount(discountedItems);
       } else {
-        console.error("Error:", response.data);
+        toast.error(error.response.data.message);
       }
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      toast.error(error.response.data.message);
     }
   };
   const fetchAuthor = async () => {
@@ -144,7 +144,7 @@ export default function Home() {
         setAuthor(response.data.data.author);
         setBook(response.data.data.Book);
       } else {
-        console.log("Error:", response.data);
+        toast.error(error.response.data.message);
       }
     } catch (error) {
       toast.error(error.response.data.message);

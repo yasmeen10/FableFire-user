@@ -3,6 +3,7 @@ import QRCodeCard from "./QRCodeCard";
 import DownloadSVG from "./SVG/DownloadSVG";
 import html2canvas from "html2canvas-pro";
 import jsPDF from "jspdf";
+import { toast } from "react-toastify";
 
 export default function TicketCard(props) {
   const { ticket } = props;
@@ -11,10 +12,10 @@ export default function TicketCard(props) {
   const downloadPDF = () => {
     const input = pdfRef.current;
     if (!input) {
-      console.error("pdfRef is not assigned properly");
+    
       return;
     }
-    console.log("pdfRef.current:", input);
+   
     html2canvas(input, {
       useCORS: true,
       ignoreElements: (element) => {
@@ -43,7 +44,7 @@ export default function TicketCard(props) {
         pdf.save("ticket.pdf");
       })
       .catch((error) => {
-        console.error("Error downloading the file", error);
+        toast.error(error.response.data.message)
       });
   };
 

@@ -11,7 +11,7 @@ export default function PaymentDetails(props) {
   const [initialValues, setInitialValues] = useState({ paymentMethod: "" });
   const { orderDetails } = useContext(OrderContext);
   const navigate = useNavigate();
-  console.log(orderDetails);
+  
 
   const formik = useFormik({
     initialValues,
@@ -39,14 +39,14 @@ export default function PaymentDetails(props) {
               orderId: orderDetails.order._id,
             }
           );
-          console.log(response.data.url);
+          
           if (response.status === 200) {
             window.location.href = response.data.url;
             localStorage.setItem("paymentMethod", "VISA");
           }
         }
       } catch (error) {
-        console.log(error);
+        
         toast.error(error.response.data.message);
       }
     },

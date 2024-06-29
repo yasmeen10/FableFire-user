@@ -9,7 +9,7 @@ export default function QRCodeCard(props) {
     location: `${ticket?.event?.location}`,
   };
   const ticketString = JSON.stringify(ticketData);
-  console.log(ticketString);
+ 
   return (
     <div className="py-5">
       <div className="bg-black w-36 mx-auto flex flex-col items-center justify-center rounded-lg pt-2">

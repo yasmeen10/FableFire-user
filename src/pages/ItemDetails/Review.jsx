@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../../interceptor";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/AuthContext";
@@ -10,6 +10,7 @@ export default function Review() {
   const [review, setReview] = useState([]);
   const { authUser } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchReview = async () => {
@@ -25,7 +26,7 @@ export default function Review() {
           return;
         }
       } catch (error) {
-        console.error("Error fetching review:", error);
+        toast.error(error.response.data.message);
       }
     };
     fetchReview();
@@ -45,7 +46,10 @@ export default function Review() {
         setReview(review.filter((rvw) => rvw._id == id));
         toast.success(data.message);
       } catch (error) {
-        console.log("Error posting review:", error);
+        if(error.response.status === 401){
+          navigate("/signIn");
+          return;
+        }
         toast.error(error.response.data.message);
       }
     },
@@ -59,33 +63,12 @@ export default function Review() {
       toast.success(data.message);
       setReview(review.filter((rvw) => rvw._id !== idReview));
     } catch (error) {
-      console.log("Error deleting review:", error);
+     
       toast.error(error.response.data.message);
     }
   };
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="block m-5">
-  //       <div className="skeleton h-8 w-80 mb-4"></div>
-  //       <div className="skeleton h-8 w-40"></div>
-  //       <div className="flex items-center mt-6">
-  //         <div className="skeleton rounded-full w-10 h-10 mr-3"></div>
-  //         <div>
-  //           <div className="skeleton h-2 w-36 mb-3"></div>
-  //           <div className="skeleton h-2 w-48"></div>
-  //         </div>
-  //       </div>
-  //       <div className="flex items-center mt-6">
-  //         <div className="skeleton rounded-full w-10 h-10 mr-3"></div>
-  //         <div>
-  //           <div className="skeleton h-2 w-36 mb-3"></div>
-  //           <div className="skeleton h-2 w-48"></div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  
 
   return (
     <div className="block">
