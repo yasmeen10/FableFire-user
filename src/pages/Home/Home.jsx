@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import CategorySkeleton from "../../components/CategorySkeleton";
 import SwiperComponent from "../../components/SwiperComponent";
+import fallbackImage from "../../../public/imgError.png";
 
 export default function Home() {
   const [categoryList, setCategoryList] = useState([]);
@@ -32,7 +33,15 @@ export default function Home() {
   const [images, setImages] = useState([]);
 
   const navigate = useNavigate();
+  const [imageState, setImageState] = useState({ loading: true, error: false });
 
+  const handleImageLoad = () => {
+    setImageState({ loading: false, error: false });
+  };
+
+  const handleImageError = () => {
+    setImageState({ loading: false, error: true });
+  };
   useEffect(() => {
     async function fetchData() {
       try {
@@ -223,18 +232,34 @@ export default function Home() {
               </div>
             ) : (
               <div className=" flex w-screen items-center m-4 px-12 ">
-
-               { categoryList.map((category) => (
-                  <div 
+                {categoryList.map((category) => (
+                  <div
                     key={category._id}
                     className="h-32 bg-[#F6F6F7] w-40 p-4 m-auto  cursor-pointer flex flex-col items-center justify-center"
                     onClick={() => handleCategoryClick(category._id)}
                   >
-                    <img
-                      src={category.images[0]}
-                      alt={category.title}
-                      className="h-10 w-10 object-cover"
-                    />
+                    {imageState.loading && (
+                      <div className="skeleton z-10 h-10 w-10 rounded-lg"></div>
+                    )}
+                    {!imageState.loading && imageState.error && (
+                      <img
+                        src={fallbackImage}
+                        alt="Fallback"
+                        className="rounded-lg shadow-md relative z-10 w-10 h-10"
+                      />
+                    )}
+                    {!imageState.error && (
+                      <img
+                        src={category.images[0]}
+                        alt={category.title}
+                        className="h-10 w-10 object-cover"
+                        onLoad={handleImageLoad}
+                        onError={handleImageError}
+                        style={{
+                          display: imageState.loading ? "none" : "block",
+                        }}
+                      />
+                    )}
                     <p className="font-medium mt-4 text-[#210F04] capitalize">
                       {category.title}
                     </p>
@@ -257,7 +282,7 @@ export default function Home() {
               responsive={responsive}
               infinite={true}
               autoPlay={true}
-              autoPlaySpeed={1000}
+              autoPlaySpeed={2000}
               keyBoardControl={true}
               transitionDuration={200}
             >
@@ -343,10 +368,6 @@ export default function Home() {
             </div>
           )}
         </div>
-
-        
-
-       
       </div>
       <Footer />
     </>

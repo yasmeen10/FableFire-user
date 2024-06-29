@@ -11,6 +11,7 @@ import { useAuth } from "../../context/AuthContext";
 import { EventContext } from "../../context/EventContext";
 import QRCodeCard from "../../components/QRCodeCard";
 import { toast } from "react-toastify";
+import fallbackImage from "../../../public/imgError.png";
 
 export default function Events() {
   const [events, setEvents] = useState([]);
@@ -18,7 +19,15 @@ export default function Events() {
   const { userEvents, handleReverseTicket } = useContext(EventContext);
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
+  const [imageState, setImageState] = useState({ loading: true, error: false });
 
+  const handleImageLoad = () => {
+    setImageState({ loading: false, error: false });
+  };
+
+  const handleImageError = () => {
+    setImageState({ loading: false, error: true });
+  };
   useEffect(() => {
     async function fetchEvents() {
       const { data } = await axiosInstance.get(
@@ -88,11 +97,26 @@ export default function Events() {
                   to={`/events/${event._id}`}
                   className="col-span-2 flex items-center"
                 >
-                  <img
-                    src={event.images[0]}
-                    alt={event.name}
-                    className="w-28 h-28 object-cover border border-transparent rounded-lg mr-4"
-                  />
+                  {imageState.loading && (
+                    <div className="skeleton z-10 mr-4  w-28 h-28  rounded-lg"></div>
+                  )}
+                  {!imageState.loading && imageState.error && (
+                    <img
+                      src={fallbackImage}
+                      alt="Fallback"
+                      className="rounded-lg shadow-md relative z-10 w-28 h-28 "
+                    />
+                  )}
+                  {!imageState.error && (
+                    <img
+                      src={event.images[0]}
+                      alt={event.name}
+                      onLoad={handleImageLoad}
+                      onError={handleImageError}
+                      style={{ display: imageState.loading ? "none" : "block" }}
+                      className="w-28 h-28 object-cover border border-transparent rounded-lg mr-4"
+                    />
+                  )}
                   <div className="flex items-center justify-between w-3/4">
                     <div>
                       <h1 className="text-textcolor2 font-medium text-base capitalize">

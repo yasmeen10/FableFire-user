@@ -1,14 +1,21 @@
 import { useContext, useState } from "react";
 import CancelArrow from "./SVG/CancelArrow";
 import { CartContext } from "../context/CartContext";
+import fallbackImage from "../../public/imgError.png";
 
 export default function ShoppingCart(props) {
   const { shoppingItem } = props;
   const { handleIncrementQuantity, handleDecrementQuantity, handleRemoveItem } =
     useContext(CartContext);
-  console.log(shoppingItem);
-  console.log(shoppingItem?.item?.countInStock);
-  console.log(shoppingItem?.quantity);
+  const [imageState, setImageState] = useState({ loading: true, error: false });
+
+  const handleImageLoad = () => {
+    setImageState({ loading: false, error: false });
+  };
+
+  const handleImageError = () => {
+    setImageState({ loading: false, error: true });
+  };
   return (
     <div>
       {!shoppingItem ? (
@@ -24,9 +31,27 @@ export default function ShoppingCart(props) {
         </div>
       ) : (
         <div className="text-textcolor2 text-base border-y border-y-landing font-medium flex items-center justify-between p-2">
-          <div className="w-1/5">
-            <img src={shoppingItem?.item?.images[0]} alt="Product" />
-          </div>
+          {imageState.loading && (
+            <div className="skeleton z-10 h-60 w-56 rounded-lg"></div>
+          )}
+          {!imageState.loading && imageState.error && (
+            <img
+              src={fallbackImage}
+              alt="Fallback"
+              className="rounded-lg shadow-md relative z-10 w-56 h-60"
+            />
+          )}
+          {!imageState.error && (
+            <div className="w-1/5">
+              <img
+                src={shoppingItem?.item?.images[0]}
+                alt="Product"
+                onLoad={handleImageLoad}
+                onError={handleImageError}
+                style={{ display: imageState.loading ? "none" : "block" }}
+              />
+            </div>
+          )}
           <div className="flex items-center justify-between ml-2 w-4/5">
             <p className="w-36">{shoppingItem?.item?.title}</p>
             <span>${shoppingItem?.item?.price}</span>

@@ -11,6 +11,7 @@ import person from "../../assets/person.svg";
 import EventForm from "../../components/EventForm";
 import { EventContext } from "../../context/EventContext";
 import { useAuth } from "../../context/AuthContext";
+import fallbackImage from "../../../public/imgError.png";
 
 export default function EventDetails() {
   const [event, setEvent] = useState(null);
@@ -19,6 +20,15 @@ export default function EventDetails() {
   const { handleReverseTicket, userEvents } = useContext(EventContext);
   const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
+  const [imageState, setImageState] = useState({ loading: true, error: false });
+
+  const handleImageLoad = () => {
+    setImageState({ loading: false, error: false });
+  };
+
+  const handleImageError = () => {
+    setImageState({ loading: false, error: true });
+  };
   useEffect(() => {
     async function fetchData() {
       const { data } = await axiosInstance.get(
@@ -51,7 +61,7 @@ export default function EventDetails() {
               <div className="skeleton rounded-md w-3/4 h-7 mt-4"></div>
               <div className="skeleton rounded-md w-full h-8 mt-4"></div>
             </div>
-            <div className="skeleton rounded-md w-full h-64 md:h-full"></div>
+            <div className="skeleton rounded-md w-full h-72 md:h-full"></div>
           </div>
           <div className="skeleton rounded-md w-full h-32 mt-4"></div>
         </div>
@@ -88,7 +98,7 @@ export default function EventDetails() {
                 </div>
               </div>
               <div className="w-full md:w-1/4">
-                {!authUser.address || !authUser.phoneNumber ? (
+                {!authUser?.address || !authUser.phoneNumber ? (
                   <Popup
                     trigger={
                       <button className="border border-transparent rounded-lg bg-button text-white font-medium text-base py-2 px-7 w-full">
@@ -124,11 +134,26 @@ export default function EventDetails() {
               </div>
             </div>
             <div className="order-first md:order-last">
-              <img
-                src={event?.images[0]}
-                alt={event?.name}
-                className="w-full object-cover h-64 md:h-full"
-              />
+              {imageState.loading && (
+                <div className="skeleton z-10   h-96 w-96 rounded-lg"></div>
+              )}
+              {!imageState.loading && imageState.error && (
+                <img
+                  src={fallbackImage}
+                  alt="Fallback"
+                  className="rounded-lg shadow-md relative z-10 w-96 h-96"
+                />
+              )}
+              {!imageState.error && (
+                <img
+                  src={event?.images[0]}
+                  alt={event?.name}
+                  className="w-full object-cover h-64 md:h-full"
+                  onLoad={handleImageLoad}
+                  onError={handleImageError}
+                  style={{ display: imageState.loading ? "none" : "block" }}
+                />
+              )}
             </div>
           </div>
           <div className="flex flex-col md:flex-row items-center justify-between bg-white border border-gray2 rounded-lg px-4 md:px-14 py-8 drop-shadow-md mt-4">
